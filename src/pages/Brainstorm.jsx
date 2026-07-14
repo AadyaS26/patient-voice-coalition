@@ -85,8 +85,9 @@ export default function BrainstormPage() {
   useEffect(() => {
     (async () => {
       try {
-        const existing = await window.storage.get("brainstorm-ideas", true);
-        setIdeas(existing ? JSON.parse(existing.value) : []);
+        const res = await fetch("/api/brainstorm");
+        const data = await res.json();
+        setIdeas(Array.isArray(data.ideas) ? data.ideas : []);
       } catch {
         setIdeas([]);
       } finally {
@@ -95,38 +96,49 @@ export default function BrainstormPage() {
     })();
   }, []);
 
-  const saveIdeas = async (next) => {
-    setIdeas(next);
-    try {
-      await window.storage.set("brainstorm-ideas", JSON.stringify(next), true);
-    } catch {
-      // storage unavailable; local state still updates for this session
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title.trim()) return;
-    const newIdea = {
-      id: `${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-      condition,
-      title: title.trim(),
-      description: description.trim(),
-      votes: 1,
-      createdAt: Date.now(),
-    };
-    await saveIdeas([newIdea, ...ideas]);
+    try {
+      const res = await fetch("/api/brainstorm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "create",
+          condition,
+          title: title.trim(),
+          description: description.trim(),
+        }),
+      });
+      const data = await res.json();
+      if (Array.isArray(data.ideas)) setIdeas(data.ideas);
+      if (data.newIdea) {
+        setVoted((v) => ({ ...v, [data.newIdea.id]: true }));
+      }
+    } catch {
+      // storage unavailable; the pitch just won't be saved this time
+    }
     setTitle("");
     setDescription("");
     setShowForm(false);
-    setVoted((v) => ({ ...v, [newIdea.id]: true }));
   };
 
   const handleUpvote = async (id) => {
     if (voted[id]) return;
     setVoted((v) => ({ ...v, [id]: true }));
-    const next = ideas.map((i) => (i.id === id ? { ...i, votes: i.votes + 1 } : i));
-    await saveIdeas(next);
+    // Optimistic update so it feels instant, then reconcile with the server.
+    setIdeas((prev) => prev.map((i) => (i.id === id ? { ...i, votes: i.votes + 1 } : i)));
+    try {
+      const res = await fetch("/api/brainstorm", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "upvote", id }),
+      });
+      const data = await res.json();
+      if (Array.isArray(data.ideas)) setIdeas(data.ideas);
+    } catch {
+      // storage unavailable; local optimistic update stands for this session
+    }
   };
 
   const sorted = [...ideas].sort((a, b) => b.votes - a.votes);
