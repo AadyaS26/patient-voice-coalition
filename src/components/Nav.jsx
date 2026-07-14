@@ -29,7 +29,7 @@ export default function Nav() {
           to="/"
           style={{ fontFamily: "Fraunces, serif", fontWeight: 600, fontSize: 18, color: "#1B2A4A", textDecoration: "none" }}
         >
-          Patient Voice Coalition
+          AutoimmuneVoices
         </Link>
         <nav style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
           {LINKS.map((l) => (

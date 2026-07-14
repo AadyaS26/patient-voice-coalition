@@ -81,11 +81,11 @@ export default function ImpactPage() {
           // "8" states from curated hand-verified bills are always real, regardless
           // of what LegiScan finds — so the count is whichever is higher, real either way.
           const legiscanCount = typeof data.states_covered_count === "number" ? data.states_covered_count : 0;
-          setStatesCoveredCount(Math.max(legiscanCount, 50));
+          setStatesCoveredCount(Math.max(legiscanCount, 8));
           setStateBillCount(typeof data.count === "number" ? data.count : 0);
         }
       } catch {
-        if (!cancelled) setStatesCoveredCount(50); // fall back to the curated real minimum
+        if (!cancelled) setStatesCoveredCount(8); // fall back to the curated real minimum
       } finally {
         if (!cancelled) setStatesLoading(false);
       }
@@ -121,7 +121,7 @@ export default function ImpactPage() {
 
       <section style={{ maxWidth: 700, margin: "0 auto", padding: "56px 24px 40px" }}>
         <p style={{ fontSize: 13, letterSpacing: "0.08em", textTransform: "uppercase", color: "#A87C2A", fontWeight: 500, marginBottom: 16 }}>
-          Patient Voice Coalition
+          AutoimmuneVoices
         </p>
         <h1 style={{ fontFamily: "Fraunces, serif", fontWeight: 500, fontSize: "clamp(44px, 8vw, 76px)", lineHeight: 1.05, color: "#1B2A4A", letterSpacing: "-0.01em" }}>
           Our impact

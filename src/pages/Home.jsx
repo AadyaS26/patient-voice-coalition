@@ -90,7 +90,7 @@ export default function PatientVoiceCoalition() {
         /* state pipeline not reachable, fall back to 0 for that source */
       }
       setBillsTracked(CURATED_BILLS + federalCount + stateCount);
-      setStatesCovered(Math.max(stateList.length, 50)); // 8 curated states are always real, regardless
+      setStatesCovered(Math.max(stateList.length, 8)); // 8 curated states are always real, regardless
     })();
   }, []);
 
@@ -122,17 +122,17 @@ export default function PatientVoiceCoalition() {
           style={{
             fontFamily: "Fraunces, serif",
             fontWeight: 500,
-            fontSize: "clamp(34px, 5.5vw, 58px)",
+            fontSize: "clamp(30px, 4.6vw, 50px)",
             lineHeight: 1.08,
             color: "#1B2A4A",
             maxWidth: 780,
             letterSpacing: "-0.01em",
           }}
         >
-          Your voice, translated into something Congress has to hear.
+          Shaping the policies around autoimmune diseases. Our conditions. Our voices. Policies that matter.
         </h1>
         <p style={{ fontSize: 17, lineHeight: 1.65, color: "#5A5952", maxWidth: 560, marginTop: 24 }}>
-          Patient Voice Coalition tracks the legislation that actually affects your diagnosis, translates it out of legal language, and puts a direct line to your representative in front of you.
+          AutoimmuneVoices tracks the legislation that actually affects your diagnosis, translates it out of legal language, and connects you with Congress.
         </p>
         <div style={{ display: "flex", gap: 14, marginTop: 32, flexWrap: "wrap" }}>
           <Link
@@ -283,7 +283,7 @@ export default function PatientVoiceCoalition() {
       <footer id="about" style={{ borderTop: "1px solid #E4E0D6", background: "#1B2A4A", color: "#D8DAE0", padding: "48px 24px 32px" }}>
         <div style={{ maxWidth: 1120, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 32 }}>
           <div>
-            <div style={{ fontFamily: "Fraunces, serif", fontSize: 17, color: "#FAF8F3", marginBottom: 10 }}>Patient Voice Coalition</div>
+            <div style={{ fontFamily: "Fraunces, serif", fontSize: 17, color: "#FAF8F3", marginBottom: 10 }}>AutoimmuneVoices</div>
             <p style={{ fontSize: 13, lineHeight: 1.6, color: "#A9ADBB" }}>A nonpartisan advocacy platform for patients navigating autoimmune and chronic disease policy.</p>
           </div>
           <div>
@@ -296,11 +296,11 @@ export default function PatientVoiceCoalition() {
           </div>
           <div>
             <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.06em", color: "#7C8199", marginBottom: 12 }}>Contact</div>
-            <p style={{ fontSize: 13.5, color: "#D8DAE0" }}>hello@patientvoicecoalition.org</p>
+            <p style={{ fontSize: 13.5, color: "#D8DAE0" }}>hello@autoimmunevoices.org</p>
           </div>
         </div>
         <div style={{ maxWidth: 1120, margin: "40px auto 0", paddingTop: 20, borderTop: "1px solid #2E3B5C", fontSize: 12, color: "#7C8199" }}>
-          © 2026 Patient Voice Coalition
+          © 2026 AutoimmuneVoices
         </div>
       </footer>
 
