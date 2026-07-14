@@ -59,7 +59,7 @@ export default function PatientVoiceCoalition() {
   const [billsTracked, setBillsTracked] = useState(null);
   const [statesCovered, setStatesCovered] = useState(null);
 
-  const CURATED_BILLS = 23;
+  const CURATED_BILLS = 212;
 
   React.useEffect(() => {
     (async () => {
