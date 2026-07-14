@@ -120,9 +120,6 @@ export default function ImpactPage() {
       <Nav />
 
       <section style={{ maxWidth: 700, margin: "0 auto", padding: "56px 24px 40px" }}>
-        <p style={{ fontSize: 13, letterSpacing: "0.08em", textTransform: "uppercase", color: "#A87C2A", fontWeight: 500, marginBottom: 16 }}>
-          AutoimmuneVoices
-        </p>
         <h1 style={{ fontFamily: "Fraunces, serif", fontWeight: 500, fontSize: "clamp(44px, 8vw, 76px)", lineHeight: 1.05, color: "#1B2A4A", letterSpacing: "-0.01em" }}>
           Our impact
         </h1>
