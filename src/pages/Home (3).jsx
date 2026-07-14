@@ -37,16 +37,19 @@ const BILLS = [
     tag: "Insurance coverage",
     title: "Medical foods and gluten-free labeling coverage",
     body: "Would require insurers to treat prescribed medical foods for diagnosed conditions the same as other prescribed treatments.",
+    url: "https://www.congress.gov/bill/119th-congress/house-bill/5684",
   },
   {
     tag: "Research funding",
     title: "Autoimmune disease research investment",
     body: "Directs additional NIH funding toward early diagnosis and treatment research for autoimmune and chronic gastrointestinal conditions.",
+    url: "https://www.congress.gov/bill/119th-congress/house-resolution/225",
   },
   {
-    tag: "School access",
-    title: "Chronic illness accommodations in schools",
-    body: "Sets minimum standards for how public schools accommodate students managing diagnosed chronic conditions during the school day.",
+    tag: "Food safety",
+    title: "Celiac Safety Act of 2026",
+    body: "Would amend federal food labeling law to formally classify gluten-containing grain as a major food allergen, giving celiac patients the same labeling protections as other allergen groups.",
+    url: "https://www.congress.gov/bill/119th-congress/house-bill/9048",
   },
 ];
 
@@ -230,11 +233,35 @@ export default function PatientVoiceCoalition() {
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
             {BILLS.map((b) => (
-              <div key={b.title} style={{ background: "#FAF8F3", border: "1px solid #E4E0D6", borderRadius: 4, padding: "24px 22px" }}>
+              <div
+                key={b.title}
+                style={{
+                  background: "#FAF8F3",
+                  border: "1px solid #E4E0D6",
+                  borderRadius: 4,
+                  padding: "24px 22px",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
                 <span style={{ fontSize: 11.5, textTransform: "uppercase", letterSpacing: "0.06em", color: "#A87C2A", fontWeight: 500 }}>{b.tag}</span>
                 <h3 style={{ fontSize: 16, fontWeight: 600, color: "#1B2A4A", margin: "10px 0" }}>{b.title}</h3>
-                <p style={{ fontSize: 14, lineHeight: 1.6, color: "#5A5952", marginBottom: 16 }}>{b.body}</p>
-                <a href="#" style={{ fontSize: 13, fontWeight: 500, color: "#1B2A4A", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}>
+                <p style={{ fontSize: 14, lineHeight: 1.6, color: "#5A5952", marginBottom: 16, flex: 1 }}>{b.body}</p>
+                <a
+                  href={b.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 500,
+                    color: "#1B2A4A",
+                    textDecoration: "none",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
+                    marginTop: "auto",
+                  }}
+                >
                   Read the summary <ArrowUpRight size={13} />
                 </a>
               </div>
