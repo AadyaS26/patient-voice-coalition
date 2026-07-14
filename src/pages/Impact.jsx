@@ -99,9 +99,9 @@ export default function ImpactPage() {
     let cancelled = false;
     (async () => {
       try {
-        const existing = await window.storage.get("people-impacted", true);
-        const current = existing ? parseInt(existing.value, 10) || 0 : 0;
-        if (!cancelled) setPeopleImpacted(current);
+        const res = await fetch("/api/counter?key=people-impacted");
+        const data = await res.json();
+        if (!cancelled) setPeopleImpacted(data.value || 0);
       } catch {
         if (!cancelled) setPeopleImpacted(0);
       } finally {

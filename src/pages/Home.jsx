@@ -64,8 +64,9 @@ export default function PatientVoiceCoalition() {
   React.useEffect(() => {
     (async () => {
       try {
-        const existing = await window.storage.get("letters-sent", true);
-        setLetters(existing ? parseInt(existing.value, 10) || 0 : 0);
+        const res = await fetch("/api/counter?key=letters-sent");
+        const data = await res.json();
+        setLetters(data.value || 0);
       } catch {
         setLetters(0);
       }
@@ -101,10 +102,9 @@ export default function PatientVoiceCoalition() {
     if (sent) return;
     setSent(true);
     try {
-      const existing = await window.storage.get("letters-sent", true);
-      const current = existing ? parseInt(existing.value, 10) || 0 : 0;
-      await window.storage.set("letters-sent", String(current + 1), true);
-      setLetters(current + 1);
+      const res = await fetch("/api/counter?key=letters-sent&action=increment");
+      const data = await res.json();
+      setLetters(data.value);
     } catch {
       setLetters((v) => v + 1);
     }

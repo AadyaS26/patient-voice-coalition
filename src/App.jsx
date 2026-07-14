@@ -12,16 +12,14 @@ export default function App() {
   // once when the whole app mounts, NOT every time someone navigates between
   // pages inside the site (that would over-count, since React Router doesn't
   // reload the page when you click between Home/Legislation/Impact/etc).
+  //
+  // Uses the real shared /api/counter endpoint (backed by Redis) instead of
+  // localStorage, so this counts across every visitor and every device, not
+  // just the person currently looking at their own browser.
   useEffect(() => {
-    (async () => {
-      try {
-        const existing = await window.storage.get("people-impacted", true);
-        const current = existing ? parseInt(existing.value, 10) || 0 : 0;
-        await window.storage.set("people-impacted", String(current + 1), true);
-      } catch {
-        // storage unavailable; this visit just won't be counted
-      }
-    })();
+    fetch("/api/counter?key=people-impacted&action=increment").catch(() => {
+      // storage unavailable; this visit just won't be counted
+    });
   }, []);
 
   return (

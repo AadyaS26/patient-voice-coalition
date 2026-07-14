@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import Nav from "../components/Nav";
-import { Search, ExternalLink, Mail, Filter, CheckCircle2 } from "lucide-react";
+import { Search, ExternalLink, Mail, Filter, CheckCircle2, FileCheck } from "lucide-react";
 
 const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');`;
 
@@ -155,6 +155,54 @@ const CONDITIONS = [
 ];
 
 const BILLS = [
+  {
+    number: "NJ A4163 / S3098",
+    name: "New Jersey biomarker testing coverage",
+    fullName: "New Jersey biomarker testing coverage law",
+    sponsor: "New Jersey Legislature",
+    introduced: "2025",
+    status: "Signed into law",
+    condition: "Rheumatoid arthritis",
+    summary:
+      "Now New Jersey law: requires insurance coverage for biomarker testing, helping arthritis patients get precision diagnosis and the right treatment plan faster instead of trial-and-error prescribing.",
+    url: "https://www.arthritis.org/news/press-releases-and-statements/new-jersey-arthritis-advocacy-wins",
+  },
+  {
+    number: "NJ A1825 / S3533",
+    name: "New Jersey step therapy reform",
+    fullName: "New Jersey step therapy reform law",
+    sponsor: "New Jersey Legislature",
+    introduced: "2025",
+    status: "Signed into law",
+    condition: "Rheumatoid arthritis",
+    summary:
+      "Now New Jersey law: reforms step therapy rules so arthritis and other chronic disease patients face less insurer-mandated delay before accessing the medication their doctor originally prescribed.",
+    url: "https://www.arthritis.org/news/press-releases-and-statements/new-jersey-arthritis-advocacy-wins",
+  },
+  {
+    number: "NJ A5217 / S3818",
+    name: "New Jersey copay accumulator ban",
+    fullName: "New Jersey copay assistance counting law",
+    sponsor: "New Jersey Legislature",
+    introduced: "2025",
+    status: "Signed into law",
+    condition: "Rheumatoid arthritis",
+    summary:
+      "Now New Jersey law: requires copay assistance from charities or drug manufacturers to actually count toward a patient's deductible and out-of-pocket costs, closing a common insurer loophole.",
+    url: "https://www.arthritis.org/news/press-releases-and-statements/new-jersey-arthritis-advocacy-wins",
+  },
+  {
+    number: "Wigs as DME Act",
+    name: "Wigs as Durable Medical Equipment Act",
+    fullName: "Wigs as Durable Medical Equipment Act",
+    sponsor: "Rep. Pressley, Rep. McGovern, Sen. Blumenthal",
+    introduced: "Feb 2026",
+    status: "Reintroduced",
+    condition: "Alopecia areata",
+    summary:
+      "Would allow Medicare to cover cranial prosthetics (wigs) for people with medical hair loss, including alopecia areata — currently many private plans cover this but Medicare does not.",
+    url: "https://pressley.house.gov/2026/02/23/pressley-mcgovern-blumenthal-introduce-bill-to-support-people-experiencing-medical-hair-loss/",
+  },
   {
     number: "H.R. 5467",
     name: "PAAT Act",
@@ -383,6 +431,67 @@ const BILLS = [
       "Would require Maryland restaurants to make a written disclosure of major food allergens, including gluten, available for each menu item on request.",
     url: "https://miglutenfreegal.com/gluten-free-legislation-state-federal/",
   },
+
+  // --- Insulin price cap laws (Type 1 diabetes) ---
+  // 29 states + DC have passed some version of this per the American Diabetes
+  // Association's official tracker. These are the specific states we could
+  // individually verify by name from real sources — not a fabricated full list.
+  ...[
+    ["Colorado", "$100/mo", "Jan 2020", "First state in the nation to pass an insulin cap."],
+    ["Illinois", "$100/mo", "2021", "Caps insulin copays for commercially insured patients."],
+    ["New York", "$100/mo", "2021", "Caps insulin copays for commercially insured patients."],
+    ["Washington", "$100/mo", "2021", "Caps insulin copays for commercially insured patients."],
+    ["West Virginia", "$100/mo", "2021", "Caps insulin copays for commercially insured patients."],
+    ["Virginia", "$50/mo", "2021", "Caps insulin copays for commercially insured patients."],
+    ["Maine", "$35/mo", "2021", "Caps insulin copays for commercially insured patients."],
+    ["Minnesota", "$35/mo", "2020", "Also created an emergency insulin access program for the uninsured."],
+    ["Utah", "$30/mo", "2021", "Caps insulin copays for commercially insured patients."],
+    ["New Mexico", "$25/mo", "2020", "One of the lowest state insulin copay caps in the country."],
+    ["California", "$35/mo", "Effective 2026", "Signed Oct 2025 (SB 40); also bans step therapy as a prerequisite for insulin coverage."],
+    ["Connecticut", "$25/mo", "2020", "Also caps diabetes devices and supplies at $100/month."],
+    ["Delaware", "$100/mo", "2020", "Caps insulin copays for commercially insured patients."],
+    ["Kentucky", "$35/mo", "2023", "Caps insulin copays for commercially insured patients."],
+    ["Maryland", "$35/mo", "2021", "Caps insulin copays for commercially insured patients."],
+    ["Montana", "$35/mo", "2023", "Signed into law after Arizona and California's similar efforts were vetoed or stalled."],
+  ].map(([state, cap, year, note]) => ({
+    number: `${state} — Insulin Cap`,
+    name: `${state} insulin price cap`,
+    fullName: `${state} insulin copay cap law`,
+    sponsor: `${state} legislature`,
+    introduced: year,
+    status: "Signed into law",
+    condition: "Type 1 diabetes",
+    summary: `Caps out-of-pocket insulin costs at ${cap} for commercially insured residents. ${note}`,
+    url: "https://diabetes.org/tools-resources/affordable-insulin/state-insulin-copay-caps",
+  })),
+
+  // --- Step therapy override laws (general chronic/autoimmune) ---
+  // 37 states have passed some version per the Safe Step Act's own tracker;
+  // these are the specific states we could individually verify by name.
+  ...[
+    ["New York", "2025 update strengthens override rights, effective Jan 2026"],
+    ["Illinois", "2025 law bars step therapy in cases of contraindication or current stability on a drug"],
+    ["Minnesota", "Establishes a step therapy override process for prescription drug coverage"],
+    ["Mississippi", "Establishes step therapy / fail-first override protocol"],
+    ["Missouri", "One of the earliest state step therapy override laws"],
+    ["New Mexico", "Establishes guidelines for step therapy under the state insurance code"],
+    ["Georgia", "Passed a step therapy override law after multi-year advocacy push"],
+    ["Virginia", "Passed a step therapy override law after multi-year advocacy push"],
+    ["Arkansas", "Requires 72-hour response time to override requests"],
+    ["Texas", "Requires 72-hour response time to override requests"],
+    ["New Jersey", "Effective Jan 2026; adds guardrails including for Medicaid plans"],
+    ["Vermont", "2025 reform focused on chronic condition documentation and treatment continuity"],
+  ].map(([state, note]) => ({
+    number: `${state} — Step Therapy`,
+    name: `${state} step therapy override law`,
+    fullName: `${state} step therapy / "fail-first" override law`,
+    sponsor: `${state} legislature`,
+    introduced: "Varies by state",
+    status: "Signed into law",
+    condition: "General autoimmune",
+    summary: `Requires insurers to provide a clear override/exception process for step therapy, so patients with conditions like psoriasis, RA, MS, or IBD aren't forced to fail on cheaper drugs first when their doctor prescribes something else. ${note}.`,
+    url: "https://steptherapy.com/step-therapy-legislation-by-state/",
+  })),
 ];
 
 export default function LegislationDatabase() {
@@ -397,6 +506,29 @@ export default function LegislationDatabase() {
   const [sentTo, setSentTo] = useState(null);
   const [liveBills, setLiveBills] = useState([]);
   const [liveStatus, setLiveStatus] = useState("loading"); // loading | ready | error
+  const [stateBills, setStateBills] = useState([]);
+  const [stateStatus, setStateStatus] = useState("loading");
+  const [regulations, setRegulations] = useState([]);
+  const [regulationsStatus, setRegulationsStatus] = useState("loading");
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("https://raw.githubusercontent.com/AadyaS26/pvc-legislation-sync/main/regulations.json");
+        if (!res.ok) throw new Error("bad response");
+        const data = await res.json();
+        if (cancelled) return;
+        setRegulations(data.documents || []);
+        setRegulationsStatus("ready");
+      } catch {
+        if (!cancelled) setRegulationsStatus("error");
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -429,7 +561,38 @@ export default function LegislationDatabase() {
     };
   }, []);
 
-  const allBills = useMemo(() => [...BILLS, ...liveBills], [liveBills]);
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("https://raw.githubusercontent.com/AadyaS26/pvc-legislation-sync/main/state_bills.json");
+        if (!res.ok) throw new Error("bad response");
+        const data = await res.json();
+        if (cancelled) return;
+        const mapped = (data.bills || []).map((b) => ({
+          number: `${b.state} ${b.number}`,
+          name: b.title,
+          fullName: b.title,
+          sponsor: `${b.state} Legislature`,
+          introduced: b.lastActionDate || "State session",
+          status: b.lastAction || "See official record",
+          condition: b.matched_keyword ? b.matched_keyword.replace(/\b\w/g, (c) => c.toUpperCase()) : "General autoimmune",
+          summary: b.lastAction ? `Latest action: ${b.lastAction}` : "See the official record for full details.",
+          url: b.url,
+          live: true,
+        }));
+        setStateBills(mapped);
+        setStateStatus("ready");
+      } catch {
+        if (!cancelled) setStateStatus("error");
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const allBills = useMemo(() => [...BILLS, ...liveBills, ...stateBills], [liveBills, stateBills]);
 
   const filtered = useMemo(() => {
     return allBills.filter((b) => {
@@ -456,9 +619,7 @@ export default function LegislationDatabase() {
   const handleSend = async () => {
     setSentTo(selectedBill.number);
     try {
-      const existing = await window.storage.get("letters-sent", true);
-      const current = existing ? parseInt(existing.value, 10) || 0 : 0;
-      await window.storage.set("letters-sent", String(current + 1), true);
+      await fetch("/api/counter?key=letters-sent&action=increment");
     } catch {
       // storage unavailable; the count just won't persist this time
     }
@@ -569,6 +730,43 @@ export default function LegislationDatabase() {
           {liveStatus === "error" && " · live feed unavailable right now, showing verified bills only"}
         </p>
       </section>
+
+      {/* Regulatory actions — distinct from legislation: this is what agencies do once a law exists */}
+      {regulations.length > 0 && (
+        <section style={{ maxWidth: 1000, margin: "0 auto", padding: "0 24px 40px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+            <FileCheck size={16} color="#5A6B8C" />
+            <h2 style={{ fontSize: 15, fontWeight: 600, color: "#1B2A4A", margin: 0 }}>Recent regulatory actions</h2>
+          </div>
+          <p style={{ fontSize: 12.5, color: "#8A8880", marginBottom: 16 }}>
+            Actions federal agencies (FDA, HHS, CMS) have taken — different from legislation, which is what Congress and states are considering.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14 }}>
+            {regulations.slice(0, 12).map((r) => (
+              <a
+                key={r.documentNumber}
+                href={r.url}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  display: "block",
+                  border: "1px solid #DCE1EA",
+                  background: "#F4F6FA",
+                  borderRadius: 4,
+                  padding: "16px 18px",
+                  textDecoration: "none",
+                }}
+              >
+                <span style={{ fontSize: 11, color: "#5A6B8C", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+                  {r.type} · {r.agencies?.[0] || "Federal agency"}
+                </span>
+                <div style={{ fontSize: 13.5, fontWeight: 600, color: "#1B2A4A", marginTop: 6, lineHeight: 1.4 }}>{r.title}</div>
+                <div style={{ fontSize: 11.5, color: "#8A8880", marginTop: 6 }}>{r.publicationDate}</div>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Recently passed */}
       {recentlyPassed.length > 0 && (
