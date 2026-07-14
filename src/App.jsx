@@ -17,6 +17,13 @@ export default function App() {
   // localStorage, so this counts across every visitor and every device, not
   // just the person currently looking at their own browser.
   useEffect(() => {
+    // Only count once per browser session — sessionStorage persists across
+    // refreshes and page navigation within this tab, but clears when the tab
+    // or browser closes, so a new session (new tab, new day, etc.) still
+    // counts as a fresh visit.
+    if (sessionStorage.getItem("pvc-counted")) return;
+    sessionStorage.setItem("pvc-counted", "1");
+
     fetch("/api/counter?key=people-impacted&action=increment").catch(() => {
       // storage unavailable; this visit just won't be counted
     });
