@@ -60,6 +60,7 @@ export default function PatientVoiceCoalition() {
   const [statesCovered, setStatesCovered] = useState(null);
 
   const CURATED_BILLS = 212;
+  const CURATED_STATES = ["CO", "IL", "NY", "WA", "WV", "VA", "ME", "MN", "UT", "NM", "CA", "CT", "DE", "KY", "MD", "MT", "MS", "MO", "GA", "AR", "TX", "NJ", "VT"];
 
   React.useEffect(() => {
     (async () => {
@@ -94,7 +95,8 @@ export default function PatientVoiceCoalition() {
         /* state pipeline not reachable, fall back to 0 for that source */
       }
       setBillsTracked(CURATED_BILLS + federalCount + stateCount);
-      setStatesCovered(Math.max(stateList.length, 8)); // 8 curated states are always real, regardless
+      const combinedStates = new Set([...stateList, ...CURATED_STATES]);
+      setStatesCovered(Math.max(combinedStates.size, CURATED_STATES.length));
     })();
   }, []);
 
