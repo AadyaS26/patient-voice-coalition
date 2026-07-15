@@ -734,9 +734,9 @@ export default function LegislationDatabase() {
             Actions federal agencies (FDA, HHS, CMS) have taken — different from legislation, which is what Congress and states are considering.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14 }}>
-            {regulations.slice(0, 12).map((r) => (
-              
-                key={r.documentNumber}
+              {regulations.slice(0, 12).map((r) => (
+                <a
+                  key={r.documentNumber}
                 href={r.url}
                 target="_blank"
                 rel="noreferrer"
