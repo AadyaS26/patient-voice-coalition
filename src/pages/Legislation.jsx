@@ -631,27 +631,17 @@ const recentlyPassed = useMemo(() => {
     if (aiSummaries[bill.number] || aiLoadingId) return;
     setAiLoadingId(bill.number);
     try {
-      const response = await fetch("https://api.anthropic.com/v1/messages", {
+      const response = await fetch("/api/summarize", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          model: "claude-sonnet-4-6",
-          max_tokens: 300,
-          messages: [
-            {
-              role: "user",
-              content: `Explain ${bill.number}, "${bill.fullName}," to a patient with no legal background. Here is a short factual description: ${bill.summary}\n\nWrite 2-3 plain sentences covering what it would actually change for a patient, in a warm but concrete tone. No legal jargon, no bullet points, no headers.`,
-            },
-          ],
+          number: bill.number,
+          fullName: bill.fullName,
+          summary: bill.summary,
         }),
       });
       const data = await response.json();
-      const text = (data.content || [])
-        .filter((b) => b.type === "text")
-        .map((b) => b.text)
-        .join(" ")
-        .trim();
-      setAiSummaries((prev) => ({ ...prev, [bill.number]: text || "Summary unavailable right now." }));
+      setAiSummaries((prev) => ({ ...prev, [bill.number]: data.text || "Summary unavailable right now." }));
     } catch (err) {
       setAiSummaries((prev) => ({ ...prev, [bill.number]: "Couldn't generate a summary right now. Try again in a moment." }));
     } finally {
@@ -745,7 +735,7 @@ const recentlyPassed = useMemo(() => {
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 14 }}>
             {regulations.slice(0, 12).map((r) => (
-              <a
+              
                 key={r.documentNumber}
                 href={r.url}
                 target="_blank"
@@ -779,7 +769,7 @@ const recentlyPassed = useMemo(() => {
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14 }}>
             {recentlyPassed.map((b) => (
-              <a
+              
                 key={b.number}
                 href={b.url}
                 target="_blank"
@@ -845,7 +835,7 @@ const recentlyPassed = useMemo(() => {
             )}
 
             <div style={{ display: "flex", gap: 20, alignItems: "center", flexWrap: "wrap" }}>
-              <a
+              
                 href={b.url}
                 target="_blank"
                 rel="noreferrer"
@@ -922,7 +912,7 @@ const recentlyPassed = useMemo(() => {
                 <p style={{ fontSize: 14, color: "#5A5952", lineHeight: 1.6 }}>
                   Your message about {sentTo} is ready. Use the link below to find your senators' contact pages and send it directly — we don't send messages on your behalf.
                 </p>
-                <a
+                
                   href="https://www.senate.gov/senators/senators-contact.htm"
                   target="_blank"
                   rel="noreferrer"
