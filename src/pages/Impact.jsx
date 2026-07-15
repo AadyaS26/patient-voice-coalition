@@ -7,6 +7,7 @@ const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraun
 
 const CURATED_BILLS = 19;
 const CONDITIONS_COVERED = 146;
+const INSTAGRAM_FOLLOWERS = 71;
 
 const RECENTLY_PASSED = [
   { number: "IL SB 1288", label: "Illinois Public Act 104-0090 — allergen awareness training" },
@@ -155,9 +156,13 @@ export default function ImpactPage() {
             </div>
             <div style={{ fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase", color: "#8A8880", marginTop: 10 }}>States + federal</div>
           </div>
-          <div>
+<div>
             <div style={{ fontFamily: "Fraunces, serif", fontSize: 48, color: "#1B2A4A", fontWeight: 500, lineHeight: 1 }}>17,335+</div>
             <div style={{ fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase", color: "#8A8880", marginTop: 10 }}>Federal bills scraped</div>
+          </div>
+          <div>
+            <div style={{ fontFamily: "Fraunces, serif", fontSize: 48, color: "#1B2A4A", fontWeight: 500, lineHeight: 1 }}>{INSTAGRAM_FOLLOWERS}</div>
+            <div style={{ fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase", color: "#8A8880", marginTop: 10 }}>Instagram followers</div>
           </div>
         </div>
         <p style={{ fontSize: 12, color: "#8A8880", marginTop: 24, maxWidth: 560, lineHeight: 1.5 }}>
