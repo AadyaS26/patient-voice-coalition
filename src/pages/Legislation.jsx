@@ -835,7 +835,7 @@ export default function LegislationDatabase() {
             )}
 
             <div style={{ display: "flex", gap: 20, alignItems: "center", flexWrap: "wrap" }}>
-              
+                <a
                 href={b.url}
                 target="_blank"
                 rel="noreferrer"
