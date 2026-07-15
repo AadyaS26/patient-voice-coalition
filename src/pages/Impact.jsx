@@ -130,7 +130,7 @@ export default function ImpactPage() {
       <section style={{ background: "#1B2A4A", padding: "72px 24px" }}>
         <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center" }}>
           <div style={{ fontFamily: "Fraunces, serif", fontSize: "clamp(64px, 11vw, 108px)", color: "#FAF8F3", fontWeight: 500, lineHeight: 1 }}>
-            {loading ? "—" : peopleImpacted.toLocaleString()}
+            {loading ? "—" : (peopleImpacted + INSTAGRAM_FOLLOWERS).toLocaleString()}
           </div>
           <p style={{ fontSize: 15.5, letterSpacing: "0.06em", textTransform: "uppercase", color: "#C4C8D6", marginTop: 16 }}>
             Total people impacted
@@ -156,13 +156,9 @@ export default function ImpactPage() {
             </div>
             <div style={{ fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase", color: "#8A8880", marginTop: 10 }}>States + federal</div>
           </div>
-<div>
+          <div>
             <div style={{ fontFamily: "Fraunces, serif", fontSize: 48, color: "#1B2A4A", fontWeight: 500, lineHeight: 1 }}>17,335+</div>
             <div style={{ fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase", color: "#8A8880", marginTop: 10 }}>Federal bills scraped</div>
-          </div>
-          <div>
-            <div style={{ fontFamily: "Fraunces, serif", fontSize: 48, color: "#1B2A4A", fontWeight: 500, lineHeight: 1 }}>{INSTAGRAM_FOLLOWERS}</div>
-            <div style={{ fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase", color: "#8A8880", marginTop: 10 }}>Instagram followers</div>
           </div>
         </div>
         <p style={{ fontSize: 12, color: "#8A8880", marginTop: 24, maxWidth: 560, lineHeight: 1.5 }}>
