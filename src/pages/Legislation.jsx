@@ -769,7 +769,7 @@ export default function LegislationDatabase() {
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 14 }}>
             {recentlyPassed.map((b) => (
-              
+                <a
                 key={b.number}
                 href={b.url}
                 target="_blank"
