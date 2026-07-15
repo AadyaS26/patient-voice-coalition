@@ -325,7 +325,11 @@ export default function PatientVoiceCoalition() {
           </div>
           <div>
             <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: "0.06em", color: "#7C8199", marginBottom: 12 }}>Contact</div>
-            <p style={{ fontSize: 13.5, color: "#D8DAE0" }}>hello@autoimmunevoices.org</p>
+            <p style={{ fontSize: 13.5, color: "#D8DAE0" }}>
+  <a href="mailto:autoimmunevoices@gmail.com" style={{ color: "#D8DAE0", textDecoration: "none" }}>
+    autoimmunevoices@gmail.com
+  </a>
+</p>
           </div>
         </div>
         <div style={{ maxWidth: 1120, margin: "40px auto 0", paddingTop: 20, borderTop: "1px solid #2E3B5C", fontSize: 12, color: "#7C8199" }}>
