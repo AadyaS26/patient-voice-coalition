@@ -7,7 +7,7 @@ const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraun
 
 const CURATED_BILLS = 212;
 const CONDITIONS_COVERED = 146;
-const INSTAGRAM_FOLLOWERS = 86;
+const INSTAGRAM_FOLLOWERS = 87;
 
 const RECENTLY_PASSED = [
   { number: "IL SB 1288", label: "Illinois Public Act 104-0090 — allergen awareness training" },
