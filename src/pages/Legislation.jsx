@@ -604,11 +604,11 @@ export default function LegislationDatabase() {
     });
   }, [query, condition, allBills]);
 
-const recentlyPassed = useMemo(() => {
-  return allBills
-    .filter((b) => /signed|passed|enacted|effective/i.test(b.status || ""))
-    .slice(0, 3);
-}, [allBills]);
+  const recentlyPassed = useMemo(() => {
+    return allBills
+      .filter((b) => /signed|passed|enacted|effective/i.test(b.status || ""))
+      .slice(0, 3);
+  }, [allBills]);
 
   const openLetter = (bill) => {
     setSelectedBill(bill);
