@@ -912,7 +912,7 @@ export default function LegislationDatabase() {
                 <p style={{ fontSize: 14, color: "#5A5952", lineHeight: 1.6 }}>
                   Your message about {sentTo} is ready. Use the link below to find your senators' contact pages and send it directly — we don't send messages on your behalf.
                 </p>
-                
+                  <a
                   href="https://www.senate.gov/senators/senators-contact.htm"
                   target="_blank"
                   rel="noreferrer"
