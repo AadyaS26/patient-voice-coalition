@@ -7,7 +7,7 @@ const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraun
 
 const CURATED_BILLS = 212;
 const CONDITIONS_COVERED = 146;
-const INSTAGRAM_FOLLOWERS = 163;
+const INSTAGRAM_REACH = 453;
 
 const RECENTLY_PASSED = [
   { number: "IL SB 1288", label: "Illinois Public Act 104-0090 — allergen awareness training" },
@@ -130,7 +130,7 @@ export default function ImpactPage() {
       <section style={{ background: "#1B2A4A", padding: "72px 24px" }}>
         <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center" }}>
           <div style={{ fontFamily: "Fraunces, serif", fontSize: "clamp(64px, 11vw, 108px)", color: "#FAF8F3", fontWeight: 500, lineHeight: 1 }}>
-            {loading ? "—" : (peopleImpacted + INSTAGRAM_FOLLOWERS).toLocaleString()}
+            {loading ? "—" : (peopleImpacted + INSTAGRAM_REACH).toLocaleString()}
           </div>
           <p style={{ fontSize: 15.5, letterSpacing: "0.06em", textTransform: "uppercase", color: "#C4C8D6", marginTop: 16 }}>
             Total people impacted
