@@ -140,7 +140,7 @@ export default function ImpactPage() {
       </section>
 
       <section style={{ maxWidth: 800, margin: "0 auto", padding: "56px 24px 16px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 20 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 28 }}>
           <div>
             <div style={{ fontFamily: "Fraunces, serif", fontSize: 48, color: "#1B2A4A", fontWeight: 500, lineHeight: 1 }}>
               {billsLoading || statesLoading ? "—" : (CURATED_BILLS + liveBillCount + stateBillCount).toLocaleString()}
@@ -156,10 +156,6 @@ export default function ImpactPage() {
               {statesLoading ? "—" : statesCoveredCount}
             </div>
             <div style={{ fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase", color: "#8A8880", marginTop: 10 }}>States + federal</div>
-          </div>
-          <div>
-            <div style={{ fontFamily: "Fraunces, serif", fontSize: 48, color: "#1B2A4A", fontWeight: 500, lineHeight: 1 }}>17,335+</div>
-            <div style={{ fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase", color: "#8A8880", marginTop: 10 }}>Federal bills scraped</div>
           </div>
           <div>
             <div style={{ fontFamily: "Fraunces, serif", fontSize: 48, color: "#1B2A4A", fontWeight: 500, lineHeight: 1 }}>{COUNTRIES_REACHED}</div>
