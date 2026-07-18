@@ -8,6 +8,7 @@ const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraun
 const CURATED_BILLS = 212;
 const CONDITIONS_COVERED = 146;
 const INSTAGRAM_REACH = 453;
+const COUNTRIES_REACHED = 22;
 
 const RECENTLY_PASSED = [
   { number: "IL SB 1288", label: "Illinois Public Act 104-0090 — allergen awareness training" },
@@ -160,6 +161,11 @@ export default function ImpactPage() {
             <div style={{ fontFamily: "Fraunces, serif", fontSize: 48, color: "#1B2A4A", fontWeight: 500, lineHeight: 1 }}>17,335+</div>
             <div style={{ fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase", color: "#8A8880", marginTop: 10 }}>Federal bills scraped</div>
           </div>
+          <div>
+            <div style={{ fontFamily: "Fraunces, serif", fontSize: 48, color: "#1B2A4A", fontWeight: 500, lineHeight: 1 }}>{COUNTRIES_REACHED}</div>
+            <div style={{ fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase", color: "#8A8880", marginTop: 10 }}>Countries reached</div>
+          </div>
+        </div>
         </div>
         <p style={{ fontSize: 12, color: "#8A8880", marginTop: 24, maxWidth: 560, lineHeight: 1.5 }}>
           "Federal bills scraped" is the full scale of the 119th Congress database our system searches — most aren't about autoimmune or chronic
