@@ -140,7 +140,7 @@ export default function ImpactPage() {
       </section>
 
       <section style={{ maxWidth: 800, margin: "0 auto", padding: "56px 24px 16px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 32 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 20 }}>
           <div>
             <div style={{ fontFamily: "Fraunces, serif", fontSize: 48, color: "#1B2A4A", fontWeight: 500, lineHeight: 1 }}>
               {billsLoading || statesLoading ? "—" : (CURATED_BILLS + liveBillCount + stateBillCount).toLocaleString()}
@@ -166,10 +166,6 @@ export default function ImpactPage() {
             <div style={{ fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase", color: "#8A8880", marginTop: 10 }}>Countries reached</div>
           </div>
         </div>
-        <p style={{ fontSize: 12, color: "#8A8880", marginTop: 24, maxWidth: 560, lineHeight: 1.5 }}>
-          "Federal bills scraped" is the full scale of the 119th Congress database our system searches — most aren't about autoimmune or chronic
-          disease. "Bills tracked" and "States + federal" are real counts from our own verified and automated pipelines, updated daily.
-        </p>
       </section>
 
       {/* Recently passed */}
