@@ -166,7 +166,6 @@ export default function ImpactPage() {
             <div style={{ fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase", color: "#8A8880", marginTop: 10 }}>Countries reached</div>
           </div>
         </div>
-        </div>
         <p style={{ fontSize: 12, color: "#8A8880", marginTop: 24, maxWidth: 560, lineHeight: 1.5 }}>
           "Federal bills scraped" is the full scale of the 119th Congress database our system searches — most aren't about autoimmune or chronic
           disease. "Bills tracked" and "States + federal" are real counts from our own verified and automated pipelines, updated daily.
