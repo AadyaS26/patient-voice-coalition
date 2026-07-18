@@ -140,7 +140,7 @@ export default function ImpactPage() {
       </section>
 
       <section style={{ maxWidth: 800, margin: "0 auto", padding: "56px 24px 16px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20 }}>
+<div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20, textAlign: "center" }}>
           <div>
             <div style={{ fontFamily: "Fraunces, serif", fontSize: 48, color: "#1B2A4A", fontWeight: 500, lineHeight: 1 }}>{CONDITIONS_COVERED}</div>
             <div style={{ fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase", color: "#8A8880", marginTop: 10 }}>Conditions covered</div>
