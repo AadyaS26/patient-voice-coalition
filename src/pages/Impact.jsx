@@ -7,7 +7,7 @@ const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraun
 
 const CURATED_BILLS = 212;
 const CONDITIONS_COVERED = 146;
-const INSTAGRAM_REACH = 2122;
+const INSTAGRAM_REACH = 2230;
 const COUNTRIES_REACHED = 30;
 
 const RECENTLY_PASSED = [
