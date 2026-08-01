@@ -94,7 +94,7 @@ export default function EventsPage() {
             <p style={{ fontSize: 13, lineHeight: 1.6, color: "#8A8880", marginBottom: 18 }}>
               63 pages · Kindle Edition · Published July 30, 2026
             </p>
-            
+            <a
               href={AMAZON_URL}
               target="_blank"
               rel="noreferrer"
@@ -148,7 +148,7 @@ export default function EventsPage() {
             {(e.url || e.secondaryUrl) && (
               <div style={{ display: "flex", flexDirection: "column", gap: 6, alignSelf: "center" }}>
                 {e.url && (
-                  
+                    <a
                     href={e.url}
                     target="_blank"
                     rel="noreferrer"
@@ -158,7 +158,7 @@ export default function EventsPage() {
                   </a>
                 )}
                 {e.secondaryUrl && (
-                  
+                    <a
                     href={e.secondaryUrl}
                     target="_blank"
                     rel="noreferrer"
