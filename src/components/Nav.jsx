@@ -1,17 +1,15 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-
 const LINKS = [
   { label: "Home", to: "/" },
   { label: "Legislation", to: "/legislation" },
   { label: "Impact", to: "/impact" },
   { label: "Events", to: "/events" },
   { label: "Brainstorm", to: "/brainstorm" },
+  { label: "Start a Chapter", to: "/create-chapter" },
 ];
-
 export default function Nav() {
   const location = useLocation();
-
   return (
     <header style={{ borderBottom: "1px solid #E4E0D6", padding: "16px 24px", background: "#FAF8F3" }}>
       <div
@@ -48,6 +46,19 @@ export default function Nav() {
               {l.label}
             </Link>
           ))}
+          
+            href="/resource-library.html"
+            style={{
+              fontSize: 14,
+              color: "#5A5952",
+              fontWeight: 400,
+              textDecoration: "none",
+              borderBottom: "2px solid transparent",
+              paddingBottom: 4,
+            }}
+          >
+            Resource Library
+          </a>
         </nav>
       </div>
     </header>
