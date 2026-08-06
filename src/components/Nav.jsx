@@ -7,6 +7,7 @@ const LINKS = [
   { label: "Impact", to: "/impact" },
   { label: "Events", to: "/events" },
   { label: "Brainstorm", to: "/brainstorm" },
+  { label: "Start a Chapter", to: "/create-chapter" },
 ];
 
 export default function Nav() {
@@ -48,6 +49,19 @@ export default function Nav() {
               {l.label}
             </Link>
           ))}
+          <a
+            href="/resource-library.html"
+            style={{
+              fontSize: 14,
+              color: "#5A5952",
+              fontWeight: 400,
+              textDecoration: "none",
+              borderBottom: "2px solid transparent",
+              paddingBottom: 4,
+            }}
+          >
+            Resource Library
+          </a>
         </nav>
       </div>
     </header>

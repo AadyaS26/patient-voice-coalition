@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import Legislation from "./pages/Legislation.jsx";
 import Impact from "./pages/Impact.jsx";
+import CreateChapter from './pages/CreateChapter';
 import Events from "./pages/Events.jsx";
 import Brainstorm from "./pages/Brainstorm.jsx";
 
@@ -37,6 +38,7 @@ export default function App() {
         <Route path="/impact" element={<Impact />} />
         <Route path="/events" element={<Events />} />
         <Route path="/brainstorm" element={<Brainstorm />} />
+        <Route path="/create-chapter" element={<CreateChapter />} />
       </Routes>
     </BrowserRouter>
   );
