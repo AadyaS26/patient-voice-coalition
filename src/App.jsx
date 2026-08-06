@@ -6,6 +6,7 @@ import Legislation from "./pages/Legislation.jsx";
 import Impact from "./pages/Impact.jsx";
 import CreateChapter from './pages/CreateChapter';
 import Events from "./pages/Events.jsx";
+import ResourceLibrary from "./pages/ResourceLibrary";
 import Brainstorm from "./pages/Brainstorm.jsx";
 
 export default function App() {
