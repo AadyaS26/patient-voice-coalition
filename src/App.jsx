@@ -35,6 +35,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/resource-library" element={<ResourceLibrary />} />
         <Route path="/legislation" element={<Legislation />} />
         <Route path="/impact" element={<Impact />} />
         <Route path="/events" element={<Events />} />
