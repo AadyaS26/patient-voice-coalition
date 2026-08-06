@@ -1,11 +1,10 @@
 // api/register-chapter.js
 //
-// Receives chapter registration submissions from the CreateChapter page,
-// validates them, and forwards them to a Google Apps Script Web App that
-// appends a row to a Google Sheet. See apps-script/ChapterSheet.gs and
-// SETUP.md for how to stand up that webhook.
+// Receives chapter registration submissions and forwards them to a Google
+// Apps Script Web App that appends a row to a Google Sheet. ES module
+// syntax to match this project's "type": "module" setting.
 //
-// Required environment variables (set in Vercel Project Settings > Environment Variables):
+// Required environment variables (Vercel > Settings > Environment Variables):
 //   CHAPTER_SHEET_WEBHOOK_URL  - the deployed Apps Script /exec URL
 //   CHAPTER_SHEET_SECRET       - shared secret, must match the Apps Script's CHAPTER_SECRET
 
@@ -15,7 +14,7 @@ function isNonEmptyString(v) {
   return typeof v === "string" && v.trim().length > 0;
 }
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
     return res.status(405).json({ ok: false, error: "Method not allowed" });
@@ -76,8 +75,6 @@ module.exports = async function handler(req, res) {
       body: JSON.stringify(payload),
     });
 
-    // Apps Script web apps always respond HTTP 200, so success/failure is
-    // signaled in the JSON body, not the status code.
     const result = await upstream.json().catch(() => ({}));
     if (!upstream.ok || !result.ok) {
       console.error("Sheet webhook error", upstream.status, result);
@@ -89,4 +86,4 @@ module.exports = async function handler(req, res) {
     console.error("Sheet webhook request failed", err);
     return res.status(502).json({ ok: false, error: "Could not save your registration. Please try again." });
   }
-};
+}
