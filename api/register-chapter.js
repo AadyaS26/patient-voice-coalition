@@ -1,13 +1,3 @@
-// api/register-chapter.js
-//
-// Receives chapter registration submissions and forwards them to a Google
-// Apps Script Web App that appends a row to a Google Sheet. ES module
-// syntax to match this project's "type": "module" setting.
-//
-// Required environment variables (Vercel > Settings > Environment Variables):
-//   CHAPTER_SHEET_WEBHOOK_URL  - the deployed Apps Script /exec URL
-//   CHAPTER_SHEET_SECRET       - shared secret, must match the Apps Script's CHAPTER_SECRET
-
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function isNonEmptyString(v) {
