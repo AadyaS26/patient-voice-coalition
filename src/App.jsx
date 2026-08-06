@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home.jsx";
 import Legislation from "./pages/Legislation.jsx";
+import FindRepresentatives from "./pages/FindRepresentatives";
 import Impact from "./pages/Impact.jsx";
 import CreateChapter from './pages/CreateChapter';
 import Events from "./pages/Events.jsx";
@@ -38,6 +39,7 @@ export default function App() {
         <Route path="/resource-library" element={<ResourceLibrary />} />
         <Route path="/legislation" element={<Legislation />} />
         <Route path="/impact" element={<Impact />} />
+        <Route path="/find-representatives" element={<FindRepresentatives />} />
         <Route path="/events" element={<Events />} />
         <Route path="/brainstorm" element={<Brainstorm />} />
         <Route path="/create-chapter" element={<CreateChapter />} />
