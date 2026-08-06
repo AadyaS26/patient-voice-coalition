@@ -5,6 +5,7 @@ const NAV_ITEMS = [
   { label: "Home", to: "/" },
   { label: "Legislation", to: "/legislation" },
   { label: "Resource Library", to: "/resource-library" },
+  { label: "Find Your Reps", to: "/find-representatives" },
   { label: "Start a Chapter", to: "/create-chapter" },
   { label: "Events", to: "/events" },
   { label: "Impact", to: "/impact" },
@@ -46,7 +47,7 @@ export default function Nav() {
         >
           AutoimmuneVoices
         </Link>
-        <nav style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
+        <nav style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
           {NAV_ITEMS.map((item) => (
             <Link key={item.to} to={item.to} style={linkStyle(location.pathname === item.to)}>
               {item.label}
