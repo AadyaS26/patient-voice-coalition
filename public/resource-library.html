@@ -4,6 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>AutoimmuneVoices — Resource Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --ink: #101820;
@@ -484,13 +487,15 @@
 
   async function loadInitialCount() {
     try {
-      const res = await fetch("/api/resource-stats");
+      const res = await fetch("/api/resource-stats", { cache: "no-store" });
       const data = await res.json();
       if (data && data.ok && typeof data.total === "number") {
         counter = data.total;
+      } else {
+        console.error("resource-stats returned an unexpected response", data);
       }
     } catch (e) {
-      // API not available in this preview — use fallback base
+      console.error("resource-stats fetch failed", e);
     }
     renderCounter(false);
   }
