@@ -7,7 +7,7 @@ const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraun
 
 const CURATED_BILLS = 212;
 const CONDITIONS_COVERED = 146;
-const INSTAGRAM_REACH = 17391;
+const INSTAGRAM_REACH = 19073;
 const COUNTRIES_REACHED = 43;
 
 const RECENTLY_PASSED = [
@@ -134,7 +134,7 @@ export default function ImpactPage() {
             {loading ? "—" : (peopleImpacted + INSTAGRAM_REACH).toLocaleString()}
           </div>
           <p style={{ fontSize: 15.5, letterSpacing: "0.06em", textTransform: "uppercase", color: "#C4C8D6", marginTop: 16 }}>
-            Total people impacted
+            Total people reached
           </p>
         </div>
       </section>
