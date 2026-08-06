@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Nav from "../components/Nav";
 import "./CreateChapter.css";
 
 const US_STATES = [
@@ -48,7 +49,6 @@ export default function CreateChapter() {
       const value = e.target.value;
       setForm((f) => ({ ...f, [field]: value }));
       if (field === "city" || field === "state") {
-        // keep the suggested chapter name in sync until the person edits it directly
         setForm((f) => {
           const nextCity = field === "city" ? value : f.city;
           const nextState = field === "state" ? value : f.state;
@@ -102,202 +102,208 @@ export default function CreateChapter() {
 
   if (status === "success") {
     return (
-      <section className="chapter-page">
-        <div className="chapter-shell chapter-shell--confirm">
-          <span className="chapter-eyebrow">Chapter request received</span>
-          <h1 className="chapter-confirm-title">You just planted a pin.</h1>
-          <p className="chapter-confirm-body">
-            Your chapter request is in. We'll reach out at the email you gave us
-            with next steps for getting your chapter listed and connected to the
-            advocate network.
-          </p>
-          <button
-            type="button"
-            className="chapter-link-button"
-            onClick={() => setStatus("idle")}
-          >
-            Register another chapter
-          </button>
-        </div>
-      </section>
+      <>
+        <Nav />
+        <section className="chapter-page">
+          <div className="chapter-shell chapter-shell--confirm">
+            <span className="chapter-eyebrow">Chapter request received</span>
+            <h1 className="chapter-confirm-title">You just planted a pin.</h1>
+            <p className="chapter-confirm-body">
+              Your chapter request is in. We'll reach out at the email you gave us
+              with next steps for getting your chapter listed and connected to the
+              advocate network.
+            </p>
+            <button
+              type="button"
+              className="chapter-link-button"
+              onClick={() => setStatus("idle")}
+            >
+              Register another chapter
+            </button>
+          </div>
+        </section>
+      </>
     );
   }
 
   return (
-    <section className="chapter-page">
-      <div className="chapter-shell">
-        <div className="chapter-intro">
-          <span className="chapter-eyebrow">Chapters</span>
-          <h1 className="chapter-title">
-            Every state needs
-            <br />a voice. Start yours.
-          </h1>
-          <p className="chapter-body">
-            AutoimmuneVoices chapters are local advocacy hubs — a handful of
-            people in one place who track the bills that affect their
-            community and speak up when it matters. Starting one takes five
-            minutes. Growing it takes whoever you bring with you.
-          </p>
-          <ul className="chapter-facts">
-            <li>
-              <span className="chapter-facts-num">01</span>
-              We list your chapter and connect you with nearby advocates
-              already tracking legislation in your state.
-            </li>
-            <li>
-              <span className="chapter-facts-num">02</span>
-              You get early notice on bills in your state before hearings and
-              votes, so your chapter can act while it counts.
-            </li>
-            <li>
-              <span className="chapter-facts-num">03</span>
-              No minimum size. Some chapters are one person with a mailing
-              list. That's a chapter.
-            </li>
-          </ul>
-        </div>
-
-        <form className="chapter-form" onSubmit={handleSubmit} noValidate>
-          <div className="chapter-field-row">
-            <div className="chapter-field">
-              <label htmlFor="fullName">Your name</label>
-              <input
-                id="fullName"
-                type="text"
-                value={form.fullName}
-                onChange={update("fullName")}
-                onBlur={blur("fullName")}
-                autoComplete="name"
-              />
-              {touched.fullName && errors.fullName && (
-                <span className="chapter-error">{errors.fullName}</span>
-              )}
-            </div>
-            <div className="chapter-field">
-              <label htmlFor="email">Email</label>
-              <input
-                id="email"
-                type="email"
-                value={form.email}
-                onChange={update("email")}
-                onBlur={blur("email")}
-                autoComplete="email"
-              />
-              {touched.email && errors.email && (
-                <span className="chapter-error">{errors.email}</span>
-              )}
-            </div>
+    <>
+      <Nav />
+      <section className="chapter-page">
+        <div className="chapter-shell">
+          <div className="chapter-intro">
+            <span className="chapter-eyebrow">Chapters</span>
+            <h1 className="chapter-title">
+              Every state needs
+              <br />a voice. Start yours.
+            </h1>
+            <p className="chapter-body">
+              AutoimmuneVoices chapters are local advocacy hubs — a handful of
+              people in one place who track the bills that affect their
+              community and speak up when it matters. Starting one takes five
+              minutes. Growing it takes whoever you bring with you.
+            </p>
+            <ul className="chapter-facts">
+              <li>
+                <span className="chapter-facts-num">01</span>
+                We list your chapter and connect you with nearby advocates
+                already tracking legislation in your state.
+              </li>
+              <li>
+                <span className="chapter-facts-num">02</span>
+                You get early notice on bills in your state before hearings and
+                votes, so your chapter can act while it counts.
+              </li>
+              <li>
+                <span className="chapter-facts-num">03</span>
+                No minimum size. Some chapters are one person with a mailing
+                list. That's a chapter.
+              </li>
+            </ul>
           </div>
 
-          <div className="chapter-field-row">
-            <div className="chapter-field">
-              <label htmlFor="city">City</label>
-              <input
-                id="city"
-                type="text"
-                value={form.city}
-                onChange={update("city")}
-                onBlur={blur("city")}
-              />
-              {touched.city && errors.city && (
-                <span className="chapter-error">{errors.city}</span>
-              )}
+          <form className="chapter-form" onSubmit={handleSubmit} noValidate>
+            <div className="chapter-field-row">
+              <div className="chapter-field">
+                <label htmlFor="fullName">Your name</label>
+                <input
+                  id="fullName"
+                  type="text"
+                  value={form.fullName}
+                  onChange={update("fullName")}
+                  onBlur={blur("fullName")}
+                  autoComplete="name"
+                />
+                {touched.fullName && errors.fullName && (
+                  <span className="chapter-error">{errors.fullName}</span>
+                )}
+              </div>
+              <div className="chapter-field">
+                <label htmlFor="email">Email</label>
+                <input
+                  id="email"
+                  type="email"
+                  value={form.email}
+                  onChange={update("email")}
+                  onBlur={blur("email")}
+                  autoComplete="email"
+                />
+                {touched.email && errors.email && (
+                  <span className="chapter-error">{errors.email}</span>
+                )}
+              </div>
             </div>
-            <div className="chapter-field">
-              <label htmlFor="state">State</label>
-              <select
-                id="state"
-                value={form.state}
-                onChange={update("state")}
-                onBlur={blur("state")}
-              >
-                <option value="" disabled>
-                  Choose one
-                </option>
-                {US_STATES.map((s) => (
-                  <option key={s} value={s}>
-                    {s}
+
+            <div className="chapter-field-row">
+              <div className="chapter-field">
+                <label htmlFor="city">City</label>
+                <input
+                  id="city"
+                  type="text"
+                  value={form.city}
+                  onChange={update("city")}
+                  onBlur={blur("city")}
+                />
+                {touched.city && errors.city && (
+                  <span className="chapter-error">{errors.city}</span>
+                )}
+              </div>
+              <div className="chapter-field">
+                <label htmlFor="state">State</label>
+                <select
+                  id="state"
+                  value={form.state}
+                  onChange={update("state")}
+                  onBlur={blur("state")}
+                >
+                  <option value="" disabled>
+                    Choose one
                   </option>
-                ))}
-              </select>
-              {touched.state && errors.state && (
-                <span className="chapter-error">{errors.state}</span>
+                  {US_STATES.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                </select>
+                {touched.state && errors.state && (
+                  <span className="chapter-error">{errors.state}</span>
+                )}
+              </div>
+            </div>
+
+            <div className="chapter-field">
+              <label htmlFor="chapterName">Chapter name</label>
+              <input
+                id="chapterName"
+                type="text"
+                value={form.chapterName}
+                onChange={update("chapterName")}
+                onBlur={blur("chapterName")}
+                placeholder="e.g. Bellevue Chapter"
+              />
+              {touched.chapterName && errors.chapterName && (
+                <span className="chapter-error">{errors.chapterName}</span>
               )}
             </div>
-          </div>
 
-          <div className="chapter-field">
-            <label htmlFor="chapterName">Chapter name</label>
-            <input
-              id="chapterName"
-              type="text"
-              value={form.chapterName}
-              onChange={update("chapterName")}
-              onBlur={blur("chapterName")}
-              placeholder="e.g. Bellevue Chapter"
-            />
-            {touched.chapterName && errors.chapterName && (
-              <span className="chapter-error">{errors.chapterName}</span>
+            <div className="chapter-field">
+              <label htmlFor="connection">
+                What made you want to start a chapter?{" "}
+                <span className="chapter-optional">Optional</span>
+              </label>
+              <textarea
+                id="connection"
+                rows={3}
+                value={form.connection}
+                onChange={update("connection")}
+                placeholder="Your connection to autoimmune disease, what you're hoping to change locally, anything we should know."
+              />
+            </div>
+
+            <div className="chapter-field-row">
+              <div className="chapter-field">
+                <label htmlFor="interestedCount">
+                  People you'd bring with you{" "}
+                  <span className="chapter-optional">Optional</span>
+                </label>
+                <input
+                  id="interestedCount"
+                  type="text"
+                  inputMode="numeric"
+                  value={form.interestedCount}
+                  onChange={update("interestedCount")}
+                  placeholder="Rough guess is fine"
+                />
+              </div>
+              <div className="chapter-field">
+                <label htmlFor="social">
+                  Instagram or contact handle{" "}
+                  <span className="chapter-optional">Optional</span>
+                </label>
+                <input
+                  id="social"
+                  type="text"
+                  value={form.social}
+                  onChange={update("social")}
+                  placeholder="@handle"
+                />
+              </div>
+            </div>
+
+            {status === "error" && (
+              <p className="chapter-error chapter-error--submit">{errorMessage}</p>
             )}
-          </div>
 
-          <div className="chapter-field">
-            <label htmlFor="connection">
-              What made you want to start a chapter?{" "}
-              <span className="chapter-optional">Optional</span>
-            </label>
-            <textarea
-              id="connection"
-              rows={3}
-              value={form.connection}
-              onChange={update("connection")}
-              placeholder="Your connection to autoimmune disease, what you're hoping to change locally, anything we should know."
-            />
-          </div>
-
-          <div className="chapter-field-row">
-            <div className="chapter-field">
-              <label htmlFor="interestedCount">
-                People you'd bring with you{" "}
-                <span className="chapter-optional">Optional</span>
-              </label>
-              <input
-                id="interestedCount"
-                type="text"
-                inputMode="numeric"
-                value={form.interestedCount}
-                onChange={update("interestedCount")}
-                placeholder="Rough guess is fine"
-              />
-            </div>
-            <div className="chapter-field">
-              <label htmlFor="social">
-                Instagram or contact handle{" "}
-                <span className="chapter-optional">Optional</span>
-              </label>
-              <input
-                id="social"
-                type="text"
-                value={form.social}
-                onChange={update("social")}
-                placeholder="@handle"
-              />
-            </div>
-          </div>
-
-          {status === "error" && (
-            <p className="chapter-error chapter-error--submit">{errorMessage}</p>
-          )}
-
-          <button
-            type="submit"
-            className="chapter-submit"
-            disabled={status === "submitting"}
-          >
-            {status === "submitting" ? "Registering…" : "Register as an advocate"}
-          </button>
-        </form>
-      </div>
-    </section>
+            <button
+              type="submit"
+              className="chapter-submit"
+              disabled={status === "submitting"}
+            >
+              {status === "submitting" ? "Registering…" : "Register as an advocate"}
+            </button>
+          </form>
+        </div>
+      </section>
+    </>
   );
 }
