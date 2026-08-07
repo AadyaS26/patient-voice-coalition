@@ -614,6 +614,11 @@ export default function LegislationDatabase() {
       .slice(0, 3);
   }, [allBills]);
 
+  const availableConditions = useMemo(() => {
+    const present = new Set(allBills.map((b) => b.condition).filter(Boolean));
+    return ["All conditions", ...Array.from(present).sort((a, b) => a.localeCompare(b))];
+  }, [allBills]);
+
   const openLetter = (bill) => {
     setSelectedBill(bill);
     setMessage(
@@ -757,7 +762,7 @@ export default function LegislationDatabase() {
                 color: "#2B2A28",
               }}
             >
-              {CONDITIONS.map((c) => (
+              {availableConditions.map((c) => (
                 <option key={c}>{c}</option>
               ))}
             </select>
