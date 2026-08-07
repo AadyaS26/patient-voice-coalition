@@ -5,7 +5,6 @@ const NAV_ITEMS = [
   { label: "Home", to: "/" },
   { label: "Legislation", to: "/legislation" },
   { label: "Resource Library", to: "/resource-library" },
-  { label: "Find Your Reps", to: "/find-representatives" },
   { label: "Start a Chapter", to: "/create-chapter" },
   { label: "Events", to: "/events" },
   { label: "Impact", to: "/impact" },
