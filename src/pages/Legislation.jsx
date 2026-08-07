@@ -6,144 +6,67 @@ const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraun
 
 const CONDITIONS = [
   "All conditions",
-  "Achalasia",
-  "Acute disseminated encephalomyelitis",
-  "Addison's disease",
-  "Adult Still's disease",
-  "Agammaglobulinemia",
   "Alopecia areata",
-  "Amyloidosis",
   "Ankylosing spondylitis",
-  "Anti-GBM/anti-TBM nephritis",
   "Antiphospholipid syndrome",
-  "Antisynthetase syndrome",
   "Atopic dermatitis",
-  "Autoimmune angioedema",
-  "Autoimmune dysautonomia",
-  "Autoimmune encephalomyelitis",
-  "Autoimmune enteropathy",
-  "Autoimmune hepatitis",
-  "Autoimmune inner ear disease",
-  "Autoimmune lymphoproliferative syndrome",
-  "Autoimmune myocarditis",
-  "Autoimmune oophoritis",
-  "Autoimmune orchitis",
-  "Autoimmune pancreatitis",
-  "Autoimmune progesterone dermatitis",
-  "Autoimmune retinopathy",
-  "Autoimmune urticaria",
-  "Axonal and neuronal neuropathy (AMAN)",
-  "Baló disease",
   "Behçet's disease",
-  "Benign mucosal pemphigoid",
   "Bullous pemphigoid",
-  "Castleman disease",
   "Celiac disease",
-  "Chagas disease",
-  "Chronic inflammatory demyelinating polyneuropathy",
-  "Chronic recurrent multifocal osteomyelitis",
-  "Churg-Strauss syndrome (EGPA)",
-  "Cicatricial pemphigoid",
-  "Cogan's syndrome",
-  "Cold agglutinin disease",
-  "Congenital heart block",
-  "Coxsackie myocarditis",
-  "CREST syndrome",
   "Crohn's disease",
   "Dermatitis herpetiformis",
   "Dermatomyositis",
-  "Devic's disease (NMO)",
-  "Discoid lupus",
-  "Dressler's syndrome",
   "Endometriosis",
   "Eosinophilic esophagitis",
-  "Eosinophilic fasciitis",
-  "Erythema nodosum",
-  "Essential mixed cryoglobulinemia",
-  "Evans syndrome",
   "Fibromyalgia",
-  "Fibrosing alveolitis",
   "General autoimmune",
   "Giant cell arteritis",
-  "Giant cell myocarditis",
   "Glomerulonephritis",
   "Goodpasture's syndrome",
   "Granulomatosis with polyangiitis",
   "Graves' disease",
   "Guillain-Barré syndrome",
-  "Hashimoto's encephalopathy",
   "Hashimoto's thyroiditis",
   "Hemolytic anemia",
   "Henoch-Schönlein purpura",
-  "Herpes gestationis",
   "Hidradenitis suppurativa",
-  "Hypogammaglobulinemia",
   "IgA nephropathy",
   "IgG4-related disease",
   "Immune thrombocytopenic purpura",
   "Inclusion body myositis",
-  "Inherited metabolic",
   "Interstitial cystitis",
   "Juvenile arthritis",
-  "Juvenile myositis",
   "Kawasaki disease",
   "Lambert-Eaton myasthenic syndrome",
-  "Leukocytoclastic vasculitis",
   "Lichen planus",
   "Lichen sclerosus",
-  "Linear IgA disease",
   "Lupus (SLE)",
-  "Ménière's disease",
-  "Microscopic polyangiitis",
-  "Miller-Fisher syndrome",
   "Mixed connective tissue disease",
-  "Mooren's ulcer",
-  "Multifocal motor neuropathy",
   "Multiple sclerosis",
   "Myasthenia gravis",
   "Narcolepsy",
-  "Neutropenia",
-  "Ocular cicatricial pemphigoid",
   "Optic neuritis",
-  "Palindromic rheumatism",
-  "Paraneoplastic cerebellar degeneration",
-  "Paroxysmal nocturnal hemoglobinuria",
-  "Parry-Romberg syndrome",
-  "Pars planitis",
-  "Parsonage-Turner syndrome",
   "Pemphigus",
   "Peripheral neuropathy",
   "Pernicious anemia",
-  "POEMS syndrome",
   "Polyarteritis nodosa",
-  "Polyglandular autoimmune syndrome",
   "Polymyalgia rheumatica",
   "Polymyositis",
   "Primary biliary cholangitis",
   "Primary sclerosing cholangitis",
   "Psoriasis",
   "Psoriatic arthritis",
-  "Pure red cell aplasia",
   "Pyoderma gangrenosum",
   "Raynaud's phenomenon",
   "Reactive arthritis",
-  "Reflex sympathetic dystrophy",
   "Relapsing polychondritis",
-  "Restless legs syndrome",
-  "Retroperitoneal fibrosis",
   "Rheumatic fever",
   "Rheumatoid arthritis",
   "Sarcoidosis",
-  "Schmidt syndrome",
-  "Scleritis",
   "Scleroderma",
   "Sjögren's disease",
   "Stiff person syndrome",
-  "Susac's syndrome",
-  "Sympathetic ophthalmia",
   "Takayasu's arteritis",
-  "Temporal arteritis",
-  "Tolosa-Hunt syndrome",
   "Transverse myelitis",
   "Type 1 diabetes",
   "Ulcerative colitis",
@@ -151,7 +74,6 @@ const CONDITIONS = [
   "Uveitis",
   "Vasculitis",
   "Vitiligo",
-  "Vogt-Koyanagi-Harada disease",
 ];
 
 const BILLS = [
@@ -234,7 +156,7 @@ const BILLS = [
     sponsor: "Rep. Rutherford, Rep. Dingell, Rep. Fitzpatrick",
     introduced: "Oct 3, 2025",
     status: "Referred to committee",
-    condition: "Inherited metabolic",
+    condition: "Celiac disease",
     summary:
       "Would require federal health programs to cover medically necessary foods, including gluten-free foods prescribed for celiac disease, for people with digestive and inherited metabolic disorders.",
     url: "https://www.congress.gov/bill/119th-congress/house-bill/5684",
@@ -534,6 +456,22 @@ export default function LegislationDatabase() {
     };
   }, []);
 
+  // Maps a raw keyword from the live bill-tracking feed (which can be
+  // anything the matching script searched for, like "gluten-free" or
+  // "step therapy" — not necessarily a real condition name) onto one of
+  // our curated condition names. Falls back to "General autoimmune"
+  // rather than inventing a fake condition label out of a policy term.
+  function normalizeCondition(rawKeyword) {
+    if (!rawKeyword) return "General autoimmune";
+    const key = rawKeyword.trim().toLowerCase();
+    const match = CONDITIONS.find((c) => {
+      if (c === "All conditions") return false;
+      const cLower = c.toLowerCase();
+      return cLower === key || cLower.includes(key) || key.includes(cLower);
+    });
+    return match || "General autoimmune";
+  }
+
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -549,7 +487,7 @@ export default function LegislationDatabase() {
           sponsor: "See official record",
           introduced: b.latestActionDate || "119th Congress",
           status: b.latestActionText || "See official record",
-          condition: b.matched_keyword ? b.matched_keyword.replace(/\b\w/g, (c) => c.toUpperCase()) : "General autoimmune",
+          condition: normalizeCondition(b.matched_keyword),
           summary: b.latestActionText ? `Latest action: ${b.latestActionText}` : "See the official record for full details.",
           url: `https://www.congress.gov/bill/119th-congress/${b.number?.toLowerCase().startsWith("s") ? "senate-bill" : "house-bill"}/${(b.number || "").replace(/\D/g, "")}`,
           live: true,
@@ -580,7 +518,7 @@ export default function LegislationDatabase() {
           sponsor: `${b.state} Legislature`,
           introduced: b.lastActionDate || "State session",
           status: b.lastAction || "See official record",
-          condition: b.matched_keyword ? b.matched_keyword.replace(/\b\w/g, (c) => c.toUpperCase()) : "General autoimmune",
+          condition: normalizeCondition(b.matched_keyword),
           summary: b.lastAction ? `Latest action: ${b.lastAction}` : "See the official record for full details.",
           url: b.url,
           live: true,
@@ -612,11 +550,6 @@ export default function LegislationDatabase() {
     return allBills
       .filter((b) => /signed|passed|enacted|effective/i.test(b.status || ""))
       .slice(0, 3);
-  }, [allBills]);
-
-  const availableConditions = useMemo(() => {
-    const present = new Set(allBills.map((b) => b.condition).filter(Boolean));
-    return ["All conditions", ...Array.from(present).sort((a, b) => a.localeCompare(b))];
   }, [allBills]);
 
   const openLetter = (bill) => {
@@ -762,7 +695,7 @@ export default function LegislationDatabase() {
                 color: "#2B2A28",
               }}
             >
-              {availableConditions.map((c) => (
+              {CONDITIONS.map((c) => (
                 <option key={c}>{c}</option>
               ))}
             </select>
