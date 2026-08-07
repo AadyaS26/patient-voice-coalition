@@ -567,6 +567,7 @@ export default function LegislationDatabase() {
     if (!address.trim()) return;
     setLookupStatus("loading");
     setLookupError("");
+    fetch("/api/counter?key=letters-sent&action=increment").catch(() => {});
     try {
       const res = await fetch("/api/find-representatives", {
         method: "POST",
@@ -606,7 +607,6 @@ export default function LegislationDatabase() {
         throw new Error(data.error || "Could not send. Please try again.");
       }
       setSendStatus((prev) => ({ ...prev, [legislator.id]: "sent" }));
-      fetch("/api/counter?key=letters-sent&action=increment").catch(() => {});
     } catch (err) {
       setSendStatus((prev) => ({ ...prev, [legislator.id]: "error" }));
     }
