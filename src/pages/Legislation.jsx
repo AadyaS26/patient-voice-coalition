@@ -498,12 +498,16 @@ export default function LegislationDatabase() {
   const [query, setQuery] = useState("");
   const [condition, setCondition] = useState("All conditions");
   const [selectedBill, setSelectedBill] = useState(null);
-  const [zip, setZip] = useState("");
+  const [address, setAddress] = useState("");
   const [name, setName] = useState("");
+  const [senderEmail, setSenderEmail] = useState("");
   const [message, setMessage] = useState("");
   const [aiSummaries, setAiSummaries] = useState({});
   const [aiLoadingId, setAiLoadingId] = useState(null);
-  const [sentTo, setSentTo] = useState(null);
+  const [legislators, setLegislators] = useState([]);
+  const [lookupStatus, setLookupStatus] = useState("idle"); // idle | loading | found | error
+  const [lookupError, setLookupError] = useState("");
+  const [sendStatus, setSendStatus] = useState({}); // { [legislatorId]: 'idle'|'sending'|'sent'|'error' }
   const [liveBills, setLiveBills] = useState([]);
   const [liveStatus, setLiveStatus] = useState("loading"); // loading | ready | error
   const [stateBills, setStateBills] = useState([]);
@@ -615,15 +619,58 @@ export default function LegislationDatabase() {
     setMessage(
       `I am writing as a constituent to ask you to support ${bill.number}, the ${bill.fullName}. ${bill.summary}\n\nThis legislation matters to me and to patients in our community managing this condition. I would appreciate your support.`
     );
-    setSentTo(null);
+    setLegislators([]);
+    setLookupStatus("idle");
+    setLookupError("");
+    setSendStatus({});
   };
 
-  const handleSend = async () => {
-    setSentTo(selectedBill.number);
+  const handleFindLegislators = async () => {
+    if (!address.trim()) return;
+    setLookupStatus("loading");
+    setLookupError("");
     try {
-      await fetch("/api/counter?key=letters-sent&action=increment");
-    } catch {
-      // storage unavailable; the count just won't persist this time
+      const res = await fetch("/api/find-representatives", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ address }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) {
+        throw new Error(data.error || "Couldn't find your legislators. Please try again.");
+      }
+      setLegislators(data.representatives || []);
+      setLookupStatus("found");
+    } catch (err) {
+      setLookupError(err.message || "Couldn't find your legislators. Please try again.");
+      setLookupStatus("error");
+    }
+  };
+
+  const handleSendToLegislator = async (legislator) => {
+    if (!name.trim() || !senderEmail.trim() || !message.trim()) return;
+    setSendStatus((prev) => ({ ...prev, [legislator.id]: "sending" }));
+    try {
+      const res = await fetch("/api/send-legislator-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          legislatorEmail: legislator.email,
+          legislatorName: legislator.name,
+          senderName: name,
+          senderEmail,
+          subject: `Constituent message: ${selectedBill.number}`,
+          message,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) {
+        throw new Error(data.error || "Could not send. Please try again.");
+      }
+      setSendStatus((prev) => ({ ...prev, [legislator.id]: "sent" }));
+      fetch("/api/counter?key=letters-sent&action=increment").catch(() => {});
+    } catch (err) {
+      setSendStatus((prev) => ({ ...prev, [legislator.id]: "error" }));
     }
   };
 
@@ -905,27 +952,71 @@ export default function LegislationDatabase() {
         <div style={{ position: "fixed", inset: 0, background: "rgba(27,42,74,0.4)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, zIndex: 30 }}>
           <div style={{ background: "#FAF8F3", maxWidth: 520, width: "100%", borderRadius: 6, padding: "28px 28px 24px", maxHeight: "90vh", overflowY: "auto" }}>
             <p style={{ fontSize: 12, color: "#A87C2A", fontWeight: 500, marginBottom: 4 }}>{selectedBill.number}</p>
-            <h3 style={{ fontFamily: "Fraunces, serif", fontSize: 19, color: "#1B2A4A", margin: "0 0 16px" }}>Message your senators</h3>
+            <h3 style={{ fontFamily: "Fraunces, serif", fontSize: 19, color: "#1B2A4A", margin: "0 0 16px" }}>Message your state legislators</h3>
 
-            {sentTo ? (
+            {lookupStatus === "found" ? (
               <div>
-                <p style={{ fontSize: 14, color: "#5A5952", lineHeight: 1.6 }}>
-                  Your message about {sentTo} is ready. Use the link below to find your senators' contact pages and send it directly — we don't send messages on your behalf.
+                <p style={{ fontSize: 13.5, color: "#5A5952", lineHeight: 1.6, marginBottom: 16 }}>
+                  Sending as {name} ({senderEmail}). Edit your message below if needed, then send to each legislator.
                 </p>
-                  <a
-                  href="https://www.senate.gov/senators/senators-contact.htm"
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13.5, fontWeight: 500, color: "#1B2A4A", marginTop: 14, textDecoration: "none" }}
-                >
-                  Find your senators <ExternalLink size={13} />
-                </a>
-                <button
-                  onClick={() => setSelectedBill(null)}
-                  style={{ display: "block", marginTop: 20, fontSize: 13, color: "#8A8880", background: "none", border: "none", cursor: "pointer" }}
-                >
-                  Close
-                </button>
+                <textarea
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  rows={5}
+                  style={{ width: "100%", padding: "10px", border: "1px solid #C9C4B4", borderRadius: 3, fontSize: 13.5, lineHeight: 1.5, marginBottom: 18, boxSizing: "border-box", fontFamily: "Inter, sans-serif" }}
+                />
+                {legislators.length === 0 ? (
+                  <p style={{ fontSize: 13.5, color: "#8A8880" }}>
+                    No state legislators found for that address. Double-check it's a full street address.
+                  </p>
+                ) : (
+                  <div style={{ display: "grid", gap: 10, marginBottom: 18 }}>
+                    {legislators.map((leg) => {
+                      const status = sendStatus[leg.id] || "idle";
+                      return (
+                        <div key={leg.id} style={{ border: "1px solid #E4E0D6", borderRadius: 4, padding: "12px 14px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10 }}>
+                          <div>
+                            <div style={{ fontSize: 13.5, fontWeight: 600, color: "#1B2A4A" }}>{leg.name}</div>
+                            <div style={{ fontSize: 12, color: "#8A8880" }}>
+                              {leg.chamber}{leg.district ? ` · District ${leg.district}` : ""}{leg.party ? ` · ${leg.party}` : ""}
+                            </div>
+                          </div>
+                          {leg.email ? (
+                            status === "sent" ? (
+                              <span style={{ fontSize: 12.5, color: "#3F6B33", fontWeight: 600 }}>Sent ✓</span>
+                            ) : (
+                              <button
+                                onClick={() => handleSendToLegislator(leg)}
+                                disabled={status === "sending"}
+                                style={{ fontSize: 12.5, fontWeight: 500, color: "#FAF8F3", background: "#1B2A4A", border: "none", padding: "7px 12px", borderRadius: 3, cursor: status === "sending" ? "default" : "pointer", whiteSpace: "nowrap" }}
+                              >
+                                {status === "sending" ? "Sending…" : status === "error" ? "Retry" : "Send"}
+                              </button>
+                            )
+                          ) : (
+                            <a href={leg.contactUrl || leg.openstatesUrl || "#"} target="_blank" rel="noreferrer" style={{ fontSize: 12, color: "#1B2A4A" }}>
+                              Contact page
+                            </a>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+                <div style={{ display: "flex", gap: 10 }}>
+                  <button
+                    onClick={() => setLookupStatus("idle")}
+                    style={{ fontSize: 13.5, color: "#5A5952", background: "none", border: "1px solid #C9C4B4", padding: "10px 18px", borderRadius: 3, cursor: "pointer" }}
+                  >
+                    Back
+                  </button>
+                  <button
+                    onClick={() => setSelectedBill(null)}
+                    style={{ fontSize: 13.5, color: "#5A5952", background: "none", border: "none", padding: "10px 18px", borderRadius: 3, cursor: "pointer" }}
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
             ) : (
               <>
@@ -936,26 +1027,41 @@ export default function LegislationDatabase() {
                   placeholder="Full name"
                   style={{ width: "100%", padding: "9px 10px", border: "1px solid #C9C4B4", borderRadius: 3, fontSize: 14, marginBottom: 14, boxSizing: "border-box" }}
                 />
-                <label style={{ fontSize: 12.5, color: "#5A5952", display: "block", marginBottom: 4 }}>ZIP code</label>
+                <label style={{ fontSize: 12.5, color: "#5A5952", display: "block", marginBottom: 4 }}>Your email</label>
                 <input
-                  value={zip}
-                  onChange={(e) => setZip(e.target.value)}
-                  placeholder="98027"
+                  type="email"
+                  value={senderEmail}
+                  onChange={(e) => setSenderEmail(e.target.value)}
+                  placeholder="Replies go here"
                   style={{ width: "100%", padding: "9px 10px", border: "1px solid #C9C4B4", borderRadius: 3, fontSize: 14, marginBottom: 14, boxSizing: "border-box" }}
                 />
+                <label style={{ fontSize: 12.5, color: "#5A5952", display: "block", marginBottom: 4 }}>Your full address</label>
+                <input
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  placeholder="123 Main St, Springfield, WA 98001"
+                  style={{ width: "100%", padding: "9px 10px", border: "1px solid #C9C4B4", borderRadius: 3, fontSize: 14, marginBottom: 4, boxSizing: "border-box" }}
+                />
+                <p style={{ fontSize: 11.5, color: "#8A8880", marginBottom: 14 }}>
+                  A full street address finds your exact legislators — district lines don't follow ZIP codes.
+                </p>
                 <label style={{ fontSize: 12.5, color: "#5A5952", display: "block", marginBottom: 4 }}>Message</label>
                 <textarea
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   rows={6}
-                  style={{ width: "100%", padding: "10px", border: "1px solid #C9C4B4", borderRadius: 3, fontSize: 13.5, lineHeight: 1.5, marginBottom: 18, boxSizing: "border-box", fontFamily: "Inter, sans-serif" }}
+                  style={{ width: "100%", padding: "10px", border: "1px solid #C9C4B4", borderRadius: 3, fontSize: 13.5, lineHeight: 1.5, marginBottom: 10, boxSizing: "border-box", fontFamily: "Inter, sans-serif" }}
                 />
+                {lookupStatus === "error" && (
+                  <p style={{ fontSize: 12.5, color: "#B3261E", marginBottom: 10 }}>{lookupError}</p>
+                )}
                 <div style={{ display: "flex", gap: 10 }}>
                   <button
-                    onClick={handleSend}
-                    style={{ fontSize: 13.5, fontWeight: 500, color: "#FAF8F3", background: "#1B2A4A", border: "none", padding: "10px 18px", borderRadius: 3, cursor: "pointer" }}
+                    onClick={handleFindLegislators}
+                    disabled={!name.trim() || !senderEmail.trim() || !address.trim() || !message.trim() || lookupStatus === "loading"}
+                    style={{ fontSize: 13.5, fontWeight: 500, color: "#FAF8F3", background: "#1B2A4A", border: "none", padding: "10px 18px", borderRadius: 3, cursor: "pointer", opacity: (!name.trim() || !senderEmail.trim() || !address.trim() || !message.trim()) ? 0.6 : 1 }}
                   >
-                    Prepare message
+                    {lookupStatus === "loading" ? "Finding your legislators…" : "Find my legislators"}
                   </button>
                   <button
                     onClick={() => setSelectedBill(null)}
