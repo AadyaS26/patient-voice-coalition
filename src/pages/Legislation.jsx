@@ -561,13 +561,13 @@ export default function LegislationDatabase() {
     setLookupStatus("idle");
     setLookupError("");
     setSendStatus({});
+    fetch("/api/counter?key=letters-sent&action=increment").catch(() => {});
   };
 
   const handleFindLegislators = async () => {
     if (!address.trim()) return;
     setLookupStatus("loading");
     setLookupError("");
-    fetch("/api/counter?key=letters-sent&action=increment").catch(() => {});
     try {
       const res = await fetch("/api/find-representatives", {
         method: "POST",
