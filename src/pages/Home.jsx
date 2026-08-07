@@ -55,7 +55,6 @@ const BILLS = [
 
 export default function PatientVoiceCoalition() {
   const [letters, setLetters] = useState(0);
-  const [sent, setSent] = useState(false);
   const [billsTracked, setBillsTracked] = useState(null);
   const [statesCovered, setStatesCovered] = useState(null);
 
@@ -99,18 +98,6 @@ export default function PatientVoiceCoalition() {
       setStatesCovered(Math.max(combinedStates.size, CURATED_STATES.length));
     })();
   }, []);
-
-  const handleSend = async () => {
-    if (sent) return;
-    setSent(true);
-    try {
-      const res = await fetch("/api/counter?key=letters-sent&action=increment");
-      const data = await res.json();
-      setLetters(data.value);
-    } catch {
-      setLetters((v) => v + 1);
-    }
-  };
 
   return (
     <div style={{ fontFamily: "Inter, sans-serif", color: "#2B2A28", background: "#FAF8F3" }}>
@@ -287,8 +274,8 @@ export default function PatientVoiceCoalition() {
             Send a letter about a bill that affects you
           </h2>
           <p style={{ fontSize: 14.5, color: "#5A5952", marginBottom: 24 }}>Takes about two minutes. We draft it, you review it, your legislator reads it.</p>
-          <button
-            onClick={handleSend}
+          <Link
+            to="/legislation"
             style={{
               display: "inline-flex",
               alignItems: "center",
@@ -296,15 +283,14 @@ export default function PatientVoiceCoalition() {
               fontSize: 14,
               fontWeight: 500,
               color: "#FAF8F3",
-              background: sent ? "#7A8A6A" : "#1B2A4A",
+              background: "#1B2A4A",
               padding: "13px 24px",
               borderRadius: 3,
-              border: "none",
-              cursor: sent ? "default" : "pointer",
+              textDecoration: "none",
             }}
           >
-            <Mail size={15} /> {sent ? "Letter counted, thank you" : "Draft my letter"}
-          </button>
+            <Mail size={15} /> Draft my letter
+          </Link>
         </div>
       </section>
 
