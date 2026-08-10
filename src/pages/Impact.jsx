@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Nav from "../components/Nav";
+import ReachMap from "../components/ReachMap";
 import { BookOpen, HeartHandshake, CheckCircle2, Lightbulb, ArrowRight } from "lucide-react";
 
 const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');`;
@@ -140,7 +141,7 @@ export default function ImpactPage() {
       </section>
 
       <section style={{ maxWidth: 800, margin: "0 auto", padding: "56px 24px 16px" }}>
-<div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20, textAlign: "center" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20, textAlign: "center" }}>
           <div>
             <div style={{ fontFamily: "Fraunces, serif", fontSize: 48, color: "#1B2A4A", fontWeight: 500, lineHeight: 1 }}>{CONDITIONS_COVERED}</div>
             <div style={{ fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase", color: "#8A8880", marginTop: 10 }}>Conditions covered</div>
@@ -160,6 +161,14 @@ export default function ImpactPage() {
             <div style={{ fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase", color: "#8A8880", marginTop: 10 }}>Countries reached</div>
           </div>
         </div>
+      </section>
+
+      {/* Reach map */}
+      <section style={{ maxWidth: 800, margin: "0 auto", padding: "0 24px 56px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 18 }}>
+          <h2 style={{ fontSize: 16, fontWeight: 600, color: "#1B2A4A", margin: 0 }}>Where we've reached people</h2>
+        </div>
+        <ReachMap />
       </section>
 
       {/* Recently passed */}
