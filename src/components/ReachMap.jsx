@@ -130,23 +130,13 @@ export default function ReachMap() {
       return;
     }
     const count = Math.round((TOTAL_REACHED * pct) / 100);
-    const rect = wrapRef.current.getBoundingClientRect();
+    const rect = wrapRef.current ? wrapRef.current.getBoundingClientRect() : { left: 0, top: 0 };
     setTooltip({
       x: event.clientX - rect.left + 12,
       y: event.clientY - rect.top + 12,
       name,
       count,
     });
-  };
-
-  const handleMove = (event) => {
-    if (!tooltip) return;
-    const rect = wrapRef.current.getBoundingClientRect();
-    setTooltip((t) => ({
-      ...t,
-      x: event.clientX - rect.left + 12,
-      y: event.clientY - rect.top + 12,
-    }));
   };
 
   const handleLeave = () => setTooltip(null);
@@ -186,7 +176,6 @@ export default function ReachMap() {
                 transition: "fill 0.15s ease",
               }}
               onMouseEnter={(e) => handleEnter(e, feat)}
-              onMouseMove={handleMove}
               onMouseLeave={handleLeave}
             />
           );
