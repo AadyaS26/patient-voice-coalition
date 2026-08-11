@@ -41,6 +41,7 @@ export default function CreateChapter() {
     city: form.city.trim() ? "" : "Enter your city.",
     state: form.state ? "" : "Choose a state.",
     chapterName: form.chapterName.trim() ? "" : "Give your chapter a name.",
+    social: form.social.trim() ? "" : "Enter your Instagram or contact handle.",
   };
   const isValid = Object.values(errors).every((e) => !e);
 
@@ -76,6 +77,7 @@ export default function CreateChapter() {
       city: true,
       state: true,
       chapterName: true,
+      social: true,
     });
     if (!isValid) return;
 
@@ -276,17 +278,18 @@ export default function CreateChapter() {
                 />
               </div>
               <div className="chapter-field">
-                <label htmlFor="social">
-                  Instagram or contact handle{" "}
-                  <span className="chapter-optional">Optional</span>
-                </label>
+                <label htmlFor="social">Instagram or contact handle</label>
                 <input
                   id="social"
                   type="text"
                   value={form.social}
                   onChange={update("social")}
+                  onBlur={blur("social")}
                   placeholder="@handle"
                 />
+                {touched.social && errors.social && (
+                  <span className="chapter-error">{errors.social}</span>
+                )}
               </div>
             </div>
 
