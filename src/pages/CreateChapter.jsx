@@ -27,7 +27,11 @@ const CHAPTERS = [
     photo: "/chapter-photos/veronika.jpg", handle: "@autoimmunevoicesCzechia",
     bio: "Hi, my name is Veronika, I am from a little country in Central Europe named Czech Republic, or Czechia. I decided to join because I like helping people, so why not try it! My city is Prague, but since we are a small country, I'll be representing Czechia as a whole.",
   },
-  { first: "Aadya", lastInitial: "S", city: "Sammamish", region: "Washington", country: "US", photo: null, handle: null, bio: null },
+  {
+    first: "Aadya", lastInitial: "S", city: "Sammamish", region: "Washington", country: "US",
+    photo: null, handle: null, role: "founder",
+    bio: "I founded AutoimmuneVoices after seeing how difficult it can be for people with autoimmune and chronic conditions to understand the policies that affect them. I wanted to create a space that makes advocacy easier and gives people a way to use their voices, connect with others, and create change in their own communities.",
+  },
   { first: "Desiree", lastInitial: "B", city: "Wilmington", region: "North Carolina", country: "US", photo: null, handle: null, bio: null },
   { first: "Cecilia", lastInitial: "G", city: "Modesto", region: "California", country: "US", photo: null, handle: null, bio: null },
   { first: "Hana", lastInitial: "S", city: "Jefferson", region: "Massachusetts", country: "US", photo: null, handle: null, bio: null },
@@ -141,7 +145,9 @@ function ChapterDirectory() {
                   {c.lastInitial ? ` ${c.lastInitial}.` : ""}
                 </div>
                 <div className="chapter-directory-loc">{chapterLocation(c)}</div>
-                {c.bio ? (
+                {c.role === "founder" ? (
+                  <span className="chapter-directory-badge founder">Founder</span>
+                ) : c.bio ? (
                   <span className="chapter-directory-badge real">Chapter lead</span>
                 ) : (
                   <span className="chapter-directory-badge pending">New chapter</span>
