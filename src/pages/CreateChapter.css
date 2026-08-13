@@ -376,6 +376,11 @@
   background: #e3f0e9;
 }
 
+.chapter-directory-badge.founder {
+  color: #ffffff;
+  background: var(--teal-deep);
+}
+
 /* Circular avatars, sitting beside the name/location instead of floated
    to the side of the card */
 .chapter-directory-avatar,
