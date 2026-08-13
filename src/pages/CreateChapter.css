@@ -1,225 +1,3 @@
-.chapter-page {
-  --ink: #101820;
-  --paper: #f7f5f0;
-  --teal: #206060;
-  --teal-deep: #123838;
-  --amber: #d98e04;
-  --line: rgba(16, 24, 32, 0.12);
-  --muted: #5c6570;
-
-  background: var(--paper);
-  color: var(--ink);
-  padding: 5rem 1.5rem 6rem;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-.chapter-shell {
-  max-width: 1040px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: start;
-}
-
-@media (max-width: 860px) {
-  .chapter-shell {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-  }
-}
-
-.chapter-eyebrow {
-  display: inline-block;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--teal);
-  margin-bottom: 1.25rem;
-}
-
-.chapter-title {
-  font-family: "Fraunces", Georgia, serif;
-  font-size: clamp(2.1rem, 4vw, 3rem);
-  font-weight: 600;
-  line-height: 1.08;
-  letter-spacing: -0.01em;
-  margin: 0 0 1.25rem;
-  color: var(--ink);
-}
-
-.chapter-body {
-  font-size: 1.05rem;
-  line-height: 1.6;
-  color: var(--muted);
-  max-width: 42ch;
-  margin: 0 0 2.5rem;
-}
-
-.chapter-facts {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  border-top: 1px solid var(--line);
-  padding-top: 1.75rem;
-}
-
-.chapter-facts li {
-  display: grid;
-  grid-template-columns: 2.25rem 1fr;
-  gap: 0.75rem;
-  font-size: 0.95rem;
-  line-height: 1.55;
-  color: var(--ink);
-}
-
-.chapter-facts-num {
-  font-family: "Fraunces", Georgia, serif;
-  font-size: 0.95rem;
-  color: var(--amber);
-  font-weight: 600;
-}
-
-.chapter-form {
-  background: #ffffff;
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  padding: 2.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-
-.chapter-field-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
-}
-
-@media (max-width: 520px) {
-  .chapter-field-row {
-    grid-template-columns: 1fr;
-  }
-}
-
-.chapter-field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.chapter-field label {
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.chapter-optional {
-  font-weight: 400;
-  color: var(--muted);
-  text-transform: none;
-  letter-spacing: normal;
-}
-
-.chapter-field input,
-.chapter-field select,
-.chapter-field textarea {
-  font: inherit;
-  font-size: 0.95rem;
-  padding: 0.65rem 0.75rem;
-  border: 1px solid var(--line);
-  border-radius: 3px;
-  background: var(--paper);
-  color: var(--ink);
-  resize: vertical;
-}
-
-.chapter-field input:focus-visible,
-.chapter-field select:focus-visible,
-.chapter-field textarea:focus-visible {
-  outline: 2px solid var(--teal);
-  outline-offset: 1px;
-}
-
-.chapter-error {
-  font-size: 0.8rem;
-  color: #b3261e;
-}
-
-.chapter-error--submit {
-  margin: 0;
-}
-
-.chapter-submit {
-  margin-top: 0.5rem;
-  padding: 0.85rem 1.5rem;
-  background: var(--teal-deep);
-  color: #ffffff;
-  border: none;
-  border-radius: 3px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.15s ease;
-}
-
-.chapter-submit:hover:not(:disabled) {
-  background: var(--teal);
-}
-
-.chapter-submit:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.chapter-submit:focus-visible {
-  outline: 2px solid var(--amber);
-  outline-offset: 2px;
-}
-
-.chapter-shell--confirm {
-  grid-template-columns: 1fr;
-  max-width: 560px;
-  text-align: left;
-  padding-top: 2rem;
-}
-
-.chapter-confirm-title {
-  font-family: "Fraunces", Georgia, serif;
-  font-size: clamp(1.9rem, 4vw, 2.6rem);
-  font-weight: 600;
-  margin: 0 0 1rem;
-}
-
-.chapter-confirm-body {
-  font-size: 1.05rem;
-  line-height: 1.6;
-  color: var(--muted);
-  margin: 0 0 2rem;
-  max-width: 46ch;
-}
-
-.chapter-link-button {
-  background: none;
-  border: none;
-  padding: 0;
-  font: inherit;
-  font-weight: 600;
-  color: var(--teal-deep);
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .chapter-page * {
-    transition: none !important;
-  }
-}
-
 
 /* ===== Chapter directory (below the registration form) ===== */
 .chapter-directory {
@@ -321,69 +99,65 @@
   padding: 0;
 }
 
+/* Plain two-column grid, not masonry — each ROW's height just follows
+   its tallest card, which is what actually creates the varied-height
+   look, without the jumbled read-order that column-based masonry causes */
 .chapter-directory-grid {
-  max-width: 1100px;
-  margin: 1rem auto 0;
-  column-count: 2;
-  column-gap: 1.25rem;
+  max-width: 1000px;
+  margin: 1.25rem auto 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 760px) {
   .chapter-directory-grid {
-    column-count: 1;
+    grid-template-columns: 1fr;
   }
 }
 
 .chapter-directory-card {
-  break-inside: avoid;
-  margin-bottom: 1.25rem;
-  display: inline-block;
-  width: 100%;
   border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 1.5rem;
+  border-radius: 14px;
+  padding: 1.75rem;
   transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
 .chapter-directory-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 28px rgba(16, 24, 32, 0.07);
+  box-shadow: 0 14px 30px rgba(16, 24, 32, 0.08);
 }
 
-.chapter-directory-card-top {
+.chapter-directory-card-header {
   display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  align-items: flex-start;
-}
-
-.chapter-directory-text {
-  flex: 1;
-  min-width: 0;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: 0.9rem;
 }
 
 .chapter-directory-name {
   font-family: "Fraunces", Georgia, serif;
-  font-size: 1.2rem;
+  font-size: 1.08rem;
   font-weight: 600;
   color: var(--ink);
-  margin-bottom: 3px;
+  margin-bottom: 2px;
 }
 
 .chapter-directory-loc {
-  font-size: 0.85rem;
+  font-size: 0.83rem;
   color: var(--muted);
-  margin-bottom: 10px;
 }
 
 .chapter-directory-badge {
   display: inline-block;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--amber);
   background: var(--amber-pale);
-  padding: 3px 10px;
-  border-radius: 12px;
+  padding: 4px 12px;
+  border-radius: 14px;
+  margin-bottom: 0.85rem;
 }
 
 .chapter-directory-badge.pending {
@@ -396,11 +170,13 @@
   background: #e3f0e9;
 }
 
+/* Circular avatars, sitting beside the name/location instead of floated
+   to the side of the card */
 .chapter-directory-avatar,
 .chapter-directory-avatar-img {
-  width: 100px;
-  height: 100px;
-  border-radius: 12px;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
   flex-shrink: 0;
 }
 
@@ -411,8 +187,8 @@
 }
 
 .chapter-directory-avatar svg {
-  width: 44px;
-  height: 44px;
+  width: 38px;
+  height: 38px;
 }
 
 .chapter-directory-avatar-img {
@@ -424,7 +200,4 @@
   font-size: 0.9rem;
   color: var(--ink);
   line-height: 1.65;
-  margin-top: 1rem;
 }
-
-
