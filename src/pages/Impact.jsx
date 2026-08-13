@@ -19,6 +19,53 @@ const RECENTLY_PASSED = [
   { number: "NJ A5217/S3818", label: "New Jersey — copay assistance counts toward deductible" },
 ];
 
+function CountUp({ value }) {
+  const ref = React.useRef(null);
+  const [display, setDisplay] = useState(typeof value === "number" ? 0 : value);
+  const hasAnimated = React.useRef(false);
+
+  React.useEffect(() => {
+    if (typeof value !== "number") {
+      setDisplay(value);
+      return;
+    }
+    const node = ref.current;
+    if (!node || hasAnimated.current) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasAnimated.current) {
+            hasAnimated.current = true;
+            if (reduceMotion) {
+              setDisplay(value);
+            } else {
+              const duration = 1200;
+              const start = performance.now();
+              const tick = (now) => {
+                const progress = Math.min((now - start) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                setDisplay(Math.floor(eased * value));
+                if (progress < 1) requestAnimationFrame(tick);
+                else setDisplay(value);
+              };
+              requestAnimationFrame(tick);
+            }
+            observer.unobserve(node);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [value]);
+
+  return <span ref={ref}>{typeof display === "number" ? display.toLocaleString() : display}</span>;
+}
+
 function AchievementRow({ icon, stat, label, detail }) {
   return (
     <div style={{ display: "flex", gap: 20, alignItems: "flex-start", padding: "24px 0", borderBottom: "1px solid #E4E0D6" }}>
@@ -132,7 +179,7 @@ export default function ImpactPage() {
       <section style={{ background: "#1B2A4A", padding: "72px 24px" }}>
         <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center" }}>
           <div style={{ fontFamily: "Fraunces, serif", fontSize: "clamp(64px, 11vw, 108px)", color: "#FAF8F3", fontWeight: 500, lineHeight: 1 }}>
-            {loading ? "—" : (peopleImpacted + INSTAGRAM_REACH).toLocaleString()}
+            <CountUp value={loading ? "—" : peopleImpacted + INSTAGRAM_REACH} />
           </div>
           <p style={{ fontSize: 15.5, letterSpacing: "0.06em", textTransform: "uppercase", color: "#C4C8D6", marginTop: 16 }}>
             Total people reached
@@ -143,21 +190,27 @@ export default function ImpactPage() {
       <section style={{ maxWidth: 800, margin: "0 auto", padding: "56px 24px 16px" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20, textAlign: "center" }}>
           <div>
-            <div style={{ fontFamily: "Fraunces, serif", fontSize: 48, color: "#1B2A4A", fontWeight: 500, lineHeight: 1 }}>{CONDITIONS_COVERED}</div>
+            <div style={{ fontFamily: "Fraunces, serif", fontSize: 48, color: "#1B2A4A", fontWeight: 500, lineHeight: 1 }}>
+              <CountUp value={CONDITIONS_COVERED} />
+            </div>
             <div style={{ fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase", color: "#8A8880", marginTop: 10 }}>Conditions covered</div>
           </div>
           <div>
             <div style={{ fontFamily: "Fraunces, serif", fontSize: 48, color: "#1B2A4A", fontWeight: 500, lineHeight: 1 }}>
-              {statesLoading ? "—" : statesCoveredCount}
+              <CountUp value={statesLoading ? "—" : statesCoveredCount} />
             </div>
             <div style={{ fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase", color: "#8A8880", marginTop: 10 }}>States + federal</div>
           </div>
           <div>
-            <div style={{ fontFamily: "Fraunces, serif", fontSize: 48, color: "#1B2A4A", fontWeight: 500, lineHeight: 1 }}>17,335+</div>
+            <div style={{ fontFamily: "Fraunces, serif", fontSize: 48, color: "#1B2A4A", fontWeight: 500, lineHeight: 1 }}>
+              <CountUp value={17335} />+
+            </div>
             <div style={{ fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase", color: "#8A8880", marginTop: 10 }}>Federal bills scraped</div>
           </div>
           <div>
-            <div style={{ fontFamily: "Fraunces, serif", fontSize: 48, color: "#1B2A4A", fontWeight: 500, lineHeight: 1 }}>{COUNTRIES_REACHED}</div>
+            <div style={{ fontFamily: "Fraunces, serif", fontSize: 48, color: "#1B2A4A", fontWeight: 500, lineHeight: 1 }}>
+              <CountUp value={COUNTRIES_REACHED} />
+            </div>
             <div style={{ fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase", color: "#8A8880", marginTop: 10 }}>Countries reached</div>
           </div>
         </div>
