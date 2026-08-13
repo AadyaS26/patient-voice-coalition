@@ -102,7 +102,7 @@ function CountUp({ value }) {
 }
 
 export default function PatientVoiceCoalition() {
-  const [letters, setLetters] = useState(0);
+  const [letters, setLetters] = useState(null);
   const [billsTracked, setBillsTracked] = useState(null);
   const [statesCovered, setStatesCovered] = useState(null);
 
@@ -227,7 +227,7 @@ export default function PatientVoiceCoalition() {
             { n: billsTracked === null ? "—" : billsTracked, l: "Bills tracked" },
             { n: 146, l: "Conditions covered" },
             { n: statesCovered === null ? "—" : statesCovered, l: "States + federal" },
-            { n: letters, l: "Letters sent" },
+            { n: letters === null ? "—" : letters, l: "Letters sent" },
           ].map((s) => (
             <div key={s.l}>
               <div style={{ fontFamily: "Fraunces, serif", fontSize: 32, color: "#1B2A4A", fontWeight: 500 }}>
