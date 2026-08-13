@@ -121,23 +121,7 @@ function ChapterDirectory() {
       <div className="chapter-directory-grid">
         {visible.map((c, i) => (
           <div className="chapter-directory-card" key={`${c.first}-${c.city}`}>
-            <div className="chapter-directory-card-top">
-              <div className="chapter-directory-text">
-                <div className="chapter-directory-name">
-                  {c.first}
-                  {c.lastInitial ? ` ${c.lastInitial}.` : ""}
-                </div>
-                <div className="chapter-directory-loc">{chapterLocation(c)}</div>
-                {c.bio ? (
-                  c.handle ? (
-                    <span className="chapter-directory-badge">{c.handle}</span>
-                  ) : (
-                    <span className="chapter-directory-badge real">Chapter lead</span>
-                  )
-                ) : (
-                  <span className="chapter-directory-badge pending">New chapter</span>
-                )}
-              </div>
+            <div className="chapter-directory-card-header">
               {c.photo ? (
                 <img className="chapter-directory-avatar-img" src={c.photo} alt={`${c.first} ${c.lastInitial}.`} />
               ) : (
@@ -151,6 +135,18 @@ function ChapterDirectory() {
                   </svg>
                 </div>
               )}
+              <div className="chapter-directory-text">
+                <div className="chapter-directory-name">
+                  {c.first}
+                  {c.lastInitial ? ` ${c.lastInitial}.` : ""}
+                </div>
+                <div className="chapter-directory-loc">{chapterLocation(c)}</div>
+                {c.bio ? (
+                  <span className="chapter-directory-badge real">Chapter lead</span>
+                ) : (
+                  <span className="chapter-directory-badge pending">New chapter</span>
+                )}
+              </div>
             </div>
             {c.bio && <div className="chapter-directory-bio">{c.bio}</div>}
           </div>
