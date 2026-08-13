@@ -14,7 +14,7 @@ const CHAPTERS = [
   },
   {
     first: "Jehan", lastInitial: "Z", city: "Orland Park", region: "Illinois", country: "US",
-    photo: null, handle: null,
+    photo: "/chapter-photos/jehan.jpg", handle: null,
     bio: "Hey everyone — I'm JZ from Chicago. I am 39 years old and have been fighting Crohn's disease since I was 12. I now have a permanent ileostomy bag. I joined a chapter because I want to help people cope with this disease. I love giving advice and being an ear to cry/vent to.",
   },
   {
@@ -35,7 +35,11 @@ const CHAPTERS = [
   { first: "Desiree", lastInitial: "B", city: "Wilmington", region: "North Carolina", country: "US", photo: null, handle: null, bio: null },
   { first: "Cecilia", lastInitial: "G", city: "Modesto", region: "California", country: "US", photo: null, handle: null, bio: null },
   { first: "Hana", lastInitial: "S", city: "Jefferson", region: "Massachusetts", country: "US", photo: null, handle: null, bio: null },
-  { first: "Krystal", lastInitial: "P", city: "Detroit", region: "Michigan", country: "US", photo: null, handle: null, bio: null },
+  {
+    first: "Krystal", lastInitial: "P", city: "Detroit", region: "Michigan", country: "US",
+    photo: "/chapter-photos/krystal.jpg", handle: null,
+    bio: "My name is Krystal Parker, but most people call me Krys. I'm 40 years old and I live in Detroit, Michigan. I have Rheumatoid Arthritis, Lupus, and Sjogren's Syndrome. I have a B.A. in Business and I'm currently studying psychology to become a therapist. I became a Chapter Leader because I would love to bring more awareness to autoimmune diseases and the needs of the community within them — from education on autoimmune diseases, to providing information for our allies, to advocating for ourselves with doctors, insurance companies, and lawmakers.",
+  },
   { first: "Liesel", lastInitial: "R", city: "Gold Coast", region: "Queensland", country: "Australia", photo: null, handle: null, bio: null },
   { first: "Astha", lastInitial: "", city: "Delhi", region: null, country: "India", photo: null, handle: null, bio: null },
   { first: "Cece", lastInitial: "P", city: "Brighton", region: null, country: "United Kingdom", photo: null, handle: null, bio: null },
@@ -48,6 +52,7 @@ const CHAPTERS = [
   { first: "Laura", lastInitial: "H", city: "Adelaide", region: "South Australia", country: "Australia", photo: null, handle: null, bio: null },
   { first: "Carlos", lastInitial: "P", city: "New Orleans", region: "Louisiana", country: "US", photo: null, handle: null, bio: null },
   { first: "Cinta", lastInitial: "", city: "Bandung", region: null, country: "Indonesia", photo: null, handle: null, bio: null },
+  { first: "Alicia", lastInitial: "T", city: "Victorville", region: "California", country: "US", photo: null, handle: "@theinflamednurse", bio: null },
 ];
 
 function chapterLocation(c) {
