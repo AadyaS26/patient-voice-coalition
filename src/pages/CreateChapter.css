@@ -219,3 +219,212 @@
     transition: none !important;
   }
 }
+
+
+/* ===== Chapter directory (below the registration form) ===== */
+.chapter-directory {
+  background: #ffffff;
+  border-top: 1px solid var(--line);
+  padding: 3.5rem 1.5rem 4rem;
+}
+
+.chapter-directory-head {
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.chapter-directory-head h2 {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(1.6rem, 3vw, 2rem);
+  color: var(--ink);
+  font-weight: 600;
+  margin: 0;
+}
+
+.chapter-directory-head p {
+  font-size: 0.98rem;
+  color: var(--muted);
+  margin: 0.75rem auto 0;
+  max-width: 480px;
+}
+
+.chapter-directory-filter-label {
+  max-width: 1100px;
+  margin: 2rem auto 0.4rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.chapter-directory-filter-hint {
+  max-width: 1100px;
+  margin: 0 auto 0.85rem;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.chapter-directory-pills {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chapter-directory-pill {
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.chapter-directory-pill:hover {
+  border-color: var(--amber);
+}
+
+.chapter-directory-pill.active {
+  background: var(--teal-deep);
+  border-color: var(--teal-deep);
+  color: #fff;
+}
+
+.chapter-directory-pill.all-pill {
+  font-weight: 600;
+}
+
+.chapter-directory-result-row {
+  max-width: 1100px;
+  margin: 1.25rem auto 0.5rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chapter-directory-clear {
+  font-size: 0.78rem;
+  color: var(--teal-deep);
+  background: none;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
+.chapter-directory-grid {
+  max-width: 1100px;
+  margin: 1rem auto 0;
+  column-count: 2;
+  column-gap: 1.25rem;
+}
+
+@media (max-width: 720px) {
+  .chapter-directory-grid {
+    column-count: 1;
+  }
+}
+
+.chapter-directory-card {
+  break-inside: avoid;
+  margin-bottom: 1.25rem;
+  display: inline-block;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1.5rem;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.chapter-directory-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(16, 24, 32, 0.07);
+}
+
+.chapter-directory-card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.chapter-directory-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.chapter-directory-name {
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 3px;
+}
+
+.chapter-directory-loc {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.chapter-directory-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--amber);
+  background: var(--amber-pale);
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+.chapter-directory-badge.pending {
+  color: var(--muted);
+  background: var(--paper);
+}
+
+.chapter-directory-badge.real {
+  color: #2c6e4f;
+  background: #e3f0e9;
+}
+
+.chapter-directory-avatar,
+.chapter-directory-avatar-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.chapter-directory-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chapter-directory-avatar svg {
+  width: 44px;
+  height: 44px;
+}
+
+.chapter-directory-avatar-img {
+  object-fit: cover;
+  background: var(--paper);
+}
+
+.chapter-directory-bio {
+  font-size: 0.9rem;
+  color: var(--ink);
+  line-height: 1.65;
+  margin-top: 1rem;
+}
+
+
