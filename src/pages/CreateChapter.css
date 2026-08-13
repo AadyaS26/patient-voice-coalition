@@ -332,22 +332,28 @@
 
 .chapter-directory-card-header {
   display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  margin-bottom: 0.9rem;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: nowrap;
+  margin-bottom: 1rem;
+}
+
+.chapter-directory-text {
+  padding-top: 2px;
 }
 
 .chapter-directory-name {
   font-family: "Fraunces", Georgia, serif;
-  font-size: 1.08rem;
+  font-size: 1.2rem;
   font-weight: 600;
   color: var(--ink);
-  margin-bottom: 2px;
+  margin-bottom: 3px;
 }
 
 .chapter-directory-loc {
-  font-size: 0.83rem;
+  font-size: 0.9rem;
   color: var(--muted);
+  margin-bottom: 8px;
 }
 
 .chapter-directory-badge {
@@ -358,7 +364,6 @@
   background: var(--amber-pale);
   padding: 4px 12px;
   border-radius: 14px;
-  margin-bottom: 0.85rem;
 }
 
 .chapter-directory-badge.pending {
@@ -375,8 +380,8 @@
    to the side of the card */
 .chapter-directory-avatar,
 .chapter-directory-avatar-img {
-  width: 88px;
-  height: 88px;
+  width: 104px;
+  height: 104px;
   border-radius: 50%;
   flex-shrink: 0;
 }
@@ -388,8 +393,8 @@
 }
 
 .chapter-directory-avatar svg {
-  width: 38px;
-  height: 38px;
+  width: 46px;
+  height: 46px;
 }
 
 .chapter-directory-avatar-img {
@@ -398,9 +403,9 @@
 }
 
 .chapter-directory-bio {
-  font-size: 0.9rem;
+  font-size: 0.96rem;
   color: var(--ink);
-  line-height: 1.65;
+  line-height: 1.7;
 }
 
 @media (max-width: 720px) {
