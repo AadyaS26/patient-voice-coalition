@@ -2,6 +2,164 @@ import { useState } from "react";
 import Nav from "../components/Nav";
 import "./CreateChapter.css";
 
+// ---- Chapter directory data ----
+// Real bios/photos only for chapters that have actually sent them, with
+// consent to be shown publicly. Everyone else shows as an open "New
+// chapter" card until their info comes in.
+const CHAPTERS = [
+  {
+    first: "Katherine", lastInitial: "H", city: "Virginia Beach", region: "Virginia", country: "US",
+    photo: "/chapter-photos/katie.jpg", handle: null,
+    bio: "Hi, I'm Katie, a college student and autoimmune disease advocate who has navigated years of chronic illness, multiple autoimmune diagnoses, and the ongoing search for answers. I'm passionate about using my voice to raise awareness, connect with others, and remind people that even when the journey to a diagnosis is long and uncertain, no one has to navigate it alone.",
+  },
+  {
+    first: "Jehan", lastInitial: "Z", city: "Orland Park", region: "Illinois", country: "US",
+    photo: null, handle: null,
+    bio: "Hey everyone — I'm JZ from Chicago. I am 39 years old and have been fighting Crohn's disease since I was 12. I now have a permanent ileostomy bag. I joined a chapter because I want to help people cope with this disease. I love giving advice and being an ear to cry/vent to.",
+  },
+  {
+    first: "Farnaz", lastInitial: "V", city: "Shiraz", region: null, country: "Iran",
+    photo: "/chapter-photos/farnaz.jpg", handle: null,
+    bio: "I'm a CIDP patient and I started CIDP Iran to raise awareness about CIDP and create a supportive space for people living with the condition in Iran. I wanted to connect patients, share reliable information and real-life experiences, and most importantly, help people feel less alone in their journey.",
+  },
+  {
+    first: "Veronika", lastInitial: "M", city: "Prague", region: null, country: "Czech Republic",
+    photo: "/chapter-photos/veronika.jpg", handle: "@autoimmunevoicesCzechia",
+    bio: "Hi, my name is Veronika, I am from a little country in Central Europe named Czech Republic, or Czechia. I decided to join because I like helping people, so why not try it! My city is Prague, but since we are a small country, I'll be representing Czechia as a whole.",
+  },
+  { first: "Aadya", lastInitial: "S", city: "Sammamish", region: "Washington", country: "US", photo: null, handle: null, bio: null },
+  { first: "Desiree", lastInitial: "B", city: "Wilmington", region: "North Carolina", country: "US", photo: null, handle: null, bio: null },
+  { first: "Cecilia", lastInitial: "G", city: "Modesto", region: "California", country: "US", photo: null, handle: null, bio: null },
+  { first: "Hana", lastInitial: "S", city: "Jefferson", region: "Massachusetts", country: "US", photo: null, handle: null, bio: null },
+  { first: "Krystal", lastInitial: "P", city: "Detroit", region: "Michigan", country: "US", photo: null, handle: null, bio: null },
+  { first: "Liesel", lastInitial: "R", city: "Gold Coast", region: "Queensland", country: "Australia", photo: null, handle: null, bio: null },
+  { first: "Astha", lastInitial: "", city: "Delhi", region: null, country: "India", photo: null, handle: null, bio: null },
+  { first: "Cece", lastInitial: "P", city: "Brighton", region: null, country: "United Kingdom", photo: null, handle: null, bio: null },
+  { first: "Alex", lastInitial: "B", city: "Sydney", region: "New South Wales", country: "Australia", photo: null, handle: null, bio: null },
+  { first: "Lexi", lastInitial: "P", city: "Waltham", region: "Massachusetts", country: "US", photo: null, handle: null, bio: null },
+  { first: "Jenna", lastInitial: "B", city: "Ellensburg", region: "Washington", country: "US", photo: null, handle: null, bio: null },
+  { first: "Kayleigh", lastInitial: "J", city: "Trinidad", region: null, country: "Trinidad and Tobago", photo: null, handle: null, bio: null },
+  { first: "Ry", lastInitial: "L", city: "Weatherford", region: "Texas", country: "US", photo: null, handle: null, bio: null },
+  { first: "Nidhi", lastInitial: "N", city: "Charlotte", region: "North Carolina", country: "US", photo: null, handle: null, bio: null },
+  { first: "Laura", lastInitial: "H", city: "Adelaide", region: "South Australia", country: "Australia", photo: null, handle: null, bio: null },
+  { first: "Carlos", lastInitial: "P", city: "New Orleans", region: "Louisiana", country: "US", photo: null, handle: null, bio: null },
+  { first: "Cinta", lastInitial: "", city: "Bandung", region: null, country: "Indonesia", photo: null, handle: null, bio: null },
+];
+
+function chapterLocation(c) {
+  if (c.country === "US") return `${c.city}, ${c.region}`;
+  return c.region ? `${c.city}, ${c.region}, ${c.country}` : `${c.city}, ${c.country}`;
+}
+
+const PERSON_ICON_COLORS = ["#206060", "#123838", "#8A5C3B"];
+
+function ChapterDirectory() {
+  const [selected, setSelected] = useState(new Set());
+
+  const usRegions = [...new Set(CHAPTERS.filter((c) => c.country === "US").map((c) => c.region))].sort();
+  const intlCountries = [...new Set(CHAPTERS.filter((c) => c.country !== "US").map((c) => c.country))].sort();
+  const filterOptions = [...usRegions, ...intlCountries];
+
+  function toggleFilter(value) {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(value)) next.delete(value);
+      else next.add(value);
+      return next;
+    });
+  }
+
+  const visible =
+    selected.size === 0
+      ? CHAPTERS
+      : CHAPTERS.filter((c) => selected.has(c.country === "US" ? c.region : c.country));
+
+  return (
+    <section className="chapter-directory">
+      <div className="chapter-directory-head">
+        <span className="chapter-eyebrow">Already registered</span>
+        <h2>{CHAPTERS.length} chapters, and counting</h2>
+        <p>
+          See who's already building a chapter near you — or reach out if you'd rather join one than
+          start your own.
+        </p>
+      </div>
+
+      <div className="chapter-directory-filter-label">Filter by location</div>
+      <p className="chapter-directory-filter-hint">
+        Click as many as you want — showing chapters that match any selected location.
+      </p>
+      <div className="chapter-directory-pills">
+        <button
+          className={`chapter-directory-pill all-pill ${selected.size === 0 ? "active" : ""}`}
+          onClick={() => setSelected(new Set())}
+        >
+          All
+        </button>
+        {filterOptions.map((opt) => (
+          <button
+            key={opt}
+            className={`chapter-directory-pill ${selected.has(opt) ? "active" : ""}`}
+            onClick={() => toggleFilter(opt)}
+          >
+            {opt}
+          </button>
+        ))}
+      </div>
+
+      <div className="chapter-directory-result-row">
+        <span>
+          {visible.length} of {CHAPTERS.length} chapters shown
+        </span>
+        {selected.size > 0 && (
+          <button className="chapter-directory-clear" onClick={() => setSelected(new Set())}>
+            Clear filters
+          </button>
+        )}
+      </div>
+
+      <div className="chapter-directory-grid">
+        {visible.map((c, i) => (
+          <div className="chapter-directory-card" key={`${c.first}-${c.city}`}>
+            <div className="chapter-directory-card-top">
+              <div className="chapter-directory-text">
+                <div className="chapter-directory-name">
+                  {c.first}
+                  {c.lastInitial ? ` ${c.lastInitial}.` : ""}
+                </div>
+                <div className="chapter-directory-loc">{chapterLocation(c)}</div>
+                {c.bio ? (
+                  c.handle ? (
+                    <span className="chapter-directory-badge">{c.handle}</span>
+                  ) : (
+                    <span className="chapter-directory-badge real">Chapter lead</span>
+                  )
+                ) : (
+                  <span className="chapter-directory-badge pending">New chapter</span>
+                )}
+              </div>
+              {c.photo ? (
+                <img className="chapter-directory-avatar-img" src={c.photo} alt={`${c.first} ${c.lastInitial}.`} />
+              ) : (
+                <div
+                  className="chapter-directory-avatar"
+                  style={{ background: PERSON_ICON_COLORS[i % PERSON_ICON_COLORS.length] }}
+                >
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="8" r="4" fill="white" fillOpacity="0.9" />
+                    <path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8" fill="white" fillOpacity="0.9" />
+                  </svg>
+                </div>
+              )}
+            </div>
+            {c.bio && <div className="chapter-directory-bio">{c.bio}</div>}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 const US_STATES = [
   "Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut",
   "Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa",
@@ -307,6 +465,7 @@ export default function CreateChapter() {
           </form>
         </div>
       </section>
+      <ChapterDirectory />
     </>
   );
 }
