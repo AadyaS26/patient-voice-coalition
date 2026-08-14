@@ -109,6 +109,16 @@ const CHAPTERS = [
     bio: "The main reason why I want to open a chapter is because about 4 years ago I was diagnosed with lupus and I had a really hard time with it. No one understood what I was going through and I had no one in a similar position to talk to. It took a big effect on my mental health as well and I think with starting a chapter I can help raise awareness of the importance of understanding other people's health and mental issues.",
   },
   { first: "Madison", lastInitial: "M", city: "Pittsburgh", region: "Pennsylvania", country: "US", photo: null, handle: null, bio: null },
+  {
+    first: "Tina", lastInitial: "D", city: "Saint Petersburg", region: "Florida", country: "US",
+    photo: "/chapter-photos/tina.jpg", handle: null,
+    bio: "My name is Tina and I am a social worker/therapist in St. Pete, FL. I live with my spouse and two dogs. I have a huge passion for disability justice and lived experience with RA and fibromyalgia, and now my doctors feel lupus is in the mix. I have struggled with weight stigma my entire life, leading to going undiagnosed for probably 10 years that I am aware of. I am currently struggling to obtain proper treatment due to insurance. I believe folks with chronic illness/disabilities deserve better, and that we need our voices to be heard.",
+  },
+  {
+    first: "Baibhav", lastInitial: "S", city: "Hetauda", region: null, country: "Nepal",
+    photo: "/chapter-photos/baibhav.jpg", handle: null,
+    bio: "Hi, I'm Baibhav, a youth social entrepreneur and technology advocate from Hetauda, Nepal. I'm passionate about using technology, community building, and policy to address issues that affect people's everyday lives. I joined AutoimmuneVoices because I believe people should have a stronger voice in the policies that affect their health, and I'm excited to help build that voice in Nepal.",
+  },
 ];
 
 function chapterLocation(c) {
