@@ -57,7 +57,12 @@ const CHAPTERS = [
   { first: "Carlos", lastInitial: "P", city: "New Orleans", region: "Louisiana", country: "US", photo: null, handle: null, bio: null },
   { first: "Cinta", lastInitial: "", city: "Bandung", region: null, country: "Indonesia", photo: null, handle: null, bio: null },
   { first: "Alicia", lastInitial: "T", city: "Victorville", region: "California", country: "US", photo: null, handle: "@theinflamednurse", bio: null },
-  { first: "Melitta", lastInitial: "T", city: "Chester", region: "Virginia", country: "US", photo: null, handle: "@flarebutfavored", bio: null },
+  {
+    first: "Melitta", lastInitial: "T", city: "Chester", region: "Virginia", country: "US",
+    photo: "/chapter-photos/melitta.jpg", handle: "@flarebutfavored",
+    bio: "Hi, I'm Melitta Tweh, and I'm honored to lead the AutoimmuneVoices Chester, Virginia Chapter. I was diagnosed with lupus, rheumatoid arthritis, interstitial lung disease, MCTD (mixed connective tissue disease), and a nerve disorder. Living with chronic illness has shown me how important it is to have a community where people feel seen, supported, and understood, which inspired me to create a space for others navigating autoimmune disease. My hope is to bring people together through encouragement, advocacy, education, and genuine connection while reminding others that their diagnosis does not define who they are.",
+  },
+  { first: "Shayla", lastInitial: "C", city: "Rogers", region: "Arkansas", country: "US", photo: null, handle: "@crafton_shayla", bio: null },
 ];
 
 function chapterLocation(c) {
