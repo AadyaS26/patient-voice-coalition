@@ -32,9 +32,17 @@ const CHAPTERS = [
     photo: null, handle: null, role: "founder",
     bio: "I founded AutoimmuneVoices after seeing how difficult it can be for people with autoimmune and chronic conditions to understand the policies that affect them. I wanted to create a space that makes advocacy easier and gives people a way to use their voices, connect with others, and create change in their own communities.",
   },
-  { first: "Desiree", lastInitial: "B", city: "Wilmington", region: "North Carolina", country: "US", photo: null, handle: null, bio: null },
+  {
+    first: "Desiree", lastInitial: "B", city: "Wilmington", region: "North Carolina", country: "US",
+    photo: "/chapter-photos/desiree.jpg", handle: null,
+    bio: "I'm Desiree, a Wilmington, NC-based community builder and founder of Gluten-Free Wilmy, created from my own experience navigating celiac disease. I'm passionate about connecting people, sharing resources, and creating a supportive community where those living with autoimmune disease feel seen, understood, and less alone.",
+  },
   { first: "Cecilia", lastInitial: "G", city: "Modesto", region: "California", country: "US", photo: null, handle: null, bio: null },
-  { first: "Hana", lastInitial: "S", city: "Jefferson", region: "Massachusetts", country: "US", photo: null, handle: null, bio: null },
+  {
+    first: "Hana", lastInitial: "S", city: "Jefferson", region: "Massachusetts", country: "US",
+    photo: "/chapter-photos/hana.jpg", handle: null,
+    bio: "I'm Hana, a young advocate for the celiac community and the founder of The Celiac Table. I'm passionate about raising awareness of celiac disease, supporting families navigating a gluten-free lifestyle, and creating greater access to safe gluten-free foods in my community.",
+  },
   {
     first: "Krystal", lastInitial: "P", city: "Detroit", region: "Michigan", country: "US",
     photo: "/chapter-photos/krystal.jpg", handle: null,
@@ -46,7 +54,11 @@ const CHAPTERS = [
     bio: "Hi! I'm Liesel, a doctor who lives with Crohn's Disease and an ileostomy. I'm passionate about supporting fellow ostomates, and advocating for the IBD community. I'm excited to be connected with a worldwide community of people living with autoimmune disease - together we can make a difference!!",
   },
   { first: "Astha", lastInitial: "", city: "Delhi", region: null, country: "India", photo: null, handle: null, bio: null },
-  { first: "Cece", lastInitial: "P", city: "Brighton", region: null, country: "United Kingdom", photo: null, handle: null, bio: null },
+  {
+    first: "Cece and Craven", lastInitial: "", city: "Brighton", region: null, country: "United Kingdom",
+    photo: "/chapter-photos/cece.jpg", handle: null,
+    bio: "We're Cece and Craven, and Craven is diabetic. We're passionate about changing the way type 1 diabetes is understood and treated. Too many people still don't know what T1D actually is, how serious it can be, or how quickly someone can become dangerously ill with DKA, and we want to change that. We're campaigning for greater awareness, earlier screening and diagnosis, equal access to diabetes technology and treatments, an end to stigma, better mental-health support, and more investment in research and life-changing therapies.",
+  },
   {
     first: "Alex", lastInitial: "B", city: "Sydney", region: "New South Wales", country: "Australia",
     photo: "/chapter-photos/alex.jpg", handle: null,
@@ -55,7 +67,11 @@ const CHAPTERS = [
   { first: "Lexi", lastInitial: "P", city: "Waltham", region: "Massachusetts", country: "US", photo: null, handle: null, bio: null },
   { first: "Jenna", lastInitial: "B", city: "Ellensburg", region: "Washington", country: "US", photo: null, handle: null, bio: null },
   { first: "Kayleigh", lastInitial: "J", city: "Trinidad", region: null, country: "Trinidad and Tobago", photo: null, handle: null, bio: null },
-  { first: "Ry", lastInitial: "L", city: "Weatherford", region: "Texas", country: "US", photo: null, handle: null, bio: null },
+  {
+    first: "Ry", lastInitial: "L", city: "Weatherford", region: "Texas", country: "US",
+    photo: "/chapter-photos/ry.jpg", handle: null,
+    bio: "I am 21 years old living with multiple chronic illnesses and I believe in uplifting the voices of people in my community whose voices are often suppressed by legislation. I want to help spread awareness and call for action among the general local community in hopes of empowering those of us who are fighting for health and recognition!",
+  },
   {
     first: "Nidhi", lastInitial: "N", city: "Charlotte", region: "North Carolina", country: "US",
     photo: "/chapter-photos/nidhi.jpg", handle: null,
@@ -92,6 +108,7 @@ const CHAPTERS = [
     photo: "/chapter-photos/mimi.jpg", handle: null,
     bio: "The main reason why I want to open a chapter is because about 4 years ago I was diagnosed with lupus and I had a really hard time with it. No one understood what I was going through and I had no one in a similar position to talk to. It took a big effect on my mental health as well and I think with starting a chapter I can help raise awareness of the importance of understanding other people's health and mental issues.",
   },
+  { first: "Madison", lastInitial: "M", city: "Pittsburgh", region: "Pennsylvania", country: "US", photo: null, handle: null, bio: null },
 ];
 
 function chapterLocation(c) {
