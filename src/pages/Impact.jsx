@@ -200,7 +200,7 @@ export default function ImpactPage() {
           <HeartHandshake size={17} color="#A87C2A" />
           <h2 style={{ fontSize: 16, fontWeight: 600, color: "#1B2A4A", margin: 0 }}>Community partners</h2>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 14 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 16 }}>
           {PARTNERS.map((p) => (
             <a
               key={p.name}
@@ -209,21 +209,22 @@ export default function ImpactPage() {
               rel="noreferrer"
               style={{
                 display: "flex",
+                flexDirection: "column",
                 alignItems: "center",
-                gap: 14,
+                gap: 12,
                 background: "#fff",
                 border: "1px solid #E4E0D6",
-                borderRadius: 6,
-                padding: "16px 18px",
+                borderRadius: 8,
+                padding: "20px",
                 textDecoration: "none",
               }}
             >
               <img
                 src={p.logo}
                 alt={p.name}
-                style={{ width: 44, height: 44, borderRadius: 8, objectFit: "contain", background: "#F2EEE3", flexShrink: 0 }}
+                style={{ width: "100%", height: 140, borderRadius: 6, objectFit: "contain", background: "#F2EEE3" }}
               />
-              <span style={{ fontSize: 14, fontWeight: 600, color: "#1B2A4A" }}>{p.name}</span>
+              <span style={{ fontSize: 14, fontWeight: 600, color: "#1B2A4A", textAlign: "center" }}>{p.name}</span>
             </a>
           ))}
         </div>
