@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Nav from "../components/Nav";
 import ReachMap from "../components/ReachMap";
-import { BookOpen, HeartHandshake, CheckCircle2, Lightbulb, ArrowRight } from "lucide-react";
+import { HeartHandshake, Lightbulb, ArrowRight } from "lucide-react";
 
 const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');`;
 
@@ -11,12 +11,12 @@ const CONDITIONS_COVERED = 146;
 const INSTAGRAM_REACH = 25620;
 const COUNTRIES_REACHED = 43;
 
-const RECENTLY_PASSED = [
-  { number: "IL SB 1288", label: "Illinois Public Act 104-0090 — allergen awareness training" },
-  { number: "TX SB 25", label: "Texas health & nutrition standards — signed, effective Sept 2025" },
-  { number: "NJ A4163/S3098", label: "New Jersey — biomarker testing coverage for arthritis" },
-  { number: "NJ A1825/S3533", label: "New Jersey — step therapy reform" },
-  { number: "NJ A5217/S3818", label: "New Jersey — copay assistance counts toward deductible" },
+// Real community partner orgs — logos live in public/partner-logos/,
+// uploaded directly on GitHub the same way chapter photos are.
+const PARTNERS = [
+  { name: "RAFA Autoimmune Wellness", url: "https://myrafa.app/", logo: "/partner-logos/rafa.png" },
+  { name: "T1D ASU", url: "https://www.instagram.com/asudiabeteslink/", logo: "/partner-logos/t1d-asu.png" },
+  { name: "Autoimmune Atlas", url: "https://solsticestrategies.net/autoimmuneatlas/", logo: "/partner-logos/autoimmune-atlas.png" },
 ];
 
 function CountUp({ value }) {
@@ -66,34 +66,6 @@ function CountUp({ value }) {
   return <span ref={ref}>{typeof display === "number" ? display.toLocaleString() : display}</span>;
 }
 
-function AchievementRow({ icon, stat, label, detail }) {
-  return (
-    <div style={{ display: "flex", gap: 20, alignItems: "flex-start", padding: "24px 0", borderBottom: "1px solid #E4E0D6" }}>
-      <div
-        style={{
-          width: 44,
-          height: 44,
-          borderRadius: "50%",
-          background: "#F2EEE3",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          flexShrink: 0,
-        }}
-      >
-        {icon}
-      </div>
-      <div style={{ flex: 1 }}>
-        <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
-          <span style={{ fontFamily: "Fraunces, serif", fontSize: 30, color: "#1B2A4A", fontWeight: 500 }}>{stat}</span>
-          <span style={{ fontSize: 16, color: "#2B2A28" }}>{label}</span>
-        </div>
-        {detail && <p style={{ fontSize: 13.5, color: "#8A8880", marginTop: 4 }}>{detail}</p>}
-      </div>
-    </div>
-  );
-}
-
 export default function ImpactPage() {
   const [peopleImpacted, setPeopleImpacted] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -128,14 +100,12 @@ export default function ImpactPage() {
         const res = await fetch("https://raw.githubusercontent.com/AadyaS26/pvc-legislation-sync/main/state_bills.json");
         const data = await res.json();
         if (!cancelled) {
-          // "8" states from curated hand-verified bills are always real, regardless
-          // of what LegiScan finds — so the count is whichever is higher, real either way.
           const legiscanCount = typeof data.states_covered_count === "number" ? data.states_covered_count : 0;
           setStatesCoveredCount(Math.max(legiscanCount, 8));
           setStateBillCount(typeof data.count === "number" ? data.count : 0);
         }
       } catch {
-        if (!cancelled) setStatesCoveredCount(8); // fall back to the curated real minimum
+        if (!cancelled) setStatesCoveredCount(8);
       } finally {
         if (!cancelled) setStatesLoading(false);
       }
@@ -224,25 +194,39 @@ export default function ImpactPage() {
         <ReachMap />
       </section>
 
-      {/* Recently passed */}
+      {/* Community partners */}
       <section style={{ maxWidth: 800, margin: "0 auto", padding: "0 24px 56px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 18 }}>
-          <CheckCircle2 size={17} color="#5C7A52" />
-          <h2 style={{ fontSize: 16, fontWeight: 600, color: "#1B2A4A", margin: 0 }}>Recently passed</h2>
+          <HeartHandshake size={17} color="#A87C2A" />
+          <h2 style={{ fontSize: 16, fontWeight: 600, color: "#1B2A4A", margin: 0 }}>Community partners</h2>
         </div>
-        <div style={{ display: "grid", gap: 10 }}>
-          {RECENTLY_PASSED.map((b) => (
-            <div key={b.number} style={{ background: "#F3F7F1", border: "1px solid #C9D6C2", borderRadius: 4, padding: "14px 18px", display: "flex", gap: 12, alignItems: "baseline" }}>
-              <span style={{ fontSize: 13, fontWeight: 600, color: "#3F6B33" }}>{b.number}</span>
-              <span style={{ fontSize: 13.5, color: "#4A5940" }}>{b.label}</span>
-            </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 14 }}>
+          {PARTNERS.map((p) => (
+            <a
+              key={p.name}
+              href={p.url}
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 14,
+                background: "#fff",
+                border: "1px solid #E4E0D6",
+                borderRadius: 6,
+                padding: "16px 18px",
+                textDecoration: "none",
+              }}
+            >
+              <img
+                src={p.logo}
+                alt={p.name}
+                style={{ width: 44, height: 44, borderRadius: 8, objectFit: "contain", background: "#F2EEE3", flexShrink: 0 }}
+              />
+              <span style={{ fontSize: 14, fontWeight: 600, color: "#1B2A4A" }}>{p.name}</span>
+            </a>
           ))}
         </div>
-      </section>
-
-      <section style={{ maxWidth: 800, margin: "0 auto", padding: "0 24px 56px" }}>
-        <AchievementRow icon={<BookOpen size={20} color="#A87C2A" />} stat="—" label="patients reached by Celiac 101" detail="Publishing soon" />
-        <AchievementRow icon={<HeartHandshake size={20} color="#A87C2A" />} stat="—" label="families supported" />
       </section>
 
       {/* Legislative gaps CTA */}
