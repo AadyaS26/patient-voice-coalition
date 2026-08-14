@@ -66,7 +66,11 @@ const CHAPTERS = [
   },
   { first: "Lexi", lastInitial: "P", city: "Waltham", region: "Massachusetts", country: "US", photo: null, handle: null, bio: null },
   { first: "Jenna", lastInitial: "B", city: "Ellensburg", region: "Washington", country: "US", photo: null, handle: null, bio: null },
-  { first: "Kayleigh", lastInitial: "J", city: "Trinidad", region: null, country: "Trinidad and Tobago", photo: null, handle: null, bio: null },
+  {
+    first: "Kayleigh", lastInitial: "J", city: "Trinidad", region: null, country: "Trinidad and Tobago",
+    photo: "/chapter-photos/kayleigh.jpg", handle: null,
+    bio: "Hi! I'm Kayleigh, 18, and I was diagnosed with endometriosis last year. After a failed laparoscopy, I still deal with chronic pain, fevers, and other symptoms. However, my country Trinidad and Tobago has a lot of doctors that are dismissive of my condition, and we have limited resources for it. I hope I can help advocate for my illness!",
+  },
   {
     first: "Ry", lastInitial: "L", city: "Weatherford", region: "Texas", country: "US",
     photo: "/chapter-photos/ry.jpg", handle: null,
