@@ -47,22 +47,34 @@ const CHAPTERS = [
   },
   { first: "Astha", lastInitial: "", city: "Delhi", region: null, country: "India", photo: null, handle: null, bio: null },
   { first: "Cece", lastInitial: "P", city: "Brighton", region: null, country: "United Kingdom", photo: null, handle: null, bio: null },
-  { first: "Alex", lastInitial: "B", city: "Sydney", region: "New South Wales", country: "Australia", photo: null, handle: null, bio: null },
+  {
+    first: "Alex", lastInitial: "B", city: "Sydney", region: "New South Wales", country: "Australia",
+    photo: "/chapter-photos/alex.jpg", handle: null,
+    bio: "I'm AB, the founder of @chronically_ill_af and part of the Sydney Chapter of AutoimmuneVoices. I joined because living with autoimmune disease can feel incredibly isolating, and I wanted to help create a community where people feel seen, heard and supported, while still being able to laugh at the absolute chaos of chronic illness. I'm passionate about advocacy, accessibility and making sure people with invisible illnesses know they're not alone.",
+  },
   { first: "Lexi", lastInitial: "P", city: "Waltham", region: "Massachusetts", country: "US", photo: null, handle: null, bio: null },
   { first: "Jenna", lastInitial: "B", city: "Ellensburg", region: "Washington", country: "US", photo: null, handle: null, bio: null },
   { first: "Kayleigh", lastInitial: "J", city: "Trinidad", region: null, country: "Trinidad and Tobago", photo: null, handle: null, bio: null },
   { first: "Ry", lastInitial: "L", city: "Weatherford", region: "Texas", country: "US", photo: null, handle: null, bio: null },
   { first: "Nidhi", lastInitial: "N", city: "Charlotte", region: "North Carolina", country: "US", photo: null, handle: null, bio: null },
   { first: "Laura", lastInitial: "H", city: "Adelaide", region: "South Australia", country: "Australia", photo: null, handle: null, bio: null },
-  { first: "Carlos", lastInitial: "P", city: "New Orleans", region: "Louisiana", country: "US", photo: null, handle: null, bio: null },
-  { first: "Cinta", lastInitial: "", city: "Bandung", region: null, country: "Indonesia", photo: null, handle: null, bio: null },
+  { first: "Carlos", lastInitial: "P", city: "New Orleans", region: "Louisiana", country: "US", photo: "/chapter-photos/carlos.jpg", handle: null, bio: null },
+  {
+    first: "Cinta", lastInitial: "", city: "Bandung", region: null, country: "Indonesia",
+    photo: "/chapter-photos/cinta.jpg", handle: null,
+    bio: "Hi! My name is Cinta. I was diagnosed with lupus when I was 17 and being diagnosed with an autoimmune condition has been a significant struggle for me, mostly due to the difficulty of finding information about the disease and the fact that so many people are unfamiliar with or do not understand it. That is why I have joined this chapter — to make it easier for fellow survivors, friends, family members, and caregivers to access adequate information about autoimmune lupus.",
+  },
   { first: "Alicia", lastInitial: "T", city: "Victorville", region: "California", country: "US", photo: null, handle: "@theinflamednurse", bio: null },
   {
     first: "Melitta", lastInitial: "T", city: "Chester", region: "Virginia", country: "US",
     photo: "/chapter-photos/melitta.jpg", handle: "@flarebutfavored",
     bio: "Hi, I'm Melitta Tweh, and I'm honored to lead the AutoimmuneVoices Chester, Virginia Chapter. I was diagnosed with lupus, rheumatoid arthritis, interstitial lung disease, MCTD (mixed connective tissue disease), and a nerve disorder. Living with chronic illness has shown me how important it is to have a community where people feel seen, supported, and understood, which inspired me to create a space for others navigating autoimmune disease. My hope is to bring people together through encouragement, advocacy, education, and genuine connection while reminding others that their diagnosis does not define who they are.",
   },
-  { first: "Shayla", lastInitial: "C", city: "Rogers", region: "Arkansas", country: "US", photo: null, handle: "@crafton_shayla", bio: null },
+  {
+    first: "Shayla", lastInitial: "C", city: "Rogers", region: "Arkansas", country: "US",
+    photo: "/chapter-photos/shayla.jpg", handle: "@crafton_shayla",
+    bio: "Hi there! My name is Shayla, and I'm a recent Bachelor of Science in Nursing graduate and a Registered Nurse. I'm also embarking on my Doctoral journey. I have 2 confirmed autoimmune diseases: Hashimoto's thyroiditis (since age 3), and UCTD. Throughout my experiences as a patient, student, coach, and nurse, I've gained a deep understanding of the healthcare system. I've noticed that symptoms in children and young adults are often dismissed or overlooked altogether. My goal is to raise awareness, build confidence, share reliable information, and help others feel less alone. This area is my home, and it's filled with small towns where access to healthcare can be limited. I'm passionate about making a difference in this community and ensuring that everyone has the support they deserve.",
+  },
 ];
 
 function chapterLocation(c) {
