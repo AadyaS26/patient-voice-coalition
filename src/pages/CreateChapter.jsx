@@ -123,6 +123,11 @@ const CHAPTERS = [
     photo: "/chapter-photos/baibhav.jpg", handle: null,
     bio: "Hi, I'm Baibhav, a youth social entrepreneur and technology advocate from Hetauda, Nepal. I'm passionate about using technology, community building, and policy to address issues that affect people's everyday lives. I joined AutoimmuneVoices because I believe people should have a stronger voice in the policies that affect their health, and I'm excited to help build that voice in Nepal.",
   },
+  {
+    first: "Breauna", lastInitial: "A", city: "Ford City", region: "Pennsylvania", country: "US",
+    photo: "/chapter-photos/breauna.jpg", handle: null,
+    bio: "Hello! I'm Breauna. At 17, I was diagnosed with Multiple Sclerosis. Now at 21, I've had my ups and downs with this disease, however, I never let it stop me or define me in any way. I've wanted to start this chapter to give individuals with autoimmune diseases an outlet for support and encourage them to grow no matter how hard it gets.",
+  },
 ];
 
 function chapterLocation(c) {
