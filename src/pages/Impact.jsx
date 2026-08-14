@@ -14,9 +14,9 @@ const COUNTRIES_REACHED = 43;
 // Real community partner orgs — logos live in public/partner-logos/,
 // uploaded directly on GitHub the same way chapter photos are.
 const PARTNERS = [
-  { name: "RAFA Autoimmune Wellness", url: "https://myrafa.app/", logo: "/partner-logos/rafa.png" },
-  { name: "T1D ASU", url: "https://www.instagram.com/asudiabeteslink/", logo: "/partner-logos/t1d-asu.png" },
-  { name: "Autoimmune Atlas", url: "https://solsticestrategies.net/autoimmuneatlas/", logo: "/partner-logos/autoimmune-atlas.png" },
+  { name: "RAFA Autoimmune Wellness", url: "https://myrafa.app/", logo: "/partner-logos/rafa.jpg" },
+  { name: "T1D ASU", url: "https://www.instagram.com/asudiabeteslink/", logo: "/partner-logos/t1d-asu.jpg" },
+  { name: "Autoimmune Atlas", url: "https://solsticestrategies.net/autoimmuneatlas/", logo: "/partner-logos/autoimmune-atlas.jpg" },
 ];
 
 function CountUp({ value }) {
