@@ -56,7 +56,11 @@ const CHAPTERS = [
   { first: "Jenna", lastInitial: "B", city: "Ellensburg", region: "Washington", country: "US", photo: null, handle: null, bio: null },
   { first: "Kayleigh", lastInitial: "J", city: "Trinidad", region: null, country: "Trinidad and Tobago", photo: null, handle: null, bio: null },
   { first: "Ry", lastInitial: "L", city: "Weatherford", region: "Texas", country: "US", photo: null, handle: null, bio: null },
-  { first: "Nidhi", lastInitial: "N", city: "Charlotte", region: "North Carolina", country: "US", photo: null, handle: null, bio: null },
+  {
+    first: "Nidhi", lastInitial: "N", city: "Charlotte", region: "North Carolina", country: "US",
+    photo: "/chapter-photos/nidhi.jpg", handle: null,
+    bio: "I'm Nidhi, a Senior Finance Consultant at Cargill, communication coach, artist, and entrepreneur who is passionate about leadership, community building, and empowering people to use their voices. I believe meaningful change begins with awareness, open conversations, and the willingness to listen to one another. As a Charlotte Chapter leader for AutoimmuneVoices, I'm excited to connect people, amplify stories, and help build a stronger, more supportive community around autoimmune awareness.",
+  },
   { first: "Laura", lastInitial: "H", city: "Adelaide", region: "South Australia", country: "Australia", photo: null, handle: null, bio: null },
   {
     first: "Carlos", lastInitial: "P", city: "New Orleans", region: "Louisiana", country: "US",
@@ -68,7 +72,11 @@ const CHAPTERS = [
     photo: "/chapter-photos/cinta.jpg", handle: null,
     bio: "Hi! My name is Cinta. I was diagnosed with lupus when I was 17 and being diagnosed with an autoimmune condition has been a significant struggle for me, mostly due to the difficulty of finding information about the disease and the fact that so many people are unfamiliar with or do not understand it. That is why I have joined this chapter — to make it easier for fellow survivors, friends, family members, and caregivers to access adequate information about autoimmune lupus.",
   },
-  { first: "Alicia", lastInitial: "T", city: "Victorville", region: "California", country: "US", photo: null, handle: "@theinflamednurse", bio: null },
+  {
+    first: "Alicia", lastInitial: "T", city: "Victorville", region: "California", country: "US",
+    photo: "/chapter-photos/alicia.jpg", handle: "@theinflamednurse",
+    bio: "It's essential for us to find one another to strengthen policies that support autoimmune and chronic conditions at the local level. By sharing our stories, we create a collective of lived experience that can be shared with those who create policy. Our collective action strengthens knowledge of autoimmune disorders and is an essential part of democracy.",
+  },
   {
     first: "Melitta", lastInitial: "T", city: "Chester", region: "Virginia", country: "US",
     photo: "/chapter-photos/melitta.jpg", handle: "@flarebutfavored",
