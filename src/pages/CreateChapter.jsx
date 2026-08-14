@@ -58,7 +58,11 @@ const CHAPTERS = [
   { first: "Ry", lastInitial: "L", city: "Weatherford", region: "Texas", country: "US", photo: null, handle: null, bio: null },
   { first: "Nidhi", lastInitial: "N", city: "Charlotte", region: "North Carolina", country: "US", photo: null, handle: null, bio: null },
   { first: "Laura", lastInitial: "H", city: "Adelaide", region: "South Australia", country: "Australia", photo: null, handle: null, bio: null },
-  { first: "Carlos", lastInitial: "P", city: "New Orleans", region: "Louisiana", country: "US", photo: "/chapter-photos/carlos.jpg", handle: null, bio: null },
+  {
+    first: "Carlos", lastInitial: "P", city: "New Orleans", region: "Louisiana", country: "US",
+    photo: "/chapter-photos/carlos.jpg", handle: null,
+    bio: "I want to lead a chapter because, as a longtime community advocate and someone who lives with an autoimmune condition, I never wanted anyone to feel as alone as I did. As the former Minister of Information for the Young Lords, I feel it's still my mission and responsibility to be there for my community and make sure they're taken care of.",
+  },
   {
     first: "Cinta", lastInitial: "", city: "Bandung", region: null, country: "Indonesia",
     photo: "/chapter-photos/cinta.jpg", handle: null,
@@ -74,6 +78,11 @@ const CHAPTERS = [
     first: "Shayla", lastInitial: "C", city: "Rogers", region: "Arkansas", country: "US",
     photo: "/chapter-photos/shayla.jpg", handle: "@crafton_shayla",
     bio: "Hi there! My name is Shayla, and I'm a recent Bachelor of Science in Nursing graduate and a Registered Nurse. I'm also embarking on my Doctoral journey. I have 2 confirmed autoimmune diseases: Hashimoto's thyroiditis (since age 3), and UCTD. Throughout my experiences as a patient, student, coach, and nurse, I've gained a deep understanding of the healthcare system. I've noticed that symptoms in children and young adults are often dismissed or overlooked altogether. My goal is to raise awareness, build confidence, share reliable information, and help others feel less alone. This area is my home, and it's filled with small towns where access to healthcare can be limited. I'm passionate about making a difference in this community and ensuring that everyone has the support they deserve.",
+  },
+  {
+    first: "Mimi", lastInitial: "", city: "Miami", region: "Florida", country: "US",
+    photo: "/chapter-photos/mimi.jpg", handle: null,
+    bio: "The main reason why I want to open a chapter is because about 4 years ago I was diagnosed with lupus and I had a really hard time with it. No one understood what I was going through and I had no one in a similar position to talk to. It took a big effect on my mental health as well and I think with starting a chapter I can help raise awareness of the importance of understanding other people's health and mental issues.",
   },
 ];
 
