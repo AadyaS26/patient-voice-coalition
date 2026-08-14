@@ -9,7 +9,7 @@ const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraun
 const CURATED_BILLS = 212;
 const CONDITIONS_COVERED = 146;
 const INSTAGRAM_REACH = 25620;
-const COUNTRIES_REACHED = 46;
+const COUNTRIES_REACHED = 43;
 
 // Real community partner orgs — logos live in public/partner-logos/,
 // uploaded directly on GitHub the same way chapter photos are.
@@ -17,6 +17,7 @@ const PARTNERS = [
   { name: "RAFA Autoimmune Wellness", url: "https://myrafa.app/", logo: "/partner-logos/rafa.jpg" },
   { name: "T1D ASU", url: "https://www.instagram.com/asudiabeteslink/", logo: "/partner-logos/t1d-asu.jpg" },
   { name: "Autoimmune Atlas", url: "https://solsticestrategies.net/autoimmuneatlas/", logo: "/partner-logos/autoimmune-atlas.jpg" },
+  { name: "Bald Girls Do Lunch", url: "https://www.baldgirlsdolunch.org/", logo: "/partner-logos/bald-girls-do-lunch.jpg" },
 ];
 
 function CountUp({ value }) {
