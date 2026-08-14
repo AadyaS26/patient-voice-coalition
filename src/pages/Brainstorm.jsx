@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Nav from "../components/Nav";
-import { Lightbulb, ArrowUp, Plus, X } from "lucide-react";
+import { Lightbulb, ArrowUp, Plus, X, Flame } from "lucide-react";
 
 const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');`;
 
@@ -73,6 +73,15 @@ function timeAgo(ts) {
   return `${Math.floor(hrs / 24)}d ago`;
 }
 
+// A few condition-flavored accent colors so cards don't all look identical —
+// purely visual, cycles through a small palette that matches the site.
+const ACCENTS = ["#A87C2A", "#1B2A4A", "#5C7A52", "#8A5C3B", "#7A4A6E"];
+function accentFor(condition) {
+  let hash = 0;
+  for (let i = 0; i < condition.length; i++) hash = condition.charCodeAt(i) + ((hash << 5) - hash);
+  return ACCENTS[Math.abs(hash) % ACCENTS.length];
+}
+
 export default function BrainstormPage() {
   const [ideas, setIdeas] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -142,58 +151,138 @@ export default function BrainstormPage() {
   };
 
   const sorted = [...ideas].sort((a, b) => b.votes - a.votes);
+  const totalVotes = ideas.reduce((sum, i) => sum + (i.votes || 0), 0);
 
   return (
     <div style={{ fontFamily: "Inter, sans-serif", color: "#2B2A28", background: "#FAF8F3", minHeight: "100%" }}>
-      <style>{FONT_IMPORT}</style>
+      <style>{`
+        ${FONT_IMPORT}
+        .bs-card {
+          transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+        .bs-card:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 14px 30px rgba(27,42,74,0.09);
+          border-color: #C9C4B4;
+        }
+        .bs-vote-btn {
+          transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+        }
+        .bs-vote-btn:not(:disabled):hover {
+          transform: translateY(-2px);
+          border-color: #A87C2A;
+        }
+        .bs-pitch-btn {
+          transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+        .bs-pitch-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 24px rgba(27,42,74,0.2);
+        }
+      `}</style>
 
       <Nav />
 
-      <section style={{ maxWidth: 700, margin: "0 auto", padding: "56px 24px 32px" }}>
-        <p style={{ fontSize: 13, letterSpacing: "0.08em", textTransform: "uppercase", color: "#A87C2A", fontWeight: 500, marginBottom: 16 }}>
-          Legislative gaps
-        </p>
-        <h1 style={{ fontFamily: "Fraunces, serif", fontWeight: 500, fontSize: "clamp(28px, 4.5vw, 40px)", lineHeight: 1.1, color: "#1B2A4A" }}>
-          Brainstorm the bill that doesn't exist yet
-        </h1>
-        <p style={{ fontSize: 15, lineHeight: 1.6, color: "#5A5952", marginTop: 16 }}>
-          {GAP_CONDITIONS.length} conditions we track have no active federal or state legislation right now. That's not nothing — it's a starting
-          point. Pitch the policy idea you wish existed, and see what other patients think.
-        </p>
-        <button
-          onClick={() => setShowForm((v) => !v)}
-          style={{
-            marginTop: 24,
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
-            fontSize: 14,
-            fontWeight: 500,
-            color: "#FAF8F3",
-            background: "#1B2A4A",
-            border: "none",
-            padding: "12px 20px",
-            borderRadius: 3,
-            cursor: "pointer",
-          }}
-        >
-          {showForm ? <X size={15} /> : <Plus size={15} />}
-          {showForm ? "Close" : "Pitch an idea"}
-        </button>
+      {/* Hero */}
+      <section
+        style={{
+          background: "linear-gradient(180deg, #FFF9EE 0%, #FAF8F3 100%)",
+          borderBottom: "1px solid #E4E0D6",
+        }}
+      >
+        <div style={{ maxWidth: 760, margin: "0 auto", padding: "64px 24px 40px", textAlign: "center" }}>
+          <div
+            style={{
+              width: 52,
+              height: 52,
+              borderRadius: "50%",
+              background: "#FAF0D9",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto 20px",
+            }}
+          >
+            <Lightbulb size={24} color="#A87C2A" />
+          </div>
+          <p style={{ fontSize: 13, letterSpacing: "0.08em", textTransform: "uppercase", color: "#A87C2A", fontWeight: 600, marginBottom: 16 }}>
+            Legislative gaps
+          </p>
+          <h1
+            style={{
+              fontFamily: "Fraunces, serif",
+              fontWeight: 500,
+              fontSize: "clamp(30px, 4.5vw, 42px)",
+              lineHeight: 1.12,
+              color: "#1B2A4A",
+              letterSpacing: "-0.01em",
+            }}
+          >
+            Brainstorm the bill that doesn't exist yet
+          </h1>
+          <p style={{ fontSize: 15.5, lineHeight: 1.65, color: "#5A5952", marginTop: 18, maxWidth: 560, marginLeft: "auto", marginRight: "auto" }}>
+            {GAP_CONDITIONS.length} conditions we track have no active federal or state legislation right now. That's not nothing — it's a starting
+            point. Pitch the policy idea you wish existed, and see what other patients think.
+          </p>
+          <button
+            className="bs-pitch-btn"
+            onClick={() => setShowForm((v) => !v)}
+            style={{
+              marginTop: 28,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              fontSize: 14,
+              fontWeight: 600,
+              color: "#FAF8F3",
+              background: "#1B2A4A",
+              border: "none",
+              padding: "13px 24px",
+              borderRadius: 24,
+              cursor: "pointer",
+              boxShadow: "0 6px 18px rgba(27,42,74,0.16)",
+            }}
+          >
+            {showForm ? <X size={15} /> : <Plus size={15} />}
+            {showForm ? "Close" : "Pitch an idea"}
+          </button>
+
+          {!loading && ideas.length > 0 && (
+            <div style={{ display: "flex", justifyContent: "center", gap: 32, marginTop: 36, flexWrap: "wrap" }}>
+              <div>
+                <div style={{ fontFamily: "Fraunces, serif", fontSize: 22, color: "#1B2A4A", fontWeight: 600 }}>{ideas.length}</div>
+                <div style={{ fontSize: 12, color: "#8A8880", marginTop: 2 }}>Ideas pitched</div>
+              </div>
+              <div style={{ width: 1, background: "#E4E0D6" }} />
+              <div>
+                <div style={{ fontFamily: "Fraunces, serif", fontSize: 22, color: "#1B2A4A", fontWeight: 600 }}>{totalVotes.toLocaleString()}</div>
+                <div style={{ fontSize: 12, color: "#8A8880", marginTop: 2 }}>Total votes</div>
+              </div>
+            </div>
+          )}
+        </div>
       </section>
 
       {showForm && (
-        <section style={{ maxWidth: 700, margin: "0 auto", padding: "0 24px 40px" }}>
+        <section style={{ maxWidth: 640, margin: "0 auto", padding: "32px 24px 8px" }}>
           <form
             onSubmit={handleSubmit}
-            style={{ border: "1px solid #E4E0D6", borderRadius: 6, padding: "24px", background: "#fff", display: "grid", gap: 14 }}
+            style={{
+              border: "1px solid #E4E0D6",
+              borderRadius: 10,
+              padding: "28px",
+              background: "#fff",
+              display: "grid",
+              gap: 16,
+              boxShadow: "0 4px 20px rgba(27,42,74,0.06)",
+            }}
           >
             <div>
-              <label style={{ fontSize: 12.5, color: "#5A5952", display: "block", marginBottom: 4 }}>Condition</label>
+              <label style={{ fontSize: 12.5, color: "#5A5952", display: "block", marginBottom: 5, fontWeight: 500 }}>Condition</label>
               <select
                 value={condition}
                 onChange={(e) => setCondition(e.target.value)}
-                style={{ width: "100%", padding: "9px 10px", border: "1px solid #C9C4B4", borderRadius: 3, fontSize: 14, background: "#fff" }}
+                style={{ width: "100%", padding: "10px 12px", border: "1px solid #C9C4B4", borderRadius: 5, fontSize: 14, background: "#FAF8F3" }}
               >
                 {GAP_CONDITIONS.map((c) => (
                   <option key={c}>{c}</option>
@@ -201,34 +290,35 @@ export default function BrainstormPage() {
               </select>
             </div>
             <div>
-              <label style={{ fontSize: 12.5, color: "#5A5952", display: "block", marginBottom: 4 }}>Idea title</label>
+              <label style={{ fontSize: 12.5, color: "#5A5952", display: "block", marginBottom: 5, fontWeight: 500 }}>Idea title</label>
               <input
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="e.g. Require insurance coverage for..."
-                style={{ width: "100%", padding: "9px 10px", border: "1px solid #C9C4B4", borderRadius: 3, fontSize: 14, boxSizing: "border-box" }}
+                style={{ width: "100%", padding: "10px 12px", border: "1px solid #C9C4B4", borderRadius: 5, fontSize: 14, boxSizing: "border-box" }}
               />
             </div>
             <div>
-              <label style={{ fontSize: 12.5, color: "#5A5952", display: "block", marginBottom: 4 }}>Why this matters (optional)</label>
+              <label style={{ fontSize: 12.5, color: "#5A5952", display: "block", marginBottom: 5, fontWeight: 500 }}>Why this matters (optional)</label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={3}
-                style={{ width: "100%", padding: "10px", border: "1px solid #C9C4B4", borderRadius: 3, fontSize: 13.5, lineHeight: 1.5, boxSizing: "border-box", fontFamily: "Inter, sans-serif" }}
+                style={{ width: "100%", padding: "11px 12px", border: "1px solid #C9C4B4", borderRadius: 5, fontSize: 13.5, lineHeight: 1.5, boxSizing: "border-box", fontFamily: "Inter, sans-serif" }}
               />
             </div>
             <button
               type="submit"
+              className="bs-pitch-btn"
               style={{
                 justifySelf: "start",
                 fontSize: 13.5,
-                fontWeight: 500,
+                fontWeight: 600,
                 color: "#FAF8F3",
                 background: "#1B2A4A",
                 border: "none",
-                padding: "10px 20px",
-                borderRadius: 3,
+                padding: "11px 22px",
+                borderRadius: 24,
                 cursor: "pointer",
               }}
             >
@@ -239,51 +329,88 @@ export default function BrainstormPage() {
         </section>
       )}
 
-      <section style={{ maxWidth: 700, margin: "0 auto", padding: "0 24px 72px" }}>
+      <section style={{ maxWidth: 720, margin: "0 auto", padding: "40px 24px 80px" }}>
         {loading ? (
-          <p style={{ fontSize: 13.5, color: "#8A8880" }}>Loading ideas…</p>
+          <p style={{ fontSize: 13.5, color: "#8A8880", textAlign: "center" }}>Loading ideas…</p>
         ) : sorted.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "48px 24px", border: "1px dashed #C9C4B4", borderRadius: 4 }}>
-            <Lightbulb size={22} color="#A87C2A" style={{ marginBottom: 10 }} />
-            <p style={{ fontSize: 14.5, color: "#2B2A28" }}>No ideas yet — be the first to pitch one.</p>
+          <div style={{ textAlign: "center", padding: "56px 24px", border: "1px dashed #C9C4B4", borderRadius: 10, background: "#fff" }}>
+            <Lightbulb size={24} color="#A87C2A" style={{ marginBottom: 12 }} />
+            <p style={{ fontSize: 15, color: "#2B2A28", fontWeight: 500 }}>No ideas yet — be the first to pitch one.</p>
           </div>
         ) : (
-          <div style={{ display: "grid", gap: 14 }}>
-            {sorted.map((idea) => (
-              <div
-                key={idea.id}
-                style={{ display: "flex", gap: 16, border: "1px solid #E4E0D6", borderRadius: 4, padding: "18px 20px", background: "#fff" }}
-              >
-                <button
-                  onClick={() => handleUpvote(idea.id)}
-                  disabled={voted[idea.id]}
+          <div style={{ display: "grid", gap: 16 }}>
+            {sorted.map((idea, i) => {
+              const accent = accentFor(idea.condition || "General");
+              const isTrending = i < 3 && idea.votes >= 15;
+              return (
+                <div
+                  key={idea.id}
+                  className="bs-card"
                   style={{
                     display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    minWidth: 48,
-                    border: `1px solid ${voted[idea.id] ? "#A87C2A" : "#C9C4B4"}`,
-                    borderRadius: 4,
-                    background: voted[idea.id] ? "#F2EEE3" : "#fff",
-                    cursor: voted[idea.id] ? "default" : "pointer",
-                    padding: "8px 0",
-                    height: "fit-content",
+                    gap: 18,
+                    border: "1px solid #E4E0D6",
+                    borderLeft: `3px solid ${accent}`,
+                    borderRadius: 10,
+                    padding: "20px 22px",
+                    background: "#fff",
+                    position: "relative",
                   }}
                 >
-                  <ArrowUp size={14} color={voted[idea.id] ? "#A87C2A" : "#5A5952"} />
-                  <span style={{ fontSize: 13, fontWeight: 600, color: voted[idea.id] ? "#A87C2A" : "#2B2A28", marginTop: 2 }}>{idea.votes}</span>
-                </button>
-                <div style={{ flex: 1 }}>
-                  <span style={{ fontSize: 11.5, textTransform: "uppercase", letterSpacing: "0.05em", color: "#A87C2A", fontWeight: 500 }}>
-                    {idea.condition}
-                  </span>
-                  <h3 style={{ fontSize: 15.5, fontWeight: 600, color: "#1B2A4A", margin: "6px 0" }}>{idea.title}</h3>
-                  {idea.description && <p style={{ fontSize: 13.5, lineHeight: 1.55, color: "#5A5952", marginBottom: 6 }}>{idea.description}</p>}
-                  <span style={{ fontSize: 11.5, color: "#8A8880" }}>{timeAgo(idea.createdAt)}</span>
+                  <button
+                    className="bs-vote-btn"
+                    onClick={() => handleUpvote(idea.id)}
+                    disabled={voted[idea.id]}
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      minWidth: 54,
+                      border: `1.5px solid ${voted[idea.id] ? "#A87C2A" : "#C9C4B4"}`,
+                      borderRadius: 8,
+                      background: voted[idea.id] ? "#FAF0D9" : "#FAF8F3",
+                      cursor: voted[idea.id] ? "default" : "pointer",
+                      padding: "10px 0",
+                      height: "fit-content",
+                    }}
+                  >
+                    <ArrowUp size={15} color={voted[idea.id] ? "#A87C2A" : "#5A5952"} />
+                    <span style={{ fontSize: 14, fontWeight: 700, color: voted[idea.id] ? "#A87C2A" : "#2B2A28", marginTop: 3 }}>{idea.votes}</span>
+                  </button>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginBottom: 6 }}>
+                      <span style={{ fontSize: 11.5, textTransform: "uppercase", letterSpacing: "0.05em", color: accent, fontWeight: 700 }}>
+                        {idea.condition}
+                      </span>
+                      {isTrending && (
+                        <span
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 3,
+                            fontSize: 10.5,
+                            fontWeight: 700,
+                            color: "#B3541E",
+                            background: "#FDEDE1",
+                            padding: "2px 8px",
+                            borderRadius: 10,
+                            letterSpacing: "0.03em",
+                          }}
+                        >
+                          <Flame size={10} /> TRENDING
+                        </span>
+                      )}
+                    </div>
+                    <h3 style={{ fontSize: 16, fontWeight: 600, color: "#1B2A4A", margin: "0 0 8px", lineHeight: 1.4 }}>{idea.title}</h3>
+                    {idea.description && (
+                      <p style={{ fontSize: 13.5, lineHeight: 1.6, color: "#5A5952", marginBottom: 10 }}>{idea.description}</p>
+                    )}
+                    <span style={{ fontSize: 11.5, color: "#8A8880" }}>{timeAgo(idea.createdAt)}</span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </section>
