@@ -143,6 +143,11 @@ const CHAPTERS = [
     photo: "/chapter-photos/aiza.jpg", handle: null,
     bio: "Hey, Aiza Abbas here, a student and the founder of Autoimmune Atlas, a Pakistan-based initiative focused on autoimmune diseases. I started Autoimmune Atlas after realizing how many gaps still exist in the way autoimmune diseases are understood, researched, diagnosed, and supported, particularly in Pakistan. I want to hear from patients, learn from doctors and researchers, and understand these gaps better — not just talk about them, but see what we can actually do about them.",
   },
+  {
+    first: "Emma", lastInitial: "J", city: "Chesapeake", region: "Virginia", country: "US",
+    photo: "/chapter-photos/emma.jpg", handle: null,
+    bio: "Hi, I'm Emma! I am from Chesapeake, Virginia! I was diagnosed with a rare disease/chronic illness called VACTERL association. With many surgeries and doctors' appointments, I want to be able to raise awareness more than ever in my community!! I am currently in college studying Biology and hoping to get my master's! I hope to be able to work with other chapters, our community, and local hospitals to better the systems. And to also be a shoulder people can lean on!",
+  },
 ];
 
 function chapterLocation(c) {
