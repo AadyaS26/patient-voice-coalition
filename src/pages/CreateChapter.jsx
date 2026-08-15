@@ -128,7 +128,11 @@ const CHAPTERS = [
     photo: "/chapter-photos/breauna.jpg", handle: null,
     bio: "Hello! I'm Breauna. At 17, I was diagnosed with Multiple Sclerosis. Now at 21, I've had my ups and downs with this disease, however, I never let it stop me or define me in any way. I've wanted to start this chapter to give individuals with autoimmune diseases an outlet for support and encourage them to grow no matter how hard it gets.",
   },
-  { first: "Celina", lastInitial: "C", city: "San Antonio", region: "Texas", country: "US", photo: null, handle: null, bio: null },
+  {
+    first: "Celina", lastInitial: "C", city: "San Antonio", region: "Texas", country: "US",
+    photo: "/chapter-photos/celina.jpg", handle: null,
+    bio: "Hi, I'm Celina! I'm 22 years old and originally from San Antonio, Texas, but I currently reside in the Rio Grande Valley. I'm honored to lead the South Texas chapter of AutoimmuneVoices! My autoimmune journey began at 15, when I first started experiencing symptoms, and I was diagnosed with psoriatic spondylitis at 18. My experiences have shaped my passion for advocacy and shown me how important it is to feel heard, understood, and supported. I'm currently in a Doctor of Physical Therapy program, and I hope to carry advocacy into my future profession. I've also recently joined the Arthritis Foundation as an advocate, and I'm passionate about raising awareness of autoimmune conditions and creating a space where everyone feels comfortable, welcomed, and never alone.",
+  },
 ];
 
 function chapterLocation(c) {
@@ -154,10 +158,14 @@ function ChapterDirectory() {
     });
   }
 
-  const visible =
+  const filtered =
     selected.size === 0
       ? CHAPTERS
       : CHAPTERS.filter((c) => selected.has(c.country === "US" ? c.region : c.country));
+
+  // Completed profiles (with a bio) show first; "New chapter" pending
+  // cards sink to the bottom, without reordering within each group.
+  const visible = [...filtered].sort((a, b) => (a.bio ? 0 : 1) - (b.bio ? 0 : 1));
 
   return (
     <section className="chapter-directory">
