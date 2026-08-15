@@ -128,6 +128,7 @@ const CHAPTERS = [
     photo: "/chapter-photos/breauna.jpg", handle: null,
     bio: "Hello! I'm Breauna. At 17, I was diagnosed with Multiple Sclerosis. Now at 21, I've had my ups and downs with this disease, however, I never let it stop me or define me in any way. I've wanted to start this chapter to give individuals with autoimmune diseases an outlet for support and encourage them to grow no matter how hard it gets.",
   },
+  { first: "Celina", lastInitial: "C", city: "San Antonio", region: "Texas", country: "US", photo: null, handle: null, bio: null },
 ];
 
 function chapterLocation(c) {
