@@ -53,7 +53,11 @@ const CHAPTERS = [
     photo: "/chapter-photos/liesel.jpg", handle: null,
     bio: "Hi! I'm Liesel, a doctor who lives with Crohn's Disease and an ileostomy. I'm passionate about supporting fellow ostomates, and advocating for the IBD community. I'm excited to be connected with a worldwide community of people living with autoimmune disease - together we can make a difference!!",
   },
-  { first: "Astha", lastInitial: "", city: "Delhi", region: null, country: "India", photo: null, handle: null, bio: null },
+  {
+    first: "Astha", lastInitial: "", city: "Delhi", region: null, country: "India",
+    photo: null, handle: null,
+    bio: "Astha is an undergraduate student and the Delhi Chapter Lead for AutoimmuneVoices. Through her advocacy, she hopes to help people with autoimmune conditions feel more comfortable with themselves and recognize that no one has to be perfect. She is especially interested in addressing the self-criticism and social judgment that can continue even when someone's condition is in remission.",
+  },
   {
     first: "Cece and Craven", lastInitial: "", city: "Brighton", region: null, country: "United Kingdom",
     photo: "/chapter-photos/cece.jpg", handle: null,
@@ -132,6 +136,12 @@ const CHAPTERS = [
     first: "Celina", lastInitial: "C", city: "San Antonio", region: "Texas", country: "US",
     photo: "/chapter-photos/celina.jpg", handle: null,
     bio: "Hi, I'm Celina! I'm 22 years old and originally from San Antonio, Texas, but I currently reside in the Rio Grande Valley. I'm honored to lead the South Texas chapter of AutoimmuneVoices! My autoimmune journey began at 15, when I first started experiencing symptoms, and I was diagnosed with psoriatic spondylitis at 18. My experiences have shaped my passion for advocacy and shown me how important it is to feel heard, understood, and supported. I'm currently in a Doctor of Physical Therapy program, and I hope to carry advocacy into my future profession. I've also recently joined the Arthritis Foundation as an advocate, and I'm passionate about raising awareness of autoimmune conditions and creating a space where everyone feels comfortable, welcomed, and never alone.",
+  },
+  { first: "Priyanshi", lastInitial: "M", city: "Phagwara", region: null, country: "India", photo: null, handle: null, bio: null },
+  {
+    first: "Aiza", lastInitial: "A", city: "Multan", region: null, country: "Pakistan",
+    photo: "/chapter-photos/aiza.jpg", handle: null,
+    bio: "Hey, Aiza Abbas here, a student and the founder of Autoimmune Atlas, a Pakistan-based initiative focused on autoimmune diseases. I started Autoimmune Atlas after realizing how many gaps still exist in the way autoimmune diseases are understood, researched, diagnosed, and supported, particularly in Pakistan. I want to hear from patients, learn from doctors and researchers, and understand these gaps better — not just talk about them, but see what we can actually do about them.",
   },
 ];
 
