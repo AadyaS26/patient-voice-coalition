@@ -430,6 +430,7 @@ export default function LegislationDatabase() {
   const [lookupStatus, setLookupStatus] = useState("idle"); // idle | loading | found | error
   const [lookupError, setLookupError] = useState("");
   const [sendStatus, setSendStatus] = useState({}); // { [legislatorId]: 'idle'|'sending'|'sent'|'error' }
+  const [sendErrors, setSendErrors] = useState({}); // { [legislatorId]: string } — the real error message from the API, shown to the user
   const [liveBills, setLiveBills] = useState([]);
   const [liveStatus, setLiveStatus] = useState("loading"); // loading | ready | error
   const [stateBills, setStateBills] = useState([]);
@@ -561,6 +562,7 @@ export default function LegislationDatabase() {
     setLookupStatus("idle");
     setLookupError("");
     setSendStatus({});
+    setSendErrors({});
     fetch("/api/counter?key=letters-sent&action=increment").catch(() => {});
   };
 
@@ -589,6 +591,7 @@ export default function LegislationDatabase() {
   const handleSendToLegislator = async (legislator) => {
     if (!name.trim() || !senderEmail.trim() || !message.trim()) return;
     setSendStatus((prev) => ({ ...prev, [legislator.id]: "sending" }));
+    setSendErrors((prev) => ({ ...prev, [legislator.id]: "" }));
     try {
       const res = await fetch("/api/send-legislator-email", {
         method: "POST",
@@ -604,11 +607,15 @@ export default function LegislationDatabase() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok) {
-        throw new Error(data.error || "Could not send. Please try again.");
+        throw new Error(data.error || `Could not send (status ${res.status}). Please try again.`);
       }
       setSendStatus((prev) => ({ ...prev, [legislator.id]: "sent" }));
     } catch (err) {
+      // Log full context to the browser console so we can see exactly which
+      // legislator/email combo failed and why, instead of just "error".
+      console.error("Send failed for legislator:", legislator.name, legislator.email, err);
       setSendStatus((prev) => ({ ...prev, [legislator.id]: "error" }));
+      setSendErrors((prev) => ({ ...prev, [legislator.id]: err.message || "Send failed. Please try again." }));
     }
   };
 
@@ -912,31 +919,38 @@ export default function LegislationDatabase() {
                     {legislators.map((leg) => {
                       const status = sendStatus[leg.id] || "idle";
                       return (
-                        <div key={leg.id} style={{ border: "1px solid #E4E0D6", borderRadius: 4, padding: "12px 14px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10 }}>
-                          <div>
-                            <div style={{ fontSize: 13.5, fontWeight: 600, color: "#1B2A4A" }}>{leg.name}</div>
-                            <div style={{ fontSize: 12, color: "#8A8880" }}>
-                              {leg.chamber}{leg.district ? ` · District ${leg.district}` : ""}{leg.party ? ` · ${leg.party}` : ""}
+                        <React.Fragment key={leg.id}>
+                          <div style={{ border: "1px solid #E4E0D6", borderRadius: 4, padding: "12px 14px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10 }}>
+                            <div>
+                              <div style={{ fontSize: 13.5, fontWeight: 600, color: "#1B2A4A" }}>{leg.name}</div>
+                              <div style={{ fontSize: 12, color: "#8A8880" }}>
+                                {leg.chamber}{leg.district ? ` · District ${leg.district}` : ""}{leg.party ? ` · ${leg.party}` : ""}
+                              </div>
                             </div>
-                          </div>
-                          {leg.email ? (
-                            status === "sent" ? (
-                              <span style={{ fontSize: 12.5, color: "#3F6B33", fontWeight: 600 }}>Sent ✓</span>
+                            {leg.email ? (
+                              status === "sent" ? (
+                                <span style={{ fontSize: 12.5, color: "#3F6B33", fontWeight: 600 }}>Sent ✓</span>
+                              ) : (
+                                <button
+                                  onClick={() => handleSendToLegislator(leg)}
+                                  disabled={status === "sending"}
+                                  style={{ fontSize: 12.5, fontWeight: 500, color: "#FAF8F3", background: "#1B2A4A", border: "none", padding: "7px 12px", borderRadius: 3, cursor: status === "sending" ? "default" : "pointer", whiteSpace: "nowrap" }}
+                                >
+                                  {status === "sending" ? "Sending…" : status === "error" ? "Retry" : "Send"}
+                                </button>
+                              )
                             ) : (
-                              <button
-                                onClick={() => handleSendToLegislator(leg)}
-                                disabled={status === "sending"}
-                                style={{ fontSize: 12.5, fontWeight: 500, color: "#FAF8F3", background: "#1B2A4A", border: "none", padding: "7px 12px", borderRadius: 3, cursor: status === "sending" ? "default" : "pointer", whiteSpace: "nowrap" }}
-                              >
-                                {status === "sending" ? "Sending…" : status === "error" ? "Retry" : "Send"}
-                              </button>
-                            )
-                          ) : (
-                            <a href={leg.contactUrl || leg.openstatesUrl || "#"} target="_blank" rel="noreferrer" style={{ fontSize: 12, color: "#1B2A4A" }}>
-                              Contact page
-                            </a>
+                              <a href={leg.contactUrl || leg.openstatesUrl || "#"} target="_blank" rel="noreferrer" style={{ fontSize: 12, color: "#1B2A4A" }}>
+                                Contact page
+                              </a>
+                            )}
+                          </div>
+                          {sendErrors[leg.id] && (
+                            <p style={{ fontSize: 11.5, color: "#B3261E", margin: "-4px 0 0", paddingLeft: 2 }}>
+                              {sendErrors[leg.id]}
+                            </p>
                           )}
-                        </div>
+                        </React.Fragment>
                       );
                     })}
                   </div>
