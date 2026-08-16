@@ -156,6 +156,8 @@ const CHAPTERS = [
     photo: "/chapter-photos/emma.jpg", handle: null,
     bio: "Hi, I'm Emma! I am from Chesapeake, Virginia! I was diagnosed with a rare disease/chronic illness called VACTERL association. With many surgeries and doctors' appointments, I want to be able to raise awareness more than ever in my community!! I am currently in college studying Biology and hoping to get my master's! I hope to be able to work with other chapters, our community, and local hospitals to better the systems. And to also be a shoulder people can lean on!",
   },
+  { first: "Vaishali", lastInitial: "", city: "India", region: null, country: "India", photo: null, handle: null, bio: null },
+  { first: "Morgan", lastInitial: "A", city: "San Diego", region: "California", country: "US", photo: null, handle: null, bio: null },
 ];
 
 function chapterLocation(c) {
