@@ -85,7 +85,11 @@ const CHAPTERS = [
     photo: "/chapter-photos/nidhi.jpg", handle: null,
     bio: "I'm Nidhi, a Senior Finance Consultant at Cargill, communication coach, artist, and entrepreneur who is passionate about leadership, community building, and empowering people to use their voices. I believe meaningful change begins with awareness, open conversations, and the willingness to listen to one another. As a Charlotte Chapter leader for AutoimmuneVoices, I'm excited to connect people, amplify stories, and help build a stronger, more supportive community around autoimmune awareness.",
   },
-  { first: "Laura", lastInitial: "H", city: "Adelaide", region: "South Australia", country: "Australia", photo: null, handle: null, bio: null },
+  {
+    first: "Laura", lastInitial: "H", city: "Adelaide", region: "South Australia", country: "Australia",
+    photo: "/chapter-photos/laura.jpg", handle: null,
+    bio: "Hey everyone! My name is Laura Hutchins, I'm 26 years old from Adelaide, South Australia. I was 12 years old when I was diagnosed with rheumatoid arthritis, and have multiple permanent joint deformities. Before the diagnosis I was extremely active, and my favourite hobbies were gymnastics, dance, ballet, and piano. Today at 26 I'm extremely passionate about animals, making YouTube videos, yoga, and advocacy. I know how devastating it is to have your life completely impacted by an autoimmune disease, and I'm proud to be an advocate and raise awareness for these hidden disabilities.",
+  },
   {
     first: "Carlos", lastInitial: "P", city: "New Orleans", region: "Louisiana", country: "US",
     photo: "/chapter-photos/carlos.jpg", handle: null,
@@ -137,7 +141,11 @@ const CHAPTERS = [
     photo: "/chapter-photos/celina.jpg", handle: null,
     bio: "Hi, I'm Celina! I'm 22 years old and originally from San Antonio, Texas, but I currently reside in the Rio Grande Valley. I'm honored to lead the South Texas chapter of AutoimmuneVoices! My autoimmune journey began at 15, when I first started experiencing symptoms, and I was diagnosed with psoriatic spondylitis at 18. My experiences have shaped my passion for advocacy and shown me how important it is to feel heard, understood, and supported. I'm currently in a Doctor of Physical Therapy program, and I hope to carry advocacy into my future profession. I've also recently joined the Arthritis Foundation as an advocate, and I'm passionate about raising awareness of autoimmune conditions and creating a space where everyone feels comfortable, welcomed, and never alone.",
   },
-  { first: "Priyanshi", lastInitial: "M", city: "Phagwara", region: null, country: "India", photo: null, handle: null, bio: null },
+  {
+    first: "Priyanshi", lastInitial: "M", city: "Phagwara", region: null, country: "India",
+    photo: "/chapter-photos/priyanshi.jpg", handle: null,
+    bio: "Hey everyone! I'm Priyanshi from India. I'm a PhD student researching psoriasis and its progression. I've experienced health issues since childhood, including skin rashes, eczema, and digestive problems. In my early twenties, following a medication reaction, I developed severe palmoplantar psoriasis. After multiple treatments and steroids, the condition is more manageable today, though I still live with it and manage it with medication. My personal journey led me to research the disease more deeply, and I joined AutoimmuneVoices to connect with others who understand this journey, raise awareness, advocate for our community, and share and learn from each other's experiences.",
+  },
   {
     first: "Aiza", lastInitial: "A", city: "Multan", region: null, country: "Pakistan",
     photo: "/chapter-photos/aiza.jpg", handle: null,
