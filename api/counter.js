@@ -21,6 +21,8 @@ const ALLOWED_KEYS = ["people-impacted", "letters-sent", "bills-explained"];
 export default async function handler(req, res) {
   const { key, action } = req.query;
 
+  res.setHeader("Cache-Control", "no-store, max-age=0");
+
   if (!key || !ALLOWED_KEYS.includes(key)) {
     return res.status(400).json({ error: "Missing or unknown key" });
   }
