@@ -158,6 +158,11 @@ const CHAPTERS = [
   },
   { first: "Vaishali", lastInitial: "", city: "India", region: null, country: "India", photo: null, handle: null, bio: null },
   { first: "Morgan", lastInitial: "A", city: "San Diego", region: "California", country: "US", photo: null, handle: null, bio: null },
+  {
+    first: "Sofia", lastInitial: "C", city: "Corona", region: "California", country: "US",
+    photo: "/chapter-photos/sofia.jpg", handle: null,
+    bio: "My name is Sofia Carpio, I'm 16, and currently a junior in high school. I'm striving to become a neurosurgeon and my dream school is University of California, Irvine. I wanted to become a chapter leader because although I don't personally struggle with an autoimmune disease myself, I want to not only educate and advocate for this community, but show them that their efforts, strength, and struggles do not go unnoticed. You all are seen, understood, and not alone.",
+  },
 ];
 
 function chapterLocation(c) {
@@ -303,7 +308,22 @@ function isValidEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
+const EMPTY_MEMBER_FORM = {
+  memberName: "",
+  memberEmail: "",
+  memberCity: "",
+  memberRegion: "",
+};
+
+// Every real chapter, pulled from CHAPTERS above — used to power the
+// "chapters near you" matcher on the member join form.
+const MEMBER_MATCH_OPTIONS = [
+  ...new Set(CHAPTERS.map((c) => (c.country === "US" ? c.region : c.country)).filter(Boolean)),
+].sort();
+
 export default function CreateChapter() {
+  const [role, setRole] = useState("lead"); // "lead" | "member"
+
   const [form, setForm] = useState(EMPTY_FORM);
   const [touched, setTouched] = useState({});
   const [status, setStatus] = useState("idle"); // idle | submitting | success | error
@@ -318,6 +338,72 @@ export default function CreateChapter() {
     social: form.social.trim() ? "" : "Enter your Instagram or contact handle.",
   };
   const isValid = Object.values(errors).every((e) => !e);
+
+  // ---- Member join form (separate state, separate validation, separate submit) ----
+  const [memberForm, setMemberForm] = useState(EMPTY_MEMBER_FORM);
+  const [memberTouched, setMemberTouched] = useState({});
+  const [memberStatus, setMemberStatus] = useState("idle");
+  const [memberErrorMessage, setMemberErrorMessage] = useState("");
+  const [selectedChapter, setSelectedChapter] = useState(null);
+
+  const memberErrors = {
+    memberName: memberForm.memberName.trim() ? "" : "Enter your name.",
+    memberEmail: isValidEmail(memberForm.memberEmail) ? "" : "Enter a valid email.",
+    memberCity: memberForm.memberCity.trim() ? "" : "Enter your city.",
+    memberRegion: memberForm.memberRegion ? "" : "Choose a state or country.",
+  };
+  const isMemberValid = Object.values(memberErrors).every((e) => !e);
+
+  function updateMember(field) {
+    return (e) => {
+      const value = e.target.value;
+      setMemberForm((f) => ({ ...f, [field]: value }));
+      if (field === "memberRegion") setSelectedChapter(null);
+    };
+  }
+
+  function blurMember(field) {
+    return () => setMemberTouched((t) => ({ ...t, [field]: true }));
+  }
+
+  const nearbyChapters = memberForm.memberRegion
+    ? CHAPTERS.filter(
+        (c) => (c.country === "US" ? c.region : c.country) === memberForm.memberRegion
+      )
+    : [];
+
+  async function handleMemberSubmit(e) {
+    e.preventDefault();
+    setMemberTouched({ memberName: true, memberEmail: true, memberCity: true, memberRegion: true });
+    if (!isMemberValid) return;
+
+    setMemberStatus("submitting");
+    setMemberErrorMessage("");
+    try {
+      const res = await fetch("/api/register-member", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: memberForm.memberName,
+          email: memberForm.memberEmail,
+          city: memberForm.memberCity,
+          region: memberForm.memberRegion,
+          chapterJoined: selectedChapter || "",
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) {
+        throw new Error(data.error || "Something went wrong. Please try again.");
+      }
+      setMemberStatus("success");
+      setMemberForm(EMPTY_MEMBER_FORM);
+      setMemberTouched({});
+      setSelectedChapter(null);
+    } catch (err) {
+      setMemberStatus("error");
+      setMemberErrorMessage(err.message || "Something went wrong. Please try again.");
+    }
+  }
 
   function update(field) {
     return (e) => {
@@ -438,6 +524,24 @@ export default function CreateChapter() {
             </ul>
           </div>
 
+          <div className="chapter-role-toggle">
+            <button
+              type="button"
+              className={role === "lead" ? "active" : ""}
+              onClick={() => setRole("lead")}
+            >
+              Start a chapter
+            </button>
+            <button
+              type="button"
+              className={role === "member" ? "active" : ""}
+              onClick={() => setRole("member")}
+            >
+              Join a chapter
+            </button>
+          </div>
+
+          {role === "lead" && (
           <form className="chapter-form" onSubmit={handleSubmit} noValidate>
             <div className="chapter-field-row">
               <div className="chapter-field">
@@ -579,6 +683,143 @@ export default function CreateChapter() {
               {status === "submitting" ? "Registering…" : "Register as an advocate"}
             </button>
           </form>
+          )}
+
+          {role === "member" && (
+            memberStatus === "success" ? (
+              <div className="chapter-form chapter-member-success">
+                <h3>You're on the list.</h3>
+                <p>
+                  Thanks for joining! We'll connect you with{" "}
+                  {selectedChapter ? `${selectedChapter}'s chapter` : "a chapter near you"} soon.
+                </p>
+                <button
+                  type="button"
+                  className="chapter-link-button"
+                  onClick={() => setMemberStatus("idle")}
+                >
+                  Join another chapter
+                </button>
+              </div>
+            ) : (
+              <form className="chapter-form" onSubmit={handleMemberSubmit} noValidate>
+                <div className="chapter-field-row">
+                  <div className="chapter-field">
+                    <label htmlFor="memberName">Your name</label>
+                    <input
+                      id="memberName"
+                      type="text"
+                      value={memberForm.memberName}
+                      onChange={updateMember("memberName")}
+                      onBlur={blurMember("memberName")}
+                      autoComplete="name"
+                    />
+                    {memberTouched.memberName && memberErrors.memberName && (
+                      <span className="chapter-error">{memberErrors.memberName}</span>
+                    )}
+                  </div>
+                  <div className="chapter-field">
+                    <label htmlFor="memberEmail">Email</label>
+                    <input
+                      id="memberEmail"
+                      type="email"
+                      value={memberForm.memberEmail}
+                      onChange={updateMember("memberEmail")}
+                      onBlur={blurMember("memberEmail")}
+                      autoComplete="email"
+                    />
+                    {memberTouched.memberEmail && memberErrors.memberEmail && (
+                      <span className="chapter-error">{memberErrors.memberEmail}</span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="chapter-field-row">
+                  <div className="chapter-field">
+                    <label htmlFor="memberCity">City</label>
+                    <input
+                      id="memberCity"
+                      type="text"
+                      value={memberForm.memberCity}
+                      onChange={updateMember("memberCity")}
+                      onBlur={blurMember("memberCity")}
+                    />
+                    {memberTouched.memberCity && memberErrors.memberCity && (
+                      <span className="chapter-error">{memberErrors.memberCity}</span>
+                    )}
+                  </div>
+                  <div className="chapter-field">
+                    <label htmlFor="memberRegion">State / Country</label>
+                    <select
+                      id="memberRegion"
+                      value={memberForm.memberRegion}
+                      onChange={updateMember("memberRegion")}
+                      onBlur={blurMember("memberRegion")}
+                    >
+                      <option value="" disabled>
+                        Choose one
+                      </option>
+                      {MEMBER_MATCH_OPTIONS.map((r) => (
+                        <option key={r} value={r}>
+                          {r}
+                        </option>
+                      ))}
+                    </select>
+                    {memberTouched.memberRegion && memberErrors.memberRegion && (
+                      <span className="chapter-error">{memberErrors.memberRegion}</span>
+                    )}
+                  </div>
+                </div>
+
+                {memberForm.memberRegion && (
+                  <div className="chapter-match-section">
+                    <div className="chapter-match-label">Chapters near you</div>
+                    <p className="chapter-match-hint">
+                      Pick one to join, or skip this and we'll reach out with the closest option.
+                    </p>
+                    {nearbyChapters.length === 0 ? (
+                      <p className="chapter-match-empty">
+                        No chapters here yet — you could be the first to start one instead.
+                      </p>
+                    ) : (
+                      <div className="chapter-match-list">
+                        {nearbyChapters.map((c) => (
+                          <div className="chapter-match-card" key={`${c.first}-${c.city}`}>
+                            <div className="chapter-match-card-info">
+                              <div className="chapter-match-card-name">{c.first}'s chapter</div>
+                              <div className="chapter-match-card-loc">{chapterLocation(c)}</div>
+                            </div>
+                            <button
+                              type="button"
+                              className={
+                                "chapter-match-join-btn" +
+                                (selectedChapter === c.first ? " selected" : "")
+                              }
+                              onClick={() => setSelectedChapter(c.first)}
+                            >
+                              {selectedChapter === c.first ? "Selected ✓" : "Join"}
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {memberStatus === "error" && (
+                  <p className="chapter-error chapter-error--submit">{memberErrorMessage}</p>
+                )}
+
+                <button
+                  type="submit"
+                  className="chapter-submit"
+                  disabled={memberStatus === "submitting"}
+                >
+                  {memberStatus === "submitting" ? "Joining…" : "Join as a member"}
+                </button>
+              </form>
+            )
+          )}
         </div>
       </section>
       <ChapterDirectory />
