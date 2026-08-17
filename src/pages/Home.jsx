@@ -119,7 +119,7 @@ export default function PatientVoiceCoalition() {
   // Floor for the bills-explained counter — separate from "Bills tracked".
   // This one counts how many times someone has opened a plain-language
   // bill summary, not how many bills we're monitoring.
-  const BILLS_EXPLAINED_FLOOR = 640;
+  const BILLS_EXPLAINED_FLOOR = 753;
 
   const CURATED_BILLS = 212;
   const CURATED_STATES = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
