@@ -16,7 +16,7 @@ const redis = new Redis({
 
 // Only these two keys are allowed — keeps this from becoming an endpoint
 // that lets anyone write arbitrary values to arbitrary keys.
-const ALLOWED_KEYS = ["people-impacted", "letters-sent"];
+const ALLOWED_KEYS = ["people-impacted", "letters-sent", "bills-explained"];
 
 export default async function handler(req, res) {
   const { key, action } = req.query;
