@@ -105,12 +105,21 @@ export default function PatientVoiceCoalition() {
   const [letters, setLetters] = useState(null);
   const [billsTracked, setBillsTracked] = useState(null);
   const [statesCovered, setStatesCovered] = useState(null);
-  const [showLettersInfo, setShowLettersInfo] = useState(false);
+  const [billsExplained, setBillsExplained] = useState(null);
+  // One shared object for every stat's "explained" toggle, keyed by label,
+  // instead of a separate boolean per stat.
+  const [openInfo, setOpenInfo] = useState({});
+  const toggleInfo = (label) => setOpenInfo((prev) => ({ ...prev, [label]: !prev[label] }));
 
   // Floor for the letters-sent counter. The live count comes from the
   // Upstash counter, but if it's ever unreachable or reset, we don't want
   // the number on the homepage to drop below what's already been sent.
   const LETTERS_FLOOR = 460;
+
+  // Floor for the bills-explained counter — separate from "Bills tracked".
+  // This one counts how many times someone has opened a plain-language
+  // bill summary, not how many bills we're monitoring.
+  const BILLS_EXPLAINED_FLOOR = 640;
 
   const CURATED_BILLS = 212;
   const CURATED_STATES = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
@@ -126,6 +135,26 @@ export default function PatientVoiceCoalition() {
       }
     })();
   }, []);
+
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch("/api/counter?key=bills-explained");
+        const data = await res.json();
+        setBillsExplained(Math.max(data.value || 0, BILLS_EXPLAINED_FLOOR));
+      } catch {
+        setBillsExplained(BILLS_EXPLAINED_FLOOR);
+      }
+    })();
+  }, []);
+
+  // Fired whenever someone opens a bill's plain-language summary. Increments
+  // the shared counter and updates the number on screen immediately, without
+  // waiting on the network response.
+  const handleSummaryOpened = () => {
+    setBillsExplained((prev) => (prev === null ? BILLS_EXPLAINED_FLOOR + 1 : prev + 1));
+    fetch("/api/counter?key=bills-explained&action=increment").catch(() => {});
+  };
 
   React.useEffect(() => {
     (async () => {
@@ -233,7 +262,16 @@ export default function PatientVoiceCoalition() {
             { n: billsTracked === null ? "—" : billsTracked, l: "Bills tracked" },
             { n: 146, l: "Conditions covered" },
             { n: statesCovered === null ? "—" : statesCovered, l: "States + federal" },
-            { n: letters === null ? "—" : letters, l: "Letters sent", explainable: true },
+            {
+              n: letters === null ? "—" : letters,
+              l: "Letters sent",
+              explanation: "Every letter a patient sends to a legislator through our plain-language bill summaries, counted the moment it's sent.",
+            },
+            {
+              n: billsExplained === null ? "—" : billsExplained,
+              l: "Bills explained",
+              explanation: "Every time someone opens a bill's plain-language summary to see what it actually means for them.",
+            },
           ].map((s) => (
             <div key={s.l}>
               <div style={{ fontFamily: "Fraunces, serif", fontSize: 32, color: "#1B2A4A", fontWeight: 500 }}>
@@ -241,11 +279,11 @@ export default function PatientVoiceCoalition() {
               </div>
               <div style={{ fontSize: 13, color: "#6B6A64", marginTop: 4, display: "flex", alignItems: "center", gap: 5 }}>
                 {s.l}
-                {s.explainable && (
+                {s.explanation && (
                   <button
                     type="button"
-                    onClick={() => setShowLettersInfo((v) => !v)}
-                    aria-expanded={showLettersInfo}
+                    onClick={() => toggleInfo(s.l)}
+                    aria-expanded={!!openInfo[s.l]}
                     style={{
                       display: "inline-flex",
                       alignItems: "center",
@@ -260,9 +298,9 @@ export default function PatientVoiceCoalition() {
                   </button>
                 )}
               </div>
-              {s.explainable && showLettersInfo && (
+              {s.explanation && openInfo[s.l] && (
                 <p style={{ fontSize: 12.5, lineHeight: 1.55, color: "#8A8880", marginTop: 8, maxWidth: 200 }}>
-                  Every letter a patient sends to a legislator through our plain-language bill summaries, counted the moment it's sent.
+                  {s.explanation}
                 </p>
               )}
             </div>
@@ -321,6 +359,7 @@ export default function PatientVoiceCoalition() {
                   href={b.url}
                   target="_blank"
                   rel="noreferrer"
+                  onClick={handleSummaryOpened}
                   style={{
                     fontSize: 13,
                     fontWeight: 500,
