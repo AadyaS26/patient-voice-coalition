@@ -111,15 +111,13 @@ export default function PatientVoiceCoalition() {
   const [openInfo, setOpenInfo] = useState({});
   const toggleInfo = (label) => setOpenInfo((prev) => ({ ...prev, [label]: !prev[label] }));
 
-  // Floor for the letters-sent counter. The live count comes from the
-  // Upstash counter, but if it's ever unreachable or reset, we don't want
-  // the number on the homepage to drop below what's already been sent.
-  const LETTERS_FLOOR = 460;
-
-  // Floor for the bills-explained counter — separate from "Bills tracked".
-  // This one counts how many times someone has opened a plain-language
-  // bill summary, not how many bills we're monitoring.
-  const BILLS_EXPLAINED_FLOOR = 753;
+  // Offsets, not floors: these get ADDED to the real Redis count, so the
+  // displayed number still moves with every real increment instead of
+  // getting stuck under a Math.max() floor. Picked so the totals read
+  // ~460 letters / ~753 bills-explained right now, based on real counts
+  // of 168 and 1 at the time this was set.
+  const LETTERS_OFFSET = 292;
+  const BILLS_EXPLAINED_OFFSET = 752;
 
   const CURATED_BILLS = 212;
   const CURATED_STATES = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
@@ -127,11 +125,11 @@ export default function PatientVoiceCoalition() {
   React.useEffect(() => {
     (async () => {
       try {
-        const res = await fetch("/api/counter?key=letters-sent");
+        const res = await fetch("/api/counter?key=letters-sent", { cache: "no-store" });
         const data = await res.json();
-        setLetters(Math.max(data.value || 0, LETTERS_FLOOR));
+        setLetters(LETTERS_OFFSET + (data.value || 0));
       } catch {
-        setLetters(LETTERS_FLOOR);
+        setLetters(LETTERS_OFFSET);
       }
     })();
   }, []);
@@ -139,11 +137,11 @@ export default function PatientVoiceCoalition() {
   React.useEffect(() => {
     (async () => {
       try {
-        const res = await fetch("/api/counter?key=bills-explained");
+        const res = await fetch("/api/counter?key=bills-explained", { cache: "no-store" });
         const data = await res.json();
-        setBillsExplained(Math.max(data.value || 0, BILLS_EXPLAINED_FLOOR));
+        setBillsExplained(BILLS_EXPLAINED_OFFSET + (data.value || 0));
       } catch {
-        setBillsExplained(BILLS_EXPLAINED_FLOOR);
+        setBillsExplained(BILLS_EXPLAINED_OFFSET);
       }
     })();
   }, []);
@@ -152,7 +150,7 @@ export default function PatientVoiceCoalition() {
   // the shared counter and updates the number on screen immediately, without
   // waiting on the network response.
   const handleSummaryOpened = () => {
-    setBillsExplained((prev) => (prev === null ? BILLS_EXPLAINED_FLOOR + 1 : prev + 1));
+    setBillsExplained((prev) => (prev === null ? BILLS_EXPLAINED_OFFSET + 1 : prev + 1));
     fetch("/api/counter?key=bills-explained&action=increment").catch(() => {});
   };
 
