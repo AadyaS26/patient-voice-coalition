@@ -563,6 +563,8 @@ export default function LegislationDatabase() {
     setLookupError("");
     setSendStatus({});
     setSendErrors({});
+    // Counts every drafted letter, not just confirmed sends.
+    fetch("/api/counter?key=letters-sent&action=increment").catch(() => {});
   };
 
   const handleFindLegislators = async () => {
@@ -609,9 +611,6 @@ export default function LegislationDatabase() {
         throw new Error(data.error || `Could not send (status ${res.status}). Please try again.`);
       }
       setSendStatus((prev) => ({ ...prev, [legislator.id]: "sent" }));
-      // Only count it once the send actually succeeds, not when the
-      // draft modal is opened.
-      fetch("/api/counter?key=letters-sent&action=increment").catch(() => {});
     } catch (err) {
       // Log full context to the browser console so we can see exactly which
       // legislator/email combo failed and why, instead of just "error".
