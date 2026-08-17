@@ -563,7 +563,6 @@ export default function LegislationDatabase() {
     setLookupError("");
     setSendStatus({});
     setSendErrors({});
-    fetch("/api/counter?key=letters-sent&action=increment").catch(() => {});
   };
 
   const handleFindLegislators = async () => {
@@ -610,6 +609,9 @@ export default function LegislationDatabase() {
         throw new Error(data.error || `Could not send (status ${res.status}). Please try again.`);
       }
       setSendStatus((prev) => ({ ...prev, [legislator.id]: "sent" }));
+      // Only count it once the send actually succeeds, not when the
+      // draft modal is opened.
+      fetch("/api/counter?key=letters-sent&action=increment").catch(() => {});
     } catch (err) {
       // Log full context to the browser console so we can see exactly which
       // legislator/email combo failed and why, instead of just "error".
@@ -634,6 +636,8 @@ export default function LegislationDatabase() {
       });
       const data = await response.json();
       setAiSummaries((prev) => ({ ...prev, [bill.number]: data.text || "Summary unavailable right now." }));
+      // Count it once the plain-language summary is actually generated.
+      fetch("/api/counter?key=bills-explained&action=increment").catch(() => {});
     } catch (err) {
       setAiSummaries((prev) => ({ ...prev, [bill.number]: "Couldn't generate a summary right now. Try again in a moment." }));
     } finally {
