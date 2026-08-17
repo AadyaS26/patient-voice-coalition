@@ -156,7 +156,11 @@ const CHAPTERS = [
     photo: "/chapter-photos/emma.jpg", handle: null,
     bio: "Hi, I'm Emma! I am from Chesapeake, Virginia! I was diagnosed with a rare disease/chronic illness called VACTERL association. With many surgeries and doctors' appointments, I want to be able to raise awareness more than ever in my community!! I am currently in college studying Biology and hoping to get my master's! I hope to be able to work with other chapters, our community, and local hospitals to better the systems. And to also be a shoulder people can lean on!",
   },
-  { first: "Vaishali", lastInitial: "", city: "India", region: null, country: "India", photo: null, handle: null, bio: null },
+  {
+    first: "Vaishali", lastInitial: "", city: "India", region: null, country: "India",
+    photo: "/chapter-photos/vaishali.jpg", handle: null,
+    bio: "I'm Vaishali Batra — a finance professional, a lifelong learner, and someone who has lived with celiac disease since childhood. I lead with that not because celiac defines me, but because it shaped me. Long before I understood balance sheets, I was learning to read every label, ask questions others never had to, and advocate for myself when no one understood what I needed. That builds a discipline and a quiet strength you carry into everything — the kind that comes from managing something invisible, every day, without waiting for permission. Living with an autoimmune condition has never made my life smaller. It's made me more aware, more empathetic, and more willing to speak openly about what so many of us carry alone. That's why I'm proud to lead this chapter. I want to build a space where no one has to explain themselves twice — where the fatigue, the constant adjustments, and the small daily wins are understood without translation. Where we don't just cope with our conditions; we live fully alongside them. I'll bring my story. I'll learn from yours. And together, we become more than a group defined by what we manage — a community made stronger by it. Because sometimes, what makes life different is exactly what makes us strong.",
+  },
   { first: "Morgan", lastInitial: "A", city: "San Diego", region: "California", country: "US", photo: null, handle: null, bio: null },
   {
     first: "Sofia", lastInitial: "C", city: "Corona", region: "California", country: "US",
