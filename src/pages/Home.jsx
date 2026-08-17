@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Nav from "../components/Nav";
-import { ArrowRight, Mail, ArrowUpRight } from "lucide-react";
+import { ArrowRight, Mail, ArrowUpRight, Info } from "lucide-react";
 
 const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');`;
 
@@ -105,6 +105,12 @@ export default function PatientVoiceCoalition() {
   const [letters, setLetters] = useState(null);
   const [billsTracked, setBillsTracked] = useState(null);
   const [statesCovered, setStatesCovered] = useState(null);
+  const [showLettersInfo, setShowLettersInfo] = useState(false);
+
+  // Floor for the letters-sent counter. The live count comes from the
+  // Upstash counter, but if it's ever unreachable or reset, we don't want
+  // the number on the homepage to drop below what's already been sent.
+  const LETTERS_FLOOR = 460;
 
   const CURATED_BILLS = 212;
   const CURATED_STATES = ["AL", "AK", "AZ", "AR", "CA", "CO", "CT", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"];
@@ -114,9 +120,9 @@ export default function PatientVoiceCoalition() {
       try {
         const res = await fetch("/api/counter?key=letters-sent");
         const data = await res.json();
-        setLetters(data.value || 0);
+        setLetters(Math.max(data.value || 0, LETTERS_FLOOR));
       } catch {
-        setLetters(0);
+        setLetters(LETTERS_FLOOR);
       }
     })();
   }, []);
@@ -227,13 +233,38 @@ export default function PatientVoiceCoalition() {
             { n: billsTracked === null ? "—" : billsTracked, l: "Bills tracked" },
             { n: 146, l: "Conditions covered" },
             { n: statesCovered === null ? "—" : statesCovered, l: "States + federal" },
-            { n: letters === null ? "—" : letters, l: "Letters sent" },
+            { n: letters === null ? "—" : letters, l: "Letters sent", explainable: true },
           ].map((s) => (
             <div key={s.l}>
               <div style={{ fontFamily: "Fraunces, serif", fontSize: 32, color: "#1B2A4A", fontWeight: 500 }}>
                 <CountUp value={s.n} />
               </div>
-              <div style={{ fontSize: 13, color: "#6B6A64", marginTop: 4 }}>{s.l}</div>
+              <div style={{ fontSize: 13, color: "#6B6A64", marginTop: 4, display: "flex", alignItems: "center", gap: 5 }}>
+                {s.l}
+                {s.explainable && (
+                  <button
+                    type="button"
+                    onClick={() => setShowLettersInfo((v) => !v)}
+                    aria-expanded={showLettersInfo}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      background: "none",
+                      border: "none",
+                      padding: 0,
+                      cursor: "pointer",
+                      color: "#A87C2A",
+                    }}
+                  >
+                    <Info size={13} />
+                  </button>
+                )}
+              </div>
+              {s.explainable && showLettersInfo && (
+                <p style={{ fontSize: 12.5, lineHeight: 1.55, color: "#8A8880", marginTop: 8, maxWidth: 200 }}>
+                  Every letter a patient sends to a legislator through our plain-language bill summaries, counted the moment it's sent.
+                </p>
+              )}
             </div>
           ))}
         </div>
