@@ -163,6 +163,7 @@ const CHAPTERS = [
     photo: "/chapter-photos/sofia.jpg", handle: null,
     bio: "My name is Sofia Carpio, I'm 16, and currently a junior in high school. I'm striving to become a neurosurgeon and my dream school is University of California, Irvine. I wanted to become a chapter leader because although I don't personally struggle with an autoimmune disease myself, I want to not only educate and advocate for this community, but show them that their efforts, strength, and struggles do not go unnoticed. You all are seen, understood, and not alone.",
   },
+  { first: "Iza", lastInitial: "M", city: "Sialkot", region: null, country: "Pakistan", photo: null, handle: null, bio: null },
 ];
 
 function chapterLocation(c) {
