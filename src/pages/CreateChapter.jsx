@@ -168,6 +168,11 @@ const CHAPTERS = [
     bio: "My name is Sofia Carpio, I'm 16, and currently a junior in high school. I'm striving to become a neurosurgeon and my dream school is University of California, Irvine. I wanted to become a chapter leader because although I don't personally struggle with an autoimmune disease myself, I want to not only educate and advocate for this community, but show them that their efforts, strength, and struggles do not go unnoticed. You all are seen, understood, and not alone.",
   },
   { first: "Iza", lastInitial: "M", city: "Sialkot", region: null, country: "Pakistan", photo: null, handle: null, bio: null },
+  {
+    first: "Niamh", lastInitial: "A", city: "Mooloolaba", region: "Queensland", country: "Australia",
+    photo: "/chapter-photos/niamh.jpg", handle: null,
+    bio: "I'm Niamh, a menstrual and hormonal coach, chronic illness advocate, and now a Chapter Leader dedicated to helping women feel more informed, empowered, and connected to their bodies. For years, I've had to learn how to medically advocate for myself after being diagnosed with adenomyosis, endometriosis and fibromyalgia, alongside living with chronic pain and the realities of chronic illness. My own journey has taught me just how difficult it can be to navigate your health when you don't have the information, support or confidence to understand what is happening within your own body. That experience is a huge part of why I'm building Worn Souls — a space centred around menstrual and hormonal education, helping women better understand their cycles, reconnect with their bodies and feel more confident advocating for themselves. I share much of my own story publicly because I believe there is power in women seeing that they aren't alone. But I don't want to only share my story. I want to turn what I've lived through into action, education and meaningful support for other women. Becoming a Chapter Leader is also an opportunity for me to continue learning, expand my own education and surround myself with people who are passionate about changing the way women understand and navigate their health. I'm here because I know what it feels like to fight to be heard — and I want more women to feel equipped to speak up for themselves, ask questions and understand their bodies along the way.",
+  },
 ];
 
 function chapterLocation(c) {
