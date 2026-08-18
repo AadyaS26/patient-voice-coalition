@@ -76,6 +76,94 @@ const CONDITIONS = [
   "Vitiligo",
 ];
 
+// Countries we currently track legislation/policy for. "United States" covers
+// federal Congress.gov bills plus state-level bills (both the curated BILLS
+// list and the live GitHub-synced feeds, none of which carry a country field
+// of their own since they're US-only data sources).
+// Countries we can filter by. Bills are tracked for a subset of these so far —
+// selecting a country with nothing tracked yet gives an honest empty state
+// plus a link to find your representative, rather than hiding the country.
+const COUNTRIES = [
+  "All countries",
+  "United States",
+  "United Kingdom",
+  "Ireland",
+  "Canada",
+  "Australia",
+  "European Union",
+  "Argentina",
+  "Bangladesh",
+  "Barbados",
+  "Belgium",
+  "Brazil",
+  "Chile",
+  "Colombia",
+  "Denmark",
+  "Egypt",
+  "France",
+  "Germany",
+  "Ghana",
+  "Guyana",
+  "India",
+  "Indonesia",
+  "Italy",
+  "Jamaica",
+  "Japan",
+  "Kenya",
+  "Malaysia",
+  "Mexico",
+  "Netherlands",
+  "New Zealand",
+  "Nigeria",
+  "Norway",
+  "Pakistan",
+  "Philippines",
+  "Poland",
+  "Portugal",
+  "Singapore",
+  "South Africa",
+  "South Korea",
+  "Spain",
+  "Sri Lanka",
+  "Sweden",
+  "Switzerland",
+  "Trinidad and Tobago",
+  "Türkiye",
+  "United Arab Emirates",
+];
+
+// EU member states — EU-level legislation (accessibility act, disability card,
+// orphan drug rules) applies to these too, so selecting e.g. Germany should
+// surface the EU entries rather than showing an empty list.
+const EU_MEMBERS = new Set([
+  "Belgium", "Denmark", "France", "Germany", "Ireland", "Italy",
+  "Netherlands", "Poland", "Portugal", "Spain", "Sweden",
+]);
+
+// The address-based "find my legislators" lookup (/api/find-representatives)
+// only covers US federal/state legislators. For other countries we point
+// people to their own parliament's official member directory where we've
+// verified one, and otherwise to IPU Parline — the Inter-Parliamentary
+// Union's directory covering 193 national parliaments. We'd rather send
+// someone to a real directory than guess at a URL that might not exist.
+const REP_FINDER = {
+  "United Kingdom": { label: "Find your MP — WriteToThem", url: "https://www.writetothem.com/" },
+  Ireland: { label: "Find your TD — Oireachtas", url: "https://www.oireachtas.ie/en/members/members-of-the-oireachtas/" },
+  Canada: { label: "Find your MP — House of Commons", url: "https://www.ourcommons.ca/members/en/search" },
+  Australia: { label: "Find your MP — Parliament of Australia", url: "https://www.aph.gov.au/Senators_and_Members" },
+  "European Union": { label: "Find your MEP — European Parliament", url: "https://www.europarl.europa.eu/meps/en/home" },
+  "Trinidad and Tobago": { label: "Find your MP — Parliament of Trinidad and Tobago", url: "https://www.ttparliament.org/members/current-members/" },
+};
+
+const IPU_PARLINE = {
+  label: "Find your parliament — IPU Parline",
+  url: "https://data.ipu.org/",
+};
+
+function repFinderFor(country) {
+  return REP_FINDER[country] || IPU_PARLINE;
+}
+
 const BILLS = [
   {
     number: "NJ A4163 / S3098",
@@ -416,14 +504,694 @@ const BILLS = [
   })),
 ];
 
+// International legislation and policy affecting autoimmune/chronic disease
+// patients outside the US. This list is intentionally small right now — it's
+// hand-verified against official or primary sources the same way the US list
+// is, rather than pulled from a live feed (we don't yet have an
+// international equivalent of the Congress.gov sync). It'll grow as chapter
+// leads flag more country-specific legislation worth tracking.
+const INTERNATIONAL_BILLS = [
+  // --- United Kingdom ---
+  {
+    number: "NHS England — Gluten-Free Prescribing",
+    name: "NHS gluten-free prescription rollback",
+    fullName: "Regional NHS decisions ending gluten-free food prescriptions",
+    sponsor: "NHS England Integrated Care Boards",
+    introduced: "2024–2026, ongoing region by region",
+    status: "Being phased out in most areas",
+    condition: "Celiac disease",
+    country: "United Kingdom",
+    summary:
+      "Most NHS Integrated Care Boards in England have ended or are ending free prescriptions for gluten-free bread and flour for adults with coeliac disease, citing cost. Scotland and Wales currently maintain broader support. Coeliac UK is tracking these regional decisions and pushing back where consultations are still open.",
+    url: "https://www.coeliac.org.uk/prescriptions-north-east-north-cumbria/",
+  },
+  {
+    number: "UK Rare Diseases Framework — Action Plan",
+    name: "England Rare Diseases Action Plan",
+    fullName: "UK Rare Diseases Framework, implemented via annual England Rare Diseases Action Plans",
+    sponsor: "Department of Health and Social Care",
+    introduced: "Framework 2021, annual action plans ongoing",
+    status: "Active — annual action plans continue",
+    condition: "General autoimmune",
+    country: "United Kingdom",
+    summary:
+      "Sets shared UK-wide priorities for rare disease patients — faster diagnosis, more clinician awareness, better-coordinated care, and improved access to specialist treatment — with England publishing a new action plan each year detailing concrete steps, including new Syndromes Without A Name diagnostic clinics.",
+    url: "https://gov.uk/government/publications/england-rare-diseases-action-plan-2024/england-rare-diseases-action-plan-2024-main-report",
+  },
+  {
+    number: "MHRA — Rare Disease Therapies Framework",
+    name: "MHRA rare disease regulatory overhaul",
+    fullName: "Draft rare disease therapies regulatory framework",
+    sponsor: "Medicines and Healthcare products Regulatory Agency (MHRA)",
+    introduced: "Nov 2025",
+    status: "Consultation / in development",
+    condition: "General autoimmune",
+    country: "United Kingdom",
+    summary:
+      "A proposed overhaul of how the UK approves treatments for rare diseases, aiming to make testing, manufacturing, and approval faster for conditions with very small patient populations — of the roughly 3.5 million people in the UK with a rare disease, fewer than 5% currently have an approved treatment.",
+    url: "https://www.gov.uk/government/consultations/draft-rare-disease-therapies-regulatory-framework/draft-rare-disease-therapies-regulatory-framework",
+  },
+  {
+    number: "Universal Credit and PIP Bill 2024-25",
+    name: "UK disability benefit reform (PIP)",
+    fullName: "Universal Credit and Personal Independence Payment Bill",
+    sponsor: "UK Government (DWP)",
+    introduced: "2025",
+    status: "PIP provisions withdrawn from the bill after pressure from disabled people and carers",
+    condition: "General autoimmune",
+    country: "United Kingdom",
+    summary:
+      "Originally proposed tightening PIP eligibility to require higher scores on 'daily living' activities, which disability charities warned would cut support for many with fluctuating chronic conditions. Following sustained campaigning, the government removed the PIP changes from the bill and committed to a fuller review process involving disabled people's organisations.",
+    url: "https://commonslibrary.parliament.uk/research-briefings/cbp-10296/",
+  },
+  {
+    number: "Employment Rights Act 2025 — Sick Pay",
+    name: "UK statutory sick pay reform",
+    fullName: "Employment Rights Act 2025, sections 10–13 (statutory sick pay)",
+    sponsor: "UK Parliament",
+    introduced: "Act passed Dec 2025; sick pay provisions effective 6 Apr 2026",
+    status: "Signed into law",
+    condition: "General autoimmune",
+    country: "United Kingdom",
+    summary:
+      "Removes the old 3-day unpaid waiting period and the minimum-earnings threshold for statutory sick pay, so workers are paid from the first day of illness regardless of income — a meaningful change for anyone managing a chronic condition with unpredictable flare days.",
+    url: "https://www.acas.org.uk/checking-sick-pay/statutory-sick-pay-ssp",
+  },
+
+  // --- Ireland ---
+  {
+    number: "Ireland — Revenue Tax Relief",
+    name: "Irish tax relief for gluten-free food",
+    fullName: "Revenue tax relief scheme for coeliac disease dietary costs",
+    sponsor: "Irish Revenue Commissioners",
+    introduced: "Ongoing scheme",
+    status: "Active — advocacy continues for a broader HSE scheme",
+    condition: "Celiac disease",
+    country: "Ireland",
+    summary:
+      "People with a doctor-confirmed coeliac diagnosis can claim tax relief on gluten-free food purchases through Revenue. Advocacy groups, including the Coeliac Society of Ireland, continue pressing the HSE to reinstate the broader medical-card reimbursement scheme that was dropped in 2012.",
+    url: "https://www.oireachtas.ie/en/debates/question/2025-01-22/1535/",
+  },
+  {
+    number: "Ireland — Sick Leave Act 2022",
+    name: "Irish statutory sick leave expansion (stalled)",
+    fullName: "Sick Leave Act 2022 phased expansion",
+    sponsor: "Oireachtas",
+    introduced: "2022, phase-in through 2026",
+    status: "Frozen at 5 days — planned increase to 7 and 10 days postponed",
+    condition: "General autoimmune",
+    country: "Ireland",
+    summary:
+      "Was meant to phase statutory paid sick leave up from 3 to 10 days a year by 2026, but the government paused the increase past 5 days in 2025 pending a cost review — meaning workers managing chronic conditions still have fewer paid sick days than originally planned.",
+    url: "https://enterprise.gov.ie/en/news-and-events/department-news/2025/april/20250414.html",
+  },
+  {
+    number: "Long-Term Illness Bill (reintroduced)",
+    name: "Long-Term Illness Scheme reform",
+    fullName: "Bill to amend the Health Act 1970's Long-Term Illness Scheme",
+    sponsor: "Sinn Féin (Louise O'Reilly TD, David Cullinane TD)",
+    introduced: "2025 (reintroduced)",
+    status: "Introduced",
+    condition: "General autoimmune",
+    country: "Ireland",
+    summary:
+      "Would reform and expand the Long-Term Illness Scheme, which currently provides free medication for a fixed, decades-old list of conditions that leaves out many chronic and autoimmune diagnoses. The bill aims to modernize the list and the process for adding conditions to it.",
+    url: "https://sinnfein.ie/news/sinn-fein-to-publish-bill-to-reform-long-term-illness-scheme-louise-oreilly-td/",
+  },
+
+  // --- Canada ---
+  {
+    number: "Canada — National Strategy for Drugs for Rare Diseases",
+    name: "Canada's rare disease drug strategy",
+    fullName: "National Strategy for Drugs for Rare Diseases (2023–2027)",
+    sponsor: "Health Canada",
+    introduced: "March 2023",
+    status: "Active — all provinces and territories signed on",
+    condition: "General autoimmune",
+    country: "Canada",
+    summary:
+      "A federal strategy committing up to $1.5 billion to help provinces and territories cover new and existing drugs for rare diseases, plus screening and diagnostics. All 13 provinces and territories have now signed bilateral funding agreements with the federal government.",
+    url: "https://www.canada.ca/en/health-canada/services/health-services-benefits/strategy-drugs-rare-diseases.html",
+  },
+  {
+    number: "Canada — Gluten-Free Medical Expense Credit",
+    name: "Canadian tax credit for gluten-free food",
+    fullName: "Medical expense tax credit for celiac disease dietary costs",
+    sponsor: "Canada Revenue Agency",
+    introduced: "Ongoing",
+    status: "Active",
+    condition: "Celiac disease",
+    country: "Canada",
+    summary:
+      "Canadians with a medical diagnosis of celiac disease can claim the extra cost of gluten-free food over its regular counterpart as a medical expense tax credit, under detailed receipt-tracking rules set by the CRA.",
+    url: "https://celiac.org/gluten-free-living/global-associations-and-policies/policies-around-the-world/",
+  },
+  {
+    number: "Bill C-22 — Canada Disability Benefit Act",
+    name: "Canada Disability Benefit",
+    fullName: "Canada Disability Benefit Act",
+    sponsor: "Government of Canada",
+    introduced: "2022; came into force June 2024",
+    status: "Signed into law — payments began 2025",
+    condition: "General autoimmune",
+    country: "Canada",
+    summary:
+      "Establishes a federal monthly benefit for working-age Canadians with disabilities who hold the Disability Tax Credit, meant to reduce poverty and top up existing provincial supports. First payments began in 2025; advocates are pushing for a higher benefit amount and eligibility beyond the current DTC requirement.",
+    url: "https://www.canada.ca/en/employment-social-development/programs/disability-benefit.html",
+  },
+  {
+    number: "Bill C-422",
+    name: "Canada Disability Benefit clawback protection",
+    fullName: "An Act to amend the Canada Disability Benefit Act",
+    sponsor: "MP Bonita Zarrillo",
+    introduced: "2025",
+    status: "Introduced",
+    condition: "General autoimmune",
+    country: "Canada",
+    summary:
+      "Would protect people receiving the Canada Disability Benefit from having it reduced based on household income or marital status, addressing a common criticism that the current benefit can effectively penalize recipients for living with a partner or spouse.",
+    url: "https://www.canadadisabilitybenefit.ca/establishing-the-cdb",
+  },
+
+  // --- Australia ---
+  {
+    number: "Australia — Gluten-Free Subsidy Petition",
+    name: "Coeliac Australia's gluten-free food subsidy campaign",
+    fullName: "Petition to the House of Representatives for a gluten-free food subsidy",
+    sponsor: "Coeliac Australia",
+    introduced: "2025",
+    status: "Active petition — not yet law",
+    condition: "Celiac disease",
+    country: "Australia",
+    summary:
+      "Coeliac Australia has launched a formal petition to the House of Representatives calling for a government subsidy on essential gluten-free foods, citing prices that can run 2–4x higher than gluten-containing equivalents.",
+    url: "https://coeliac.org.au/news/press-release/",
+  },
+  {
+    number: "PBS Listing — Anifrolumab (Saphnelo)",
+    name: "PBS listing of first lupus biologic",
+    fullName: "Pharmaceutical Benefits Scheme listing of anifrolumab for systemic lupus erythematosus",
+    sponsor: "Australian Government Department of Health, Disability and Ageing",
+    introduced: "Effective 1 Jul 2024",
+    status: "Listed — active",
+    condition: "Lupus (SLE)",
+    country: "Australia",
+    summary:
+      "Added the first biologic treatment for systemic lupus erythematosus to Australia's subsidised medicines scheme, giving eligible patients affordable access to a treatment that specifically targets the immune cells involved in lupus rather than suppressing the whole immune system.",
+    url: "https://creakyjoints.org.au/treatment/game-changing-lupus-treatment-now-listed-on-the-pbs/",
+  },
+  {
+    number: "PBS Listing — Avacopan & Bimekizumab",
+    name: "PBS expansion for vasculitis and inflammatory arthritis",
+    fullName: "New and expanded PBS listings for avacopan (Tavneos) and bimekizumab (Bimzelx)",
+    sponsor: "Australian Government Department of Health, Disability and Ageing",
+    introduced: "Oct 2024",
+    status: "Listed — active",
+    condition: "Vasculitis",
+    country: "Australia",
+    summary:
+      "Listed avacopan for the first time to treat severe ANCA-associated vasculitis (granulomatosis with polyangiitis and microscopic polyangiitis), and expanded bimekizumab's subsidised use to a wider range of inflammatory arthritis conditions — without subsidy, patients might otherwise pay around $18,000–22,000 a year.",
+    url: "https://www.health.gov.au/ministers/the-hon-mark-butler-mp/media/new-cheaper-medicines-for-autoimmune-conditions-cancer-and-heart-disease",
+  },
+  {
+    number: "PBS Listing — Ocrelizumab (Ocrevus)",
+    name: "Cheaper, faster MS treatment on PBS",
+    fullName: "PBS listing of a new form of ocrelizumab for relapsing-remitting multiple sclerosis",
+    sponsor: "Australian Government Department of Health, Disability and Ageing",
+    introduced: "Dec 2025",
+    status: "Listed — active",
+    condition: "Multiple sclerosis",
+    country: "Australia",
+    summary:
+      "Listed a faster-infusion form of ocrelizumab for relapsing-remitting MS on the PBS, cutting administration time from hours to about 10 minutes for eligible patients — part of a broader push to expand subsidised access to autoimmune and rare-disease medicines.",
+    url: "https://www.health.gov.au/ministers/the-hon-mark-butler-mp/media/cheaper-multiple-sclerosis-and-rare-cancer-medicines-now-on-pbs?language=en",
+  },
+
+  // --- European Union ---
+  {
+    number: "EU — Rare Disease Action Plan (proposed)",
+    name: "European action plan for rare diseases",
+    fullName: "Proposed comprehensive EU-level action plan for rare diseases, 2025–2029",
+    sponsor: "European Commission / European Parliament",
+    introduced: "2025, under discussion",
+    status: "In development",
+    condition: "General autoimmune",
+    country: "European Union",
+    summary:
+      "Following calls from the European Parliament and the European Economic and Social Committee, the European Commission is developing a comprehensive EU action plan for rare diseases, aiming for diagnosis within one year of symptom onset and building on the existing European Reference Networks.",
+    url: "https://epthinktank.eu/2025/11/27/rare-diseases-strengthening-eu-action/",
+  },
+  {
+    number: "Directive (EU) 2019/882",
+    name: "European Accessibility Act",
+    fullName: "European Accessibility Act — accessibility requirements for products and services",
+    sponsor: "European Parliament and Council",
+    introduced: "Adopted 2019; applied from 28 Jun 2025",
+    status: "In force",
+    condition: "General autoimmune",
+    country: "European Union",
+    summary:
+      "Requires everyday digital products and services sold in the EU — banking, e-commerce, e-books, phones, self-service terminals — to meet common accessibility standards, benefiting the roughly 100 million people in the EU living with a disability, including many with chronic illness-related impairments.",
+    url: "https://commission.europa.eu/news-and-media/news/eu-becomes-more-accessible-all-2025-07-31_en",
+  },
+  {
+    number: "Directives (EU) 2024/2841 & 2024/2842",
+    name: "European Disability Card",
+    fullName: "European Disability Card and European Parking Card for persons with disabilities",
+    sponsor: "European Parliament and Council",
+    introduced: "Adopted Oct 2024",
+    status: "Adopted — member states implementing ahead of 2028 application date",
+    condition: "General autoimmune",
+    country: "European Union",
+    summary:
+      "Creates a mutually recognized disability status card so people with a recognized disability, including many chronic autoimmune conditions, don't have to re-prove their status when traveling or moving to another EU member state to access preferential services, transport, and parking.",
+    url: "https://www.consilium.europa.eu/en/policies/european-disability-card/",
+  },
+  {
+    number: "EU Pharmaceutical Legislation Revision",
+    name: "EU orphan drug rules revision",
+    fullName: "Revision of EU pharmaceutical legislation, including the Orphan Regulation",
+    sponsor: "European Commission",
+    introduced: "Launched 2023; Critical Medicines Act proposed Mar 2025",
+    status: "In progress",
+    condition: "General autoimmune",
+    country: "European Union",
+    summary:
+      "An ongoing overhaul of the rules governing how medicines, including orphan drugs for rare autoimmune conditions, are incentivized and approved across the EU, paired with a proposed Critical Medicines Act aimed at addressing shortages and access gaps for patients with rare and complex diseases.",
+    url: "https://epthinktank.eu/2025/11/27/rare-diseases-strengthening-eu-action/",
+  },
+
+  // --- Asia-Pacific ---
+  {
+    number: "Japan — Nanbyo Act",
+    name: "Japan's designated intractable disease subsidy system",
+    fullName: "Act on Medical Care for Patients with Intractable Diseases",
+    sponsor: "Ministry of Health, Labour and Welfare",
+    introduced: "Enacted 2014, effective 2015",
+    status: "Active — list of covered diseases expanded annually",
+    condition: "General autoimmune",
+    country: "Japan",
+    summary:
+      "Japan's 'Nanbyo' system designates rare and intractable diseases — including lupus, ulcerative colitis, Sjögren's syndrome, autoimmune hepatitis, and dozens of other autoimmune conditions — as eligible for government medical expense subsidies. Coverage has grown from 56 diseases to over 300 since the law's predecessor programs began.",
+    url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5243159/",
+  },
+  {
+    number: "Korea — Rare Disease Medical Expense Support",
+    name: "South Korea's rare disease cost-sharing expansion",
+    fullName: "Rare Disease Medical Expenses Support Program (KDCA)",
+    sponsor: "Korea Disease Control and Prevention Agency",
+    introduced: "2025 expansion",
+    status: "Active — expanded 2025",
+    condition: "General autoimmune",
+    country: "South Korea",
+    summary:
+      "The KDCA expanded eligibility for its rare disease co-payment support program in 2025, unifying and raising the household income threshold to 140% of the median regardless of patient age, so more families managing a rare or chronic autoimmune condition qualify for reduced medical costs.",
+    url: "https://www.kdca.go.kr/bbs/eng/189/206307/artclView.do?layout=unknown",
+  },
+  {
+    number: "India — National Policy for Rare Diseases",
+    name: "India's rare disease financial assistance policy",
+    fullName: "National Policy for Rare Diseases, 2021 (amended 2025)",
+    sponsor: "Ministry of Health and Family Welfare",
+    introduced: "2021; financial cap raised 2025",
+    status: "Active",
+    condition: "General autoimmune",
+    country: "India",
+    summary:
+      "Provides financial support for rare disease treatment through the Rashtriya Arogya Nidhi scheme at government Centres of Excellence. In 2025 the government raised the support cap from ₹20 lakh to ₹50 lakh per patient and extended it to all categories of rare disease, not just those needing one-time treatment.",
+    url: "https://www.rarediseases.in/big-relief-union-health-ministry-hikes-financial-grant-for-rare-disease-treatment-from-rs-20-lakh-to-rs-50-lakh-applies-to-all-categories/",
+  },
+  {
+    number: "Malaysia — National Policy on Rare Diseases",
+    name: "Malaysia's first national rare disease policy",
+    fullName: "National Policy on Rare Diseases (NRDP)",
+    sponsor: "Ministry of Health Malaysia",
+    introduced: "Launched Aug 2025",
+    status: "Active — implementation ongoing",
+    condition: "General autoimmune",
+    country: "Malaysia",
+    summary:
+      "Malaysia's first National Policy on Rare Diseases formally recognizes rare disease patients as a vulnerable group entitled to timely diagnosis, treatment access, and long-term care, building on the National Rare Disease Committee established in 2019. Advocates are now pushing for a dedicated funding mechanism to back the policy.",
+    url: "https://www.malaymail.com/news/what-you-think/2025/09/11/malaysias-path-to-becoming-aseans-hub-for-rare-disease-healthcare-spinal-muscular-atrophy-malaysia/190820",
+  },
+  {
+    number: "Philippines — RA 10747",
+    name: "Rare Diseases Act of the Philippines",
+    fullName: "Republic Act No. 10747",
+    sponsor: "Congress of the Philippines",
+    introduced: "Signed March 2016",
+    status: "Signed into law",
+    condition: "General autoimmune",
+    country: "Philippines",
+    summary:
+      "A dedicated national law for rare disease patients: mandates a PhilHealth benefit package for treatment costs, tax and customs exemptions for orphan drugs and research donations, a national Rare Disease Registry, and grants rare disease patients the same rights and privileges as persons with disabilities.",
+    url: "https://mirror.officialgazette.gov.ph/2016/03/03/republic-act-no-10747/",
+  },
+  {
+    number: "Indonesia — BPJS Rare Disease Access Push",
+    name: "Campaign for rare disease drug coverage under JKN",
+    fullName: "Advocacy to include orphan drugs in Indonesia's national health insurance (BPJS Kesehatan)",
+    sponsor: "RSCM, FKUI, and Yayasan MPS Indonesia",
+    introduced: "2026",
+    status: "Active advocacy campaign",
+    condition: "General autoimmune",
+    country: "Indonesia",
+    summary:
+      "BPJS Kesehatan (Indonesia's national health insurance, JKN) covers medically-indicated rare disease treatment under existing regulations, but of an estimated 25 million Indonesians living with a rare disease, only about 5% have been definitively diagnosed. Hospitals and patient groups marked Rare Disease Day 2026 by pushing for orphan drugs to be more explicitly and reliably included in the BPJS scheme.",
+    url: "https://www.jpnn.com/news/dorong-kesetaraan-medis-rscm-dan-fkui-desak-obat-penyakit-langka-masuk-skema-bpjs",
+  },
+  {
+    number: "Pakistan — Sehat Sahulat Program",
+    name: "Pakistan's national health insurance card",
+    fullName: "Sehat Sahulat Program (Sehat Card)",
+    sponsor: "Government of Pakistan",
+    introduced: "2015, nationwide by 2020",
+    status: "Active",
+    condition: "General autoimmune",
+    country: "Pakistan",
+    summary:
+      "A government-funded health insurance program giving eligible families cash-free hospital treatment, explicitly including chronic disease management for conditions like rheumatologic disease, hepatitis, and kidney failure, with up to PKR 1 million in annual coverage per family.",
+    url: "https://en.wikipedia.org/wiki/Sehat_Sahulat_Program",
+  },
+  {
+    number: "Bangladesh — SSK Health Protection Scheme",
+    name: "Bangladesh's health protection pilot scheme",
+    fullName: "Shasthyo Surokhsha Karmasuchi (SSK)",
+    sponsor: "Health Economics Unit, Ministry of Health and Family Welfare",
+    introduced: "Piloted 2016, ongoing",
+    status: "Active — limited pilot areas",
+    condition: "General autoimmune",
+    country: "Bangladesh",
+    summary:
+      "A government health protection scheme providing below-poverty-line households with inpatient coverage across dozens of disease groups at no premium cost, reducing out-of-pocket health spending by roughly a third in piloted subdistricts. Coverage remains geographically limited as the government works toward nationwide scale-up.",
+    url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11079759/",
+  },
+  {
+    number: "Singapore — Chronic Disease Management Programme",
+    name: "Singapore's CDMP subsidy scheme",
+    fullName: "Chronic Disease Management Programme (CDMP)",
+    sponsor: "Ministry of Health, Singapore",
+    introduced: "2006, list updated regularly",
+    status: "Active — expanding to 25 conditions from 2027",
+    condition: "General autoimmune",
+    country: "Singapore",
+    summary:
+      "Lets patients use MediSave and CHAS subsidies for outpatient treatment of 23 listed chronic conditions at accredited clinics. The Ministry of Health reviews the covered list regularly — hyperthyroidism and hypothyroidism are set to be added from January 2027.",
+    url: "https://www.moh.gov.sg/others/resources-and-statistics/chronic-disease-management-programme-cdmp/",
+  },
+  {
+    number: "Sri Lanka — Free Healthcare & NCD Policy",
+    name: "Sri Lanka's free healthcare system and chronic disease policy",
+    fullName: "National Policy on Prevention and Control of Chronic Non-Communicable Diseases",
+    sponsor: "Ministry of Health, Sri Lanka",
+    introduced: "Ongoing",
+    status: "Active",
+    condition: "General autoimmune",
+    country: "Sri Lanka",
+    summary:
+      "Sri Lanka's long-standing free public healthcare system provides government hospital treatment, including hemodialysis for kidney failure (relevant to lupus nephritis and vasculitis), at no cost, alongside a national policy specifically addressing chronic kidney and other non-communicable disease management.",
+    url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC12060758/",
+  },
+
+  {
+    number: "NZ — Rare Disorders Strategy",
+    name: "Aotearoa New Zealand Rare Disorders Strategy",
+    fullName: "Aotearoa New Zealand Rare Disorders Strategy 2024, with Pharmac policy alignment",
+    sponsor: "Ministry of Health / Pharmac",
+    introduced: "Strategy released Jul 2024; Pharmac alignment effective Nov 2025",
+    status: "Active",
+    condition: "General autoimmune",
+    country: "New Zealand",
+    summary:
+      "New Zealand's first national health-system strategy for rare disorders, aiming to improve diagnosis and coordinated care over a decade-long framework. Pharmac updated its own funding policy in November 2025 to align with the strategy's broader definition of a rare disorder, and is separately consulting on simplifying funding criteria for biologic medicines used to treat autoimmune and inflammatory conditions.",
+    url: "https://www.health.govt.nz/strategies-initiatives/health-strategies/rare-disorders-strategy",
+  },
+
+  // --- Middle East & Africa ---
+  {
+    number: "UAE — Nationwide Mandatory Health Insurance",
+    name: "UAE mandatory health insurance expansion",
+    fullName: "Cabinet decision extending mandatory health insurance to all seven emirates",
+    sponsor: "UAE Cabinet / Ministry of Human Resources and Emiratisation",
+    introduced: "Effective 1 Jan 2025",
+    status: "In force",
+    condition: "General autoimmune",
+    country: "United Arab Emirates",
+    summary:
+      "Extended mandatory employer-provided health insurance to private-sector employees and domestic workers in all seven emirates, following Abu Dhabi and Dubai's earlier mandates. The standardized Basic Health Insurance package explicitly covers chronic diseases and pre-existing conditions with no waiting period.",
+    url: "https://www.shory.com/individual-health-insurance/blog/uae-insurance-guide-what-residents-must-know-in-2025/",
+  },
+  {
+    number: "Egypt — Universal Health Insurance Law",
+    name: "Egypt's universal health insurance rollout",
+    fullName: "Universal Health Insurance Law No. 2 of 2018",
+    sponsor: "Egyptian Parliament",
+    introduced: "2018, phased rollout through 2032",
+    status: "In progress — phased by governorate",
+    condition: "General autoimmune",
+    country: "Egypt",
+    summary:
+      "Creates a mandatory national health insurance system being phased in across Egypt's governorates, with people who have chronic diseases specifically exempted from co-payments on medications, imaging, labs, and inpatient care under the law.",
+    url: "https://sis.gov.eg/en/egypt/society/health-care/universal-health-insurance-law-no-2-of-2018/",
+  },
+  {
+    number: "Nigeria — NHIA Act 2022",
+    name: "Nigeria's mandatory national health insurance",
+    fullName: "National Health Insurance Authority Act 2022",
+    sponsor: "National Assembly of Nigeria",
+    introduced: "Signed May 2022",
+    status: "Signed into law — implementation ongoing",
+    condition: "General autoimmune",
+    country: "Nigeria",
+    summary:
+      "Makes health insurance mandatory for every Nigerian and legal resident, replacing the earlier voluntary scheme, and establishes a Vulnerable Group Fund to subsidize care for the poorest households. Chronic disease coverage varies by plan, and out-of-pocket spending remains high while implementation continues to expand.",
+    url: "https://www.nhia.gov.ng/",
+  },
+  {
+    number: "Kenya — Social Health Insurance Act",
+    name: "Kenya's Emergency, Chronic and Critical Illness Fund",
+    fullName: "Social Health Insurance Act, 2023",
+    sponsor: "Parliament of Kenya",
+    introduced: "2023",
+    status: "Signed into law — active",
+    condition: "General autoimmune",
+    country: "Kenya",
+    summary:
+      "Established Kenya's Social Health Insurance Fund and, under Section 28, a dedicated Emergency, Chronic and Critical Illness Fund that continues covering treatment costs once a patient's standard social health insurance cover is exhausted — directly relevant to long-term autoimmune disease management.",
+    url: "https://www.hlbcezam.com/the-social-health-insurance-fund-shif/",
+  },
+  {
+    number: "Ghana — National Health Insurance Scheme",
+    name: "Ghana's National Health Insurance Scheme",
+    fullName: "National Health Insurance Scheme (NHIS)",
+    sponsor: "Government of Ghana / Parliament of Ghana",
+    introduced: "2003, mandatory enrollment",
+    status: "Active",
+    condition: "General autoimmune",
+    country: "Ghana",
+    summary:
+      "A mandatory national insurance scheme covering roughly 95% of disease conditions in Ghana, including diabetes, for a low annual premium with children, pregnant women, and those 70+ exempted. Chronic renal failure and a small list of other conditions remain outside the covered list.",
+    url: "https://en.wikipedia.org/wiki/National_Health_Insurance_Scheme_(Ghana)",
+  },
+  {
+    number: "South Africa — SASSA Disability Grant",
+    name: "South Africa's disability grant for chronic illness",
+    fullName: "SASSA Disability Grant",
+    sponsor: "South African Social Security Agency",
+    introduced: "Ongoing",
+    status: "Active",
+    condition: "General autoimmune",
+    country: "South Africa",
+    summary:
+      "A non-contributory monthly grant available to South Africans with a disability or a chronic illness that significantly limits their ability to work, administered by SASSA. Rare disease advocacy groups continue pushing for a dedicated national rare disease policy alongside this existing safety net.",
+    url: "https://www.pils.org.za/will-the-government-compensate-me-for-my-chronic-illness-from-when-i-was-diagnosed/",
+  },
+
+  // --- Latin America ---
+  {
+    number: "Argentina — Ley 26.689",
+    name: "Argentina's rare disease comprehensive care law",
+    fullName: "Ley Nacional de Enfermedades Poco Frecuentes (Ley 26.689)",
+    sponsor: "Congreso de la Nación Argentina",
+    introduced: "2011, regulated 2015",
+    status: "Signed into law — active",
+    condition: "General autoimmune",
+    country: "Argentina",
+    summary:
+      "Requires all health insurers and provincial health systems to provide 100% coverage for diagnosis, treatment, and follow-up of designated rare diseases. Crohn's disease, ulcerative colitis, and indeterminate colitis are explicitly listed as qualifying conditions under Resolution 641/2021.",
+    url: "https://masvida.org.ar/se-cumplen-10-anos-de-la-ley-de-epof-26-689-en-argentina/",
+  },
+  {
+    number: "Chile — Ley Ricarte Soto",
+    name: "Chile's high-cost treatment coverage law",
+    fullName: "Ley 20.850, Sistema de Protección Financiera para Diagnósticos y Tratamientos de Alto Costo",
+    sponsor: "Congreso Nacional de Chile",
+    introduced: "2015",
+    status: "Signed into law — active",
+    condition: "General autoimmune",
+    country: "Chile",
+    summary:
+      "Guarantees 100% financial coverage for high-cost oncological, immunological, and rare disease diagnoses and treatments for every Chilean, regardless of which health insurer (public or private) they use. Currently covers 27 high-cost conditions, of which about 19 are rare diseases.",
+    url: "https://www.minsal.cl/ministerio-de-salud-incorpora-nueve-enfermedades-a-la-cobertura-de-la-ley-ricarte-soto/",
+  },
+  {
+    number: "Colombia — Ley 1392",
+    name: "Colombia's orphan disease recognition law",
+    fullName: "Ley 1392 de 2010, actualizada por la Resolución 2625 de 2025",
+    sponsor: "Congreso de la República de Colombia",
+    introduced: "2010, list updated Dec 2025",
+    status: "Signed into law — list updated regularly",
+    condition: "General autoimmune",
+    country: "Colombia",
+    summary:
+      "Recognizes orphan/rare diseases as a matter of special national health interest and requires the Ministry of Health to maintain and periodically update an official list — now over 2,000 conditions — that determines which patients get differentiated protection under Colombia's health system.",
+    url: "https://www.minsalud.gov.co/Normatividad_Nuevo/Resolucion%20No%202625%20de%202025.pdf",
+  },
+  {
+    number: "Mexico — Registro Nacional de Enfermedades Raras",
+    name: "Mexico's proposed national rare disease registry",
+    fullName: "Reforma a la Ley General de Salud para crear el Registro Nacional de Enfermedades Raras",
+    sponsor: "Dip. Pedro Zenteno Santaella and others",
+    introduced: "Approved by Cámara de Diputados, Mar 2025/2026",
+    status: "Passed lower house — pending Senate",
+    condition: "General autoimmune",
+    country: "Mexico",
+    summary:
+      "Would amend Mexico's General Health Law to formally create a National Registry of Rare Diseases, aimed at ending what advocates call the 'institutional invisibility' of rare conditions and giving policymakers real data to plan diagnosis and treatment services for the estimated 8–10 million Mexicans living with one.",
+    url: "https://www.informador.mx/mexico/diputados-aprueban-crear-un-registro-nacional-de-enfermedades-raras-en-mexico-20260325-0175.html",
+  },
+  {
+    number: "Brazil — Política Nacional de Doenças Raras",
+    name: "Brazil's national rare disease care policy",
+    fullName: "Política Nacional de Atenção Integral às Pessoas com Doenças Raras (Portaria 199/2014)",
+    sponsor: "Ministério da Saúde",
+    introduced: "2014",
+    status: "Signed into law — active",
+    condition: "General autoimmune",
+    country: "Brazil",
+    summary:
+      "Established Brazil's national policy for comprehensive rare disease care through the public SUS health system, including Reference Centers and Specialized Healthcare Centers. As of recent counts, SUS offers 152 medicines for rare disease treatment, though patients still frequently turn to the courts to access drugs not yet formally incorporated.",
+    url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8867447/",
+  },
+
+  // --- Europe (non-EU / additional) ---
+  {
+    number: "Norway — Nasjonalt senter for sjeldne diagnoser",
+    name: "Norway's National Centre for Rare Disorders",
+    fullName: "Nasjonalt senter for sjeldne diagnoser (NSSD)",
+    sponsor: "Norwegian Ministry of Health and Care Services",
+    introduced: "Transitioned from NKSD, effective Jan 2025",
+    status: "Active",
+    condition: "General autoimmune",
+    country: "Norway",
+    summary:
+      "Norway's national rare disease competence network was restructured into the new National Centre for Rare Disorders in 2025, continuing to coordinate diagnosis, treatment guidance, and equitable access to care for people with rare and complex conditions across the country's regional centers.",
+    url: "https://www.oslo-universitetssykehus.no/fag-og-forskning/nasjonale-og-regionale-tjenester/nasjonalt-senter-for-sjeldne-diagnoser/national-advisory-unit-on-rare-disorders/",
+  },
+  {
+    number: "Switzerland — Nationales Konzept Seltene Krankheiten",
+    name: "Switzerland's national rare disease framework",
+    fullName: "Nationales Konzept Seltene Krankheiten",
+    sponsor: "Federal Council / Federal Office of Public Health (BAG)",
+    introduced: "Adopted 2014, implementation completed 2021",
+    status: "Active — ongoing improvements",
+    condition: "General autoimmune",
+    country: "Switzerland",
+    summary:
+      "Switzerland's national strategy created reference centers for rare diseases and a simplified authorization pathway for orphan drugs. Reimbursement gaps remain a live issue — the National Council adopted a 2023 motion specifically to improve access to orphan drugs not yet on the standard reimbursement list.",
+    url: "https://www.bag.admin.ch/de/seltene-krankheiten-in-der-schweiz-und-das-nationale-konzept",
+  },
+  {
+    number: "Türkiye — Nadir Hastalıklar Eylem Planı",
+    name: "Türkiye's rare disease strategy and action plan",
+    fullName: "2023–2027 Nadir Hastalıklar Sağlık Strateji Belgesi ve Eylem Planı",
+    sponsor: "T.C. Sağlık Bakanlığı (Ministry of Health)",
+    introduced: "2023, implementation ongoing",
+    status: "Active",
+    condition: "General autoimmune",
+    country: "Türkiye",
+    summary:
+      "A five-year national strategy and action plan coordinated by the Ministry of Health's Rare Diseases Department, working with stakeholders on diagnosis, treatment access, and orphan drug availability for people living with rare and autoimmune conditions.",
+    url: "https://shgm.saglik.gov.tr/TR-101118/2023---2027-nadir-hastaliklar-saglik-strateji-belgesi-ve-eylem-plani.html",
+  },
+
+  // --- Caribbean (CARICOM) ---
+  {
+    number: "CARICOM — Port of Spain Declaration",
+    name: "Trinidad and Tobago's role in the Caribbean's chronic disease framework",
+    fullName: "Port of Spain Declaration: Uniting to Stop the Epidemic of Chronic Non-Communicable Diseases",
+    sponsor: "CARICOM Heads of Government, hosted by Trinidad and Tobago",
+    introduced: "2007, renewed advocacy through 2025",
+    status: "Active political commitment — implementation uneven",
+    condition: "General autoimmune",
+    country: "Trinidad and Tobago",
+    summary:
+      "Adopted at the world's first heads-of-government summit devoted to chronic disease, hosted in Trinidad and Tobago in 2007. It commits CARICOM states to national NCD commissions and stronger chronic-disease legislation; regional health advocates renewed pressure on CARICOM leaders in 2025 to accelerate follow-through, as most member states remain behind on their targets.",
+    url: "https://barbadostoday.bb/2025/07/05/health-advocates-urge-caricom-leaders-to-renew-fight-against-ncds-mental-health-crisis/",
+  },
+  {
+    number: "CARICOM — Port of Spain Declaration (Jamaica)",
+    name: "Jamaica's chronic disease action plan under the Port of Spain Declaration",
+    fullName: "Jamaica National Strategic and Action Plan for the Prevention and Control of NCDs",
+    sponsor: "Ministry of Health, Jamaica",
+    introduced: "Declaration 2007; Jamaica action plan ongoing",
+    status: "Active",
+    condition: "General autoimmune",
+    country: "Jamaica",
+    summary:
+      "Jamaica's national chronic disease strategy implements the 2007 CARICOM Port of Spain Declaration domestically, coordinating prevention and care for chronic non-communicable conditions, including autoimmune and inflammatory disease management, across the public health system.",
+    url: "https://www.moh.gov.jm/wp-content/uploads/2015/05/National-Strategic-and-Action-Plan-for-the-Prevention-and-Control-Non-Communicable-Diseases-NCDS-in-Jamaica-2013-2018.pdf",
+  },
+  {
+    number: "CARICOM — Port of Spain Declaration (Barbados)",
+    name: "Barbados' progress on the CARICOM chronic disease targets",
+    fullName: "Port of Spain Declaration implementation, Barbados",
+    sponsor: "CARICOM / Government of Barbados",
+    introduced: "2007, ongoing",
+    status: "Active — Barbados on track per 2025 PAHO review",
+    condition: "General autoimmune",
+    country: "Barbados",
+    summary:
+      "Barbados is one of only a few CARICOM states rated on track to meet the 2025 regional non-communicable disease targets under the Port of Spain Declaration framework, relevant to national policy on chronic and autoimmune disease care and prevention.",
+    url: "https://blackstarnews.com/the-road-ahead-for-healthy-food-policy-in-the-caribbean/",
+  },
+  {
+    number: "CARICOM — Port of Spain Declaration (Guyana)",
+    name: "Guyana's chronic disease policy under the CARICOM framework",
+    fullName: "Port of Spain Declaration implementation, Guyana",
+    sponsor: "CARICOM / Government of Guyana",
+    introduced: "2007, ongoing",
+    status: "In progress — accelerated action needed per 2025 PAHO review",
+    condition: "General autoimmune",
+    country: "Guyana",
+    summary:
+      "Guyana was identified in 2025 regional health reviews as a country that could still meet CARICOM's 2025 non-communicable disease targets with accelerated action, under the chronic-disease framework set by the 2007 Port of Spain Declaration.",
+    url: "https://blackstarnews.com/the-road-ahead-for-healthy-food-policy-in-the-caribbean/",
+  },
+];
+
+// Every entry in BILLS/liveBills/stateBills comes from a US-only data source
+// (Congress.gov, state legislatures) and doesn't carry its own country field.
+// INTERNATIONAL_BILLS entries do. This helper lets filtering treat "no
+// country field" as "United States" without having to stamp that string onto
+// every one of the ~50 existing US entries by hand.
+function billCountry(bill) {
+  return bill.country || "United States";
+}
+
 export default function LegislationDatabase() {
   const [query, setQuery] = useState("");
   const [condition, setCondition] = useState("All conditions");
+  const [country, setCountry] = useState("All countries");
   const [selectedBill, setSelectedBill] = useState(null);
   const [address, setAddress] = useState("");
   const [name, setName] = useState("");
   const [senderEmail, setSenderEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [repName, setRepName] = useState("");
+  const [repEmail, setRepEmail] = useState("");
+  const [intlSendStatus, setIntlSendStatus] = useState("idle"); // idle | sending | sent | error
+  const [intlSendError, setIntlSendError] = useState("");
   const [aiSummaries, setAiSummaries] = useState({});
   const [aiLoadingId, setAiLoadingId] = useState(null);
   const [legislators, setLegislators] = useState([]);
@@ -489,6 +1257,7 @@ export default function LegislationDatabase() {
           introduced: b.latestActionDate || "119th Congress",
           status: b.latestActionText || "See official record",
           condition: normalizeCondition(b.matched_keyword),
+          country: "United States", // this feed only syncs from Congress.gov
           summary: b.latestActionText ? `Latest action: ${b.latestActionText}` : "See the official record for full details.",
           url: `https://www.congress.gov/bill/119th-congress/${b.number?.toLowerCase().startsWith("s") ? "senate-bill" : "house-bill"}/${(b.number || "").replace(/\D/g, "")}`,
           live: true,
@@ -520,6 +1289,7 @@ export default function LegislationDatabase() {
           introduced: b.lastActionDate || "State session",
           status: b.lastAction || "See official record",
           condition: normalizeCondition(b.matched_keyword),
+          country: "United States", // state legislature feed — US only
           summary: b.lastAction ? `Latest action: ${b.lastAction}` : "See the official record for full details.",
           url: b.url,
           live: true,
@@ -535,17 +1305,27 @@ export default function LegislationDatabase() {
     };
   }, []);
 
-  const allBills = useMemo(() => [...BILLS, ...liveBills, ...stateBills], [liveBills, stateBills]);
+  const allBills = useMemo(
+    () => [...BILLS, ...INTERNATIONAL_BILLS, ...liveBills, ...stateBills],
+    [liveBills, stateBills]
+  );
 
   const filtered = useMemo(() => {
     return allBills.filter((b) => {
       const matchesCondition = condition === "All conditions" || b.condition === condition;
+      const bCountry = billCountry(b);
+      // EU-level legislation applies in member states, so selecting a member
+      // state shows both its own tracked bills and the EU-wide ones.
+      const matchesCountry =
+        country === "All countries" ||
+        bCountry === country ||
+        (bCountry === "European Union" && EU_MEMBERS.has(country));
       const matchesQuery =
         query.trim() === "" ||
         (b.name + b.fullName + b.summary + b.number).toLowerCase().includes(query.toLowerCase());
-      return matchesCondition && matchesQuery;
+      return matchesCondition && matchesCountry && matchesQuery;
     });
-  }, [query, condition, allBills]);
+  }, [query, condition, country, allBills]);
 
   const recentlyPassed = useMemo(() => {
     return allBills
@@ -563,6 +1343,10 @@ export default function LegislationDatabase() {
     setLookupError("");
     setSendStatus({});
     setSendErrors({});
+    setRepName("");
+    setRepEmail("");
+    setIntlSendStatus("idle");
+    setIntlSendError("");
     // Counts every drafted letter, not just confirmed sends.
     fetch("/api/counter?key=letters-sent&action=increment").catch(() => {});
   };
@@ -620,6 +1404,40 @@ export default function LegislationDatabase() {
     }
   };
 
+  // For international bills we don't have an address-based legislator lookup,
+  // but /api/send-legislator-email itself is generic — it just sends whatever
+  // recipient email it's given via Resend. So once the person has found their
+  // representative's email (via the official finder link), we can actually
+  // send it for them instead of only offering "copy and paste it yourself."
+  const handleSendInternational = async () => {
+    if (!name.trim() || !senderEmail.trim() || !message.trim() || !repEmail.trim()) return;
+    setIntlSendStatus("sending");
+    setIntlSendError("");
+    try {
+      const res = await fetch("/api/send-legislator-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          legislatorEmail: repEmail,
+          legislatorName: repName || "Representative",
+          senderName: name,
+          senderEmail,
+          subject: `Constituent message: ${selectedBill.number}`,
+          message,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) {
+        throw new Error(data.error || `Could not send (status ${res.status}). Please try again.`);
+      }
+      setIntlSendStatus("sent");
+    } catch (err) {
+      console.error("International send failed:", repName, repEmail, err);
+      setIntlSendStatus("error");
+      setIntlSendError(err.message || "Send failed. Please try again, or use the copy/mailto option below.");
+    }
+  };
+
   const getAiSummary = async (bill) => {
     if (aiSummaries[bill.number] || aiLoadingId) return;
     setAiLoadingId(bill.number);
@@ -644,6 +1462,13 @@ export default function LegislationDatabase() {
     }
   };
 
+  const selectedBillCountry = selectedBill ? billCountry(selectedBill) : "United States";
+  const selectedBillIsUS = selectedBillCountry === "United States";
+  const repFinder = repFinderFor(selectedBillCountry);
+  // If someone filtered to a specific non-US country, point the empty state at
+  // that country's finder rather than the bill's own country.
+  const emptyStateFinder = country !== "All countries" && country !== "United States" ? repFinderFor(country) : null;
+
   return (
     <div style={{ fontFamily: "Inter, sans-serif", color: "#2B2A28", background: "#FAF8F3", minHeight: "100%" }}>
       <style>{FONT_IMPORT}</style>
@@ -652,7 +1477,7 @@ export default function LegislationDatabase() {
 
       <section style={{ maxWidth: 1000, margin: "0 auto", padding: "56px 24px 32px" }}>
         <p style={{ fontSize: 13, letterSpacing: "0.08em", textTransform: "uppercase", color: "#A87C2A", fontWeight: 500, marginBottom: 16 }}>
-          119th Congress · 2025–2026
+          119th Congress · 2025–2026 · plus tracked international legislation
         </p>
         <h1
           style={{
@@ -667,7 +1492,7 @@ export default function LegislationDatabase() {
           Legislation affecting autoimmune and chronic disease patients
         </h1>
         <p style={{ fontSize: 15.5, lineHeight: 1.6, color: "#5A5952", maxWidth: 600, marginTop: 16 }}>
-          Verified against Congress.gov. Every bill links back to its official record.
+          US bills are verified against Congress.gov; international entries are verified against each country's official record. Every bill links back to its official source.
         </p>
       </section>
 
@@ -710,11 +1535,30 @@ export default function LegislationDatabase() {
               ))}
             </select>
           </div>
+          <div style={{ position: "relative" }}>
+            <select
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+              style={{
+                padding: "10px 14px",
+                border: "1px solid #C9C4B4",
+                borderRadius: 3,
+                fontSize: 14,
+                background: "#fff",
+                color: "#2B2A28",
+              }}
+            >
+              {COUNTRIES.map((c) => (
+                <option key={c}>{c}</option>
+              ))}
+            </select>
+          </div>
         </div>
         <p style={{ fontSize: 12.5, color: "#8A8880", marginTop: 10 }}>
           {filtered.length} {filtered.length === 1 ? "bill" : "bills"} shown
           {liveStatus === "loading" && " · loading more from Congress.gov (can take up to a minute)…"}
           {liveStatus === "error" && " · live feed unavailable right now, showing verified bills only"}
+          {country === "All countries" && " · international tracking is new and still growing — flag anything we're missing for your country"}
         </p>
       </section>
 
@@ -793,12 +1637,18 @@ export default function LegislationDatabase() {
       <section style={{ maxWidth: 1000, margin: "0 auto", padding: "0 24px 64px", display: "grid", gap: 16 }}>
         {filtered.map((b) => {
           const isPassed = /signed|passed|enacted|effective/i.test(b.status || "");
+          const bCountry = billCountry(b);
           return (
           <div key={b.number} style={{ border: "1px solid #E4E0D6", borderRadius: 4, padding: "22px 24px", background: "#fff" }}>
             <div style={{ display: "flex", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 8 }}>
               <div>
                 <span style={{ fontSize: 12, color: "#A87C2A", fontWeight: 500 }}>{b.number}</span>
                 <span style={{ fontSize: 12, color: "#8A8880", marginLeft: 10 }}>{b.condition}</span>
+                {bCountry !== "United States" && (
+                  <span style={{ fontSize: 11, color: "#5A6B8C", marginLeft: 10, background: "#F4F6FA", padding: "2px 8px", borderRadius: 3 }}>
+                    {bCountry}
+                  </span>
+                )}
               </div>
               <span
                 style={{
@@ -872,7 +1722,7 @@ export default function LegislationDatabase() {
                   gap: 6,
                 }}
               >
-                <Mail size={13} /> Contact your senators
+                <Mail size={13} /> {bCountry === "United States" ? "Contact your senators" : "Contact your representative"}
               </button>
             </div>
           </div>
@@ -881,15 +1731,26 @@ export default function LegislationDatabase() {
         {filtered.length === 0 && (
           <div style={{ textAlign: "center", padding: "48px 24px", border: "1px dashed #C9C4B4", borderRadius: 4 }}>
             <p style={{ fontSize: 14.5, color: "#2B2A28", marginBottom: 6 }}>
-              {condition === "All conditions"
+              {condition === "All conditions" && country === "All countries"
                 ? "No bills match that search."
-                : `No bills currently tracked for ${condition}.`}
+                : `No bills currently tracked${condition !== "All conditions" ? ` for ${condition}` : ""}${country !== "All countries" ? ` in ${country}` : ""}.`}
             </p>
-            {condition !== "All conditions" && (
-              <p style={{ fontSize: 13, color: "#8A8880", maxWidth: 420, margin: "0 auto" }}>
-                We checked Congress.gov and didn't find active federal legislation naming this condition right now. That's real information too —
-                it may mean this is a gap worth raising with your representative.
+            {(condition !== "All conditions" || country !== "All countries") && (
+              <p style={{ fontSize: 13, color: "#8A8880", maxWidth: 460, margin: "0 auto 14px" }}>
+                {country !== "All countries" && country !== "United States"
+                  ? "We're building out international coverage country by country, so this most likely means we haven't added it yet — not that nothing exists. You can still contact your representative about the issues that matter to you, and tell your chapter lead what we should be tracking here."
+                  : "We checked Congress.gov and didn't find active federal legislation naming this condition right now. That's real information too — it may mean this is a gap worth raising with your representative."}
               </p>
+            )}
+            {emptyStateFinder && (
+              <a
+                href={emptyStateFinder.url}
+                target="_blank"
+                rel="noreferrer"
+                style={{ fontSize: 13, fontWeight: 500, color: "#1B2A4A", border: "1px solid #C9C4B4", padding: "9px 14px", borderRadius: 3, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6 }}
+              >
+                {emptyStateFinder.label} <ExternalLink size={13} />
+              </a>
             )}
           </div>
         )}
@@ -897,12 +1758,151 @@ export default function LegislationDatabase() {
 
       {/* Contact modal (inline panel) */}
       {selectedBill && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(27,42,74,0.4)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, zIndex: 30 }}>
+        <div style={{ position: "fixed", inset: 0, background: "rgba(43,42,40,0.45)", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, zIndex: 30 }}>
           <div style={{ background: "#FAF8F3", maxWidth: 520, width: "100%", borderRadius: 6, padding: "28px 28px 24px", maxHeight: "90vh", overflowY: "auto" }}>
             <p style={{ fontSize: 12, color: "#A87C2A", fontWeight: 500, marginBottom: 4 }}>{selectedBill.number}</p>
-            <h3 style={{ fontFamily: "Fraunces, serif", fontSize: 19, color: "#1B2A4A", margin: "0 0 16px" }}>Message your state legislators</h3>
+            <h3 style={{ fontFamily: "Fraunces, serif", fontSize: 19, color: "#1B2A4A", margin: "0 0 16px" }}>
+              {selectedBillIsUS ? "Message your state legislators" : "Draft your message"}
+            </h3>
 
-            {lookupStatus === "found" ? (
+            {!selectedBillIsUS ? (
+              // International bills: we don't have an address-based legislator
+              // lookup, so step 1 is finding your own representative's email
+              // via the official finder link, then step 2 lets you actually
+              // send it (same Resend-backed endpoint the US flow uses) or
+              // fall back to copy/mailto if you'd rather use your own inbox.
+              <div>
+                <p style={{ fontSize: 13.5, color: "#5A5952", lineHeight: 1.6, marginBottom: 16 }}>
+                  We can't automatically look up representatives outside the US yet — start with{" "}
+                  <a href={repFinder.url} target="_blank" rel="noreferrer" style={{ color: "#1B2A4A", fontWeight: 500 }}>
+                    {repFinder.label}
+                  </a>{" "}
+                  to find yours, then come back and paste their email below to send directly.
+                </p>
+
+                <label style={{ fontSize: 12.5, color: "#5A5952", display: "block", marginBottom: 4 }}>Your name</label>
+                <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Full name"
+                  style={{ width: "100%", padding: "9px 10px", border: "1px solid #C9C4B4", borderRadius: 3, fontSize: 14, marginBottom: 14, boxSizing: "border-box" }}
+                />
+                <label style={{ fontSize: 12.5, color: "#5A5952", display: "block", marginBottom: 4 }}>Your email</label>
+                <input
+                  type="email"
+                  value={senderEmail}
+                  onChange={(e) => setSenderEmail(e.target.value)}
+                  placeholder="Replies go here"
+                  style={{ width: "100%", padding: "9px 10px", border: "1px solid #C9C4B4", borderRadius: 3, fontSize: 14, marginBottom: 14, boxSizing: "border-box" }}
+                />
+
+                <div style={{ display: "flex", gap: 10, marginBottom: 14 }}>
+                  <div style={{ flex: 1 }}>
+                    <label style={{ fontSize: 12.5, color: "#5A5952", display: "block", marginBottom: 4 }}>Representative's name (optional)</label>
+                    <input
+                      value={repName}
+                      onChange={(e) => setRepName(e.target.value)}
+                      placeholder="e.g. Jane Smith MP"
+                      style={{ width: "100%", padding: "9px 10px", border: "1px solid #C9C4B4", borderRadius: 3, fontSize: 14, boxSizing: "border-box" }}
+                    />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <label style={{ fontSize: 12.5, color: "#5A5952", display: "block", marginBottom: 4 }}>Representative's email</label>
+                    <input
+                      type="email"
+                      value={repEmail}
+                      onChange={(e) => setRepEmail(e.target.value)}
+                      placeholder="From the finder link above"
+                      style={{ width: "100%", padding: "9px 10px", border: "1px solid #C9C4B4", borderRadius: 3, fontSize: 14, boxSizing: "border-box" }}
+                    />
+                  </div>
+                </div>
+
+                <label style={{ fontSize: 12.5, color: "#5A5952", display: "block", marginBottom: 4 }}>Message</label>
+                <textarea
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  rows={6}
+                  style={{ width: "100%", padding: "10px", border: "1px solid #C9C4B4", borderRadius: 3, fontSize: 13.5, lineHeight: 1.5, marginBottom: 10, boxSizing: "border-box", fontFamily: "Inter, sans-serif" }}
+                />
+
+                {intlSendStatus === "error" && (
+                  <p style={{ fontSize: 12.5, color: "#B3261E", marginBottom: 10 }}>{intlSendError}</p>
+                )}
+                {intlSendStatus === "sent" && (
+                  <p style={{ fontSize: 12.5, color: "#3F6B33", fontWeight: 600, marginBottom: 10 }}>Sent ✓</p>
+                )}
+
+                <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 14 }}>
+                  <button
+                    onClick={handleSendInternational}
+                    disabled={!name.trim() || !senderEmail.trim() || !repEmail.trim() || !message.trim() || intlSendStatus === "sending" || intlSendStatus === "sent"}
+                    style={{
+                      fontSize: 13.5,
+                      fontWeight: 500,
+                      color: "#FAF8F3",
+                      background: "#1B2A4A",
+                      border: "none",
+                      padding: "10px 18px",
+                      borderRadius: 3,
+                      cursor: "pointer",
+                      opacity: (!name.trim() || !senderEmail.trim() || !repEmail.trim() || !message.trim()) ? 0.6 : 1,
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 6,
+                    }}
+                  >
+                    <Mail size={13} />
+                    {intlSendStatus === "sending" ? "Sending…" : intlSendStatus === "sent" ? "Sent ✓" : intlSendStatus === "error" ? "Retry" : "Send email"}
+                  </button>
+                  <button
+                    onClick={() => navigator.clipboard?.writeText(message)}
+                    style={{ fontSize: 13.5, fontWeight: 500, color: "#1B2A4A", background: "none", border: "1px solid #C9C4B4", padding: "10px 16px", borderRadius: 3, cursor: "pointer" }}
+                  >
+                    Copy message
+                  </button>
+                </div>
+
+                <p style={{ fontSize: 11.5, color: "#8A8880", marginBottom: 8 }}>
+                  Prefer to send from your own inbox instead? These open your webmail with the recipient, subject, and message already filled in — you just hit send.
+                </p>
+                <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 14 }}>
+                  <a
+                    href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(repEmail || "")}&su=${encodeURIComponent(`Constituent message: ${selectedBill.number}`)}&body=${encodeURIComponent(message)}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{ fontSize: 13, fontWeight: 500, color: "#1B2A4A", background: "none", border: "1px solid #C9C4B4", padding: "8px 14px", borderRadius: 3, textDecoration: "none" }}
+                  >
+                    Open in Gmail
+                  </a>
+                  <a
+                    href={`https://outlook.live.com/mail/0/deeplink/compose?to=${encodeURIComponent(repEmail || "")}&subject=${encodeURIComponent(`Constituent message: ${selectedBill.number}`)}&body=${encodeURIComponent(message)}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{ fontSize: 13, fontWeight: 500, color: "#1B2A4A", background: "none", border: "1px solid #C9C4B4", padding: "8px 14px", borderRadius: 3, textDecoration: "none" }}
+                  >
+                    Open in Outlook
+                  </a>
+                  <a
+                    href={`mailto:${repEmail || ""}?subject=${encodeURIComponent(`Constituent message: ${selectedBill.number}`)}&body=${encodeURIComponent(message)}`}
+                    style={{ fontSize: 13, fontWeight: 500, color: "#1B2A4A", background: "none", border: "1px solid #C9C4B4", padding: "8px 14px", borderRadius: 3, textDecoration: "none" }}
+                  >
+                    Other (mailto)
+                  </a>
+                </div>
+
+                <p style={{ fontSize: 11.5, color: "#8A8880", marginBottom: 14 }}>
+                  "Send email" delivers it for you directly, the same way US messages are sent. The webmail links above open in a new tab pre-filled and work even without entering your name/email above — you just need the representative's email address.
+                </p>
+
+                <button
+                  onClick={() => setSelectedBill(null)}
+                  style={{ fontSize: 13.5, color: "#5A5952", background: "none", border: "none", padding: "10px 0", borderRadius: 3, cursor: "pointer" }}
+                >
+                  Close
+                </button>
+              </div>
+            ) : lookupStatus === "found" ? (
               <div>
                 <p style={{ fontSize: 13.5, color: "#5A5952", lineHeight: 1.6, marginBottom: 16 }}>
                   Sending as {name} ({senderEmail}). Edit your message below if needed, then send to each legislator.
