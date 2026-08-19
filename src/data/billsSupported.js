@@ -16,11 +16,17 @@
 // curated list, so it can't be split evenly across these bills without
 // making up numbers.
 //
-// ABOUT impact:
-// Optional. A short, concrete sentence about what actually changed as a
-// result of the bill (not what AV specifically caused, unless you can prove
-// that) — shown as a highlighted callout for bills marked "outcome" or
-// "advanced". Leave blank for active campaigns with no result yet.
+// ABOUT outcome:
+// Optional. A short, factual sentence about what actually changed as a
+// result of the bill becoming law/policy — NOT a claim that AV specifically
+// caused it, unless you have documented proof (a legislator's staff or a
+// hearing record crediting AV by name). Per your own Barron checklist:
+// say "the bill advanced while AV advocates were involved," not "our
+// advocacy caused it," unless you can prove causation. The page shows this
+// next to a separately-generated "AV's role" line built from real tracked
+// data (email count, campaign start date, meetings) rather than invented
+// prose, so nothing here needs to assert what AV did — just what changed.
+// Leave blank for active campaigns with no result yet.
 
 export const STATUS_LABELS = {
   introduced: "Introduced",
@@ -59,7 +65,7 @@ export const billsSupported = [
     topic: "medication_access",
     summary:
       "Now New Jersey law: requires insurance coverage for biomarker testing, helping arthritis patients get precision diagnosis and the right treatment plan faster instead of trial-and-error prescribing.",
-    impact:
+    outcome:
       "Signed into law in New Jersey — insurers in the state must now cover biomarker testing for eligible patients, removing a cost barrier that previously forced many arthritis patients through months of trial-and-error prescribing before reaching an effective treatment.",
     officialUrl: "https://www.arthritis.org/news/press-releases-and-statements/new-jersey-arthritis-advocacy-wins",
     avInvolvedSince: "2025-06-01",
@@ -80,7 +86,7 @@ export const billsSupported = [
     topic: "prior_authorization",
     summary:
       "Now New Jersey law: reforms step therapy rules so arthritis and other chronic disease patients face less insurer-mandated delay before accessing the medication their doctor originally prescribed.",
-    impact:
+    outcome:
       "Signed into law in New Jersey — insurers must now follow reformed step therapy rules, shortening the delay chronic disease patients face before getting the medication their doctor originally prescribed instead of insurer-mandated alternatives first.",
     officialUrl: "https://www.arthritis.org/news/press-releases-and-statements/new-jersey-arthritis-advocacy-wins",
     avInvolvedSince: "2025-06-01",
@@ -100,7 +106,7 @@ export const billsSupported = [
     topic: "disability_accommodations",
     summary:
       "Would allow Medicare to cover cranial prosthetics (wigs) for people with medical hair loss, including alopecia areata — currently many private plans cover this but Medicare does not.",
-    impact: "", // no result yet — active campaign
+    outcome: "", // no result yet — active campaign
     officialUrl: "https://pressley.house.gov/2026/02/23/pressley-mcgovern-blumenthal-introduce-bill-to-support-people-experiencing-medical-hair-loss/",
     avInvolvedSince: "2026-02-23",
     meetingsHeld: 0,
@@ -118,7 +124,7 @@ export const billsSupported = [
     topic: "celiac_screening",
     summary:
       "Would direct federal agencies to study gluten cross-contamination standards and strengthen labeling requirements to better protect people with celiac disease.",
-    impact: "",
+    outcome: "",
     officialUrl: "https://www.congress.gov/",
     avInvolvedSince: "2026-05-29",
     meetingsHeld: 0,
