@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Nav from "../components/Nav";
-import { Search, ExternalLink, Mail, Filter, CheckCircle2, FileCheck } from "lucide-react";
+import { Search, ExternalLink, Mail, Filter, CheckCircle2, FileCheck, ArrowRight } from "lucide-react";
 
 const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');`;
 
@@ -1489,7 +1490,34 @@ export default function LegislationDatabase() {
 
       <Nav />
 
-      <section style={{ maxWidth: 1000, margin: "0 auto", padding: "56px 24px 32px" }}>
+      {/* Links out to the curated "Bills We've Supported" page — not in the
+          top nav, so it lives here instead, right where people are already
+          looking at bills. */}
+      <section style={{ maxWidth: 1000, margin: "0 auto", padding: "24px 24px 0" }}>
+        <Link
+          to="/bills-supported"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 16,
+            background: "#1B2A4A",
+            borderRadius: 8,
+            padding: "16px 22px",
+            textDecoration: "none",
+            flexWrap: "wrap",
+          }}
+        >
+          <span style={{ fontSize: 14.5, color: "#FAF8F3" }}>
+            See every bill our members have emailed legislators about, and how its status has changed since.
+          </span>
+          <span style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13.5, fontWeight: 600, color: "#C9A25A", whiteSpace: "nowrap" }}>
+            Bills We've Supported <ArrowRight size={14} />
+          </span>
+        </Link>
+      </section>
+
+      <section style={{ maxWidth: 1000, margin: "0 auto", padding: "40px 24px 32px" }}>
         <p style={{ fontSize: 13, letterSpacing: "0.08em", textTransform: "uppercase", color: "#A87C2A", fontWeight: 500, marginBottom: 16 }}>
           119th Congress · 2025–2026 · plus tracked international legislation
         </p>
