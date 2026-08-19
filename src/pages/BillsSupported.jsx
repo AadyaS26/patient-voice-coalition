@@ -241,11 +241,17 @@ export default function BillsSupported() {
 
   // Same site-wide total shown on the homepage, so this page and the
   // homepage never disagree on "how many letters has AV sent overall."
+  // Home.jsx adds a fixed LETTERS_OFFSET (292) on top of the raw Redis
+  // count — representing letters sent before this counter existed —
+  // so this has to add the exact same offset or the two pages disagree.
+  // If you ever change LETTERS_OFFSET in src/pages/Home.jsx, update the
+  // matching constant below too.
+  const LETTERS_OFFSET = 292;
   useEffect(() => {
     fetch("/api/counter?key=letters-sent", { cache: "no-store" })
       .then((r) => r.json())
-      .then((data) => setSiteWideEmails(typeof data.value === "number" ? data.value : null))
-      .catch(() => setSiteWideEmails(null));
+      .then((data) => setSiteWideEmails(LETTERS_OFFSET + (typeof data.value === "number" ? data.value : 0)))
+      .catch(() => setSiteWideEmails(LETTERS_OFFSET));
   }, []);
 
   // Look up real details for any bill that got a send but isn't manually
