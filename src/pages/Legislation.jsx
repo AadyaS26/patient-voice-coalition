@@ -1414,20 +1414,31 @@ export default function LegislationDatabase() {
         throw new Error(data.error || "Couldn't find your legislators. Please try again.");
       }
 
-      // Only keep legislators who actually have jurisdiction over the bill
+      // Prefer legislators who actually have jurisdiction over the bill
       // being viewed. For a state bill, that means state legislators from
-      // that exact state — a legislator from any other state has no say
-      // over it, even if that's who this address happens to map to. For a
-      // federal bill, only federal members of Congress are relevant; a
-      // state legislator can't act on federal legislation either way.
+      // that exact state; for a federal bill, only federal members of
+      // Congress. If none of the address's legislators have jurisdiction —
+      // e.g. someone in Virginia looking at a Georgia bill — don't dead-end
+      // the interaction. Fall back to their own real legislators and swap
+      // the message to ask them to introduce similar legislation at home,
+      // using this bill as a model, instead of "support this bill" (which
+      // they have no power to act on).
       const billState = selectedBill ? billStateAbbrev(selectedBill) : null;
       const allResults = data.representatives || [];
       const relevant = billState
         ? allResults.filter((r) => r.stateAbbrev === billState)
         : allResults.filter((r) => r.isFederal);
 
-      setLegislators(relevant);
-      setLegislatorMismatch(relevant.length === 0 && allResults.length > 0);
+      const mismatch = relevant.length === 0 && allResults.length > 0;
+      setLegislators(mismatch ? allResults : relevant);
+      setLegislatorMismatch(mismatch);
+
+      if (mismatch && selectedBill) {
+        setMessage(
+          `I recently learned about ${selectedBill.number} (${selectedBill.fullName}), legislation in ${billState ? `${billState}` : "another jurisdiction"} that addresses an issue I care about: ${selectedBill.summary}\n\nI don't believe you have jurisdiction over that specific bill, but I'd ask you to consider introducing or sponsoring similar legislation here. This issue affects patients in our community too, and I'd welcome the chance to share more about why it matters.`
+        );
+      }
+
       setLookupStatus("found");
     } catch (err) {
       setLookupError(err.message || "Couldn't find your legislators. Please try again.");
@@ -1448,7 +1459,9 @@ export default function LegislationDatabase() {
           legislatorName: legislator.name,
           senderName: name,
           senderEmail,
-          subject: `Constituent message: ${selectedBill.number}`,
+          subject: legislatorMismatch
+            ? `Constituent request: consider legislation like ${selectedBill.number}`
+            : `Constituent message: ${selectedBill.number}`,
           message,
         }),
       });
@@ -2003,6 +2016,21 @@ export default function LegislationDatabase() {
                 <p style={{ fontSize: 13.5, color: "#5A5952", lineHeight: 1.6, marginBottom: 16 }}>
                   Sending as {name} ({senderEmail}). Edit your message below if needed, then send to each legislator.
                 </p>
+
+                {legislatorMismatch && (
+                  <div style={{ background: "#FBF3E7", border: "1px solid #E8D6B6", borderRadius: 4, padding: "12px 14px", marginBottom: 16 }}>
+                    <p style={{ fontSize: 13.5, color: "#8A5B1B", fontWeight: 600, marginBottom: 4 }}>
+                      Your legislators can't act on this specific bill.
+                    </p>
+                    <p style={{ fontSize: 13, color: "#8A5B1B", lineHeight: 1.5 }}>
+                      {billStateAbbrev(selectedBill)
+                        ? `${selectedBill.number} is in the ${billStateAbbrev(selectedBill)} state legislature, outside their jurisdiction.`
+                        : "This is federal legislation outside your state legislators' jurisdiction."}{" "}
+                      You can still send a message asking them to introduce or sponsor similar legislation where you live — the draft below is already set up for that.
+                    </p>
+                  </div>
+                )}
+
                 <textarea
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
@@ -2010,22 +2038,9 @@ export default function LegislationDatabase() {
                   style={{ width: "100%", padding: "10px", border: "1px solid #C9C4B4", borderRadius: 3, fontSize: 13.5, lineHeight: 1.5, marginBottom: 18, boxSizing: "border-box", fontFamily: "Inter, sans-serif" }}
                 />
                 {legislators.length === 0 ? (
-                  legislatorMismatch ? (
-                    <div style={{ background: "#FBEAEA", border: "1px solid #E8C6C6", borderRadius: 4, padding: "12px 14px" }}>
-                      <p style={{ fontSize: 13.5, color: "#8A3B3B", fontWeight: 600, marginBottom: 4 }}>
-                        That address's legislators don't have jurisdiction over this bill.
-                      </p>
-                      <p style={{ fontSize: 13, color: "#8A3B3B", lineHeight: 1.5 }}>
-                        {billStateAbbrev(selectedBill)
-                          ? `${selectedBill.number} is in the ${billStateAbbrev(selectedBill)} state legislature — you'd need an address in that state to message its legislators.`
-                          : "This is federal legislation — only your U.S. Senators or Representative can act on it, and none of them publish a direct email we could find for that address."}
-                      </p>
-                    </div>
-                  ) : (
-                    <p style={{ fontSize: 13.5, color: "#8A8880" }}>
-                      No state legislators found for that address. Double-check it's a full street address.
-                    </p>
-                  )
+                  <p style={{ fontSize: 13.5, color: "#8A8880" }}>
+                    No state legislators found for that address. Double-check it's a full street address.
+                  </p>
                 ) : (
                   <div style={{ display: "grid", gap: 10, marginBottom: 18 }}>
                     {legislators.map((leg) => {
