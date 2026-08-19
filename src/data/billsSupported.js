@@ -51,6 +51,7 @@ export const TOPICS = [
   { id: "insurance_protections", label: "Insurance Protections" },
   { id: "research_funding", label: "Autoimmune Research" },
   { id: "specialty_access", label: "Specialty Care Access" },
+  { id: "awareness", label: "Disease Awareness" },
 ];
 
 // `id` should exactly match the bill's `number` string in Legislation.jsx's
@@ -133,6 +134,152 @@ export const billsSupported = [
     statusLog: [
       { date: "2026-05-29", status: "introduced" },
       { date: "2026-06-10", status: "referred_to_committee", note: "AV chapters began the constituent email campaign." },
+    ],
+  },
+  {
+    id: "GA HB94",
+    number: "GA HB94",
+    name: "Georgia fertility preservation coverage",
+    jurisdiction: "Georgia",
+    topic: "insurance_protections",
+    summary:
+      "Now Georgia law: requires health insurance policies to cover standard fertility preservation services (egg, sperm, embryo, and ovarian tissue cryopreservation) for patients whose medically necessary treatment for cancer, sickle cell disease, or lupus may cause infertility.",
+    outcome:
+      "Signed into law in Georgia, effective January 1, 2026 — insurers must cover fertility preservation procedures for eligible lupus, cancer, and sickle cell patients, including evaluation, lab assessments, medication, and one year of gamete storage.",
+    officialUrl: "https://legiscan.com/GA/bill/HB94/2025",
+    avInvolvedSince: "2026-08-17", // approximate — see note in comment block at top of file
+    meetingsHeld: 0,
+    historicalEmailsBaseline: 0, // see flagged legislator-routing issue in Legislation.jsx before backfilling this
+    result: "outcome",
+    statusLog: [
+      { date: "2025-05-01", status: "signed_into_law", note: "Signed into Georgia law, effective the same day." },
+    ],
+  },
+  {
+    id: "NY S06603",
+    number: "NY S06603",
+    name: "New York Lupus Research Enhancement Program (Senate)",
+    jurisdiction: "New York",
+    topic: "research_funding",
+    summary:
+      "Would create a Lupus Research Enhancement Program and Fund within the NY Department of Health, providing grants to state academic medical institutions conducting basic, clinical, translational, and epidemiological lupus research. Senate companion to A01175.",
+    outcome: "",
+    officialUrl: "https://www.nysenate.gov/legislation/bills/2025/S6603",
+    avInvolvedSince: "2026-08-17",
+    meetingsHeld: 0,
+    historicalEmailsBaseline: 0,
+    result: "active",
+    statusLog: [
+      { date: "2025-03-18", status: "introduced" },
+    ],
+  },
+  {
+    id: "NY A01175",
+    number: "NY A01175",
+    name: "New York Lupus Research Enhancement Program (Assembly)",
+    jurisdiction: "New York",
+    topic: "research_funding",
+    summary:
+      "Assembly companion to S06603 — would create a Lupus Research Enhancement Program and Fund within the NY Department of Health, providing grants to state academic medical institutions conducting lupus research.",
+    outcome: "",
+    officialUrl: "https://www.nysenate.gov/legislation/bills/2025/A1175",
+    avInvolvedSince: "2026-08-17",
+    meetingsHeld: 0,
+    historicalEmailsBaseline: 0,
+    result: "active",
+    statusLog: [
+      { date: "2025-01-09", status: "introduced" },
+    ],
+  },
+  {
+    id: "GA HR1473",
+    number: "GA HR1473",
+    name: "Georgia House Study Committee on Lupus",
+    jurisdiction: "Georgia",
+    topic: "research_funding",
+    summary:
+      "A resolution creating a House Study Committee on Lupus to examine the disease's impact on Georgians and recommend legislative action.",
+    outcome: "",
+    officialUrl: "https://legiscan.com/GA/bill/HR1473/2025",
+    avInvolvedSince: "2026-08-17",
+    meetingsHeld: 0,
+    historicalEmailsBaseline: 0,
+    result: "active",
+    statusLog: [
+      { date: "2026-02-25", status: "introduced" },
+      { date: "2026-03-03", status: "referred_to_committee", note: "House Second Readers; pending House Special Rules Committee." },
+    ],
+  },
+  {
+    id: "CA SR107",
+    number: "CA SR107",
+    name: "California Lupus Awareness Month resolution",
+    jurisdiction: "California",
+    topic: "awareness",
+    summary:
+      "A Senate resolution relative to Lupus Awareness Month, recognizing the impact of lupus on Californians.",
+    outcome: "",
+    officialUrl: "https://legiscan.com/CA/bill/SR107/2025",
+    avInvolvedSince: "2026-08-17",
+    meetingsHeld: 0,
+    historicalEmailsBaseline: 0,
+    result: "active",
+    statusLog: [
+      { date: "2026-04-30", status: "introduced", note: "Referred to Senate Rules Committee." },
+    ],
+  },
+  {
+    id: "NJ S793",
+    number: "NJ S793",
+    name: "New Jersey IBD/Crohn's disability parking access",
+    jurisdiction: "New Jersey",
+    topic: "disability_accommodations",
+    summary:
+      "Would allow people diagnosed with inflammatory bowel disease, IBS, or Crohn's disease to qualify for parking privileges currently reserved for persons with disabilities — recognizing the urgent, unpredictable nature of flares.",
+    outcome: "",
+    officialUrl: "https://legiscan.com/NJ/bill/S793/2026",
+    avInvolvedSince: "2026-08-17",
+    meetingsHeld: 0,
+    historicalEmailsBaseline: 0,
+    result: "active",
+    statusLog: [
+      { date: "2026-01-13", status: "introduced", note: "Carryover of previous session's S689/A4103; referred to Senate Transportation Committee." },
+    ],
+  },
+  {
+    id: "H.R. 6199",
+    number: "H.R. 6199",
+    name: "MNT Act of 2025",
+    jurisdiction: "Federal",
+    topic: "medication_access",
+    summary:
+      "Would expand Medicare Part B to cover dietitian-led medical nutrition therapy for celiac disease, so patients can get counseling on managing a lifelong gluten-free diet.",
+    outcome: "",
+    officialUrl: "https://celiac.org/2025/11/25/mnt-act-introduced-in-us-house-of-representatives/",
+    avInvolvedSince: "2026-08-17",
+    meetingsHeld: 0,
+    historicalEmailsBaseline: 0,
+    result: "active",
+    statusLog: [
+      { date: "2025-11-01", status: "introduced" },
+    ],
+  },
+  {
+    id: "H.Res. 245",
+    number: "H.Res. 245",
+    name: "Sjögren's Awareness Month",
+    jurisdiction: "Federal",
+    topic: "awareness",
+    summary:
+      "A resolution supporting expanded research, better diagnostic tools, and improved physician awareness for Sjögren's disease, and designating April as Sjögren's Awareness Month.",
+    outcome: "",
+    officialUrl: "https://www.congress.gov/bill/119th-congress/house-resolution/245",
+    avInvolvedSince: "2026-08-17",
+    meetingsHeld: 0,
+    historicalEmailsBaseline: 0,
+    result: "active",
+    statusLog: [
+      { date: "2025-03-01", status: "introduced", note: "Referred to committee." },
     ],
   },
 ];
