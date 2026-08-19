@@ -95,12 +95,31 @@ function BillRow({ bill, emailCount }) {
 
           <div style={{ display: "flex", gap: 20, marginTop: 16, fontSize: 13, color: "#8A8880" }}>
             <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
-              <Mail size={13} /> {emailCount.toLocaleString()} emails sent
+              <Mail size={13} /> {emailCount.toLocaleString()} {emailCount === 1 ? "email" : "emails"} sent
             </span>
             <span style={{ display: "flex", alignItems: "center", gap: 5 }}>
-              <Users size={13} /> {bill.meetingsHeld} meetings
+              <Users size={13} /> {bill.meetingsHeld} {bill.meetingsHeld === 1 ? "meeting" : "meetings"}
             </span>
           </div>
+
+          {bill.impact && (
+            <div
+              style={{
+                marginTop: 16,
+                background: "#EEF6F0",
+                border: "1px solid #CFE6D8",
+                borderRadius: 8,
+                padding: "14px 16px",
+                maxWidth: 520,
+              }}
+            >
+              <p style={{ fontSize: 11.5, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", color: "#1B6B3F", marginBottom: 6 }}>
+                What changed
+              </p>
+              <p style={{ fontSize: 14, lineHeight: 1.6, color: "#2B4E38", margin: 0 }}>{bill.impact}</p>
+            </div>
+          )}
+
 
           <a
             href={bill.officialUrl}
@@ -229,7 +248,15 @@ export default function BillsSupported() {
         </div>
       </section>
 
-      <section style={{ maxWidth: 800, margin: "0 auto", padding: "40px 24px 80px" }}>
+      <section style={{ maxWidth: 800, margin: "0 auto", padding: "12px 24px 0" }}>
+        <p style={{ fontSize: 12.5, color: "#8A8880", textAlign: "center" }}>
+          Counts only emails sent about the specific bills below. See the full picture of every
+          letter sent across all tracked legislation on the{" "}
+          <Link to="/legislation" style={{ color: "#A87C2A" }}>Legislation page</Link>.
+        </p>
+      </section>
+
+      <section style={{ maxWidth: 800, margin: "0 auto", padding: "24px 24px 80px" }}>
         <div style={{ display: "flex", gap: 24, marginBottom: 8 }}>
           <select value={topicFilter} onChange={(e) => setTopicFilter(e.target.value)} style={selectStyle}>
             <option value="all">All topics</option>
