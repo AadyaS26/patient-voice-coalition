@@ -149,7 +149,7 @@ function StoryForm({ onSubmitted }) {
       <div style={{ background: "#EEF6F0", border: "1px solid #CFE6D8", borderRadius: 8, padding: 24, textAlign: "center" }}>
         <p style={{ fontFamily: "Inter, sans-serif", fontWeight: 600, color: "#1B6B3F" }}>Thank you for sharing your story.</p>
         <p style={{ fontFamily: "Inter, sans-serif", fontSize: 14, color: "#3E6B4E", marginTop: 4 }}>
-          Our team reviews every submission before it's added to this page.
+          It's live on this page now.
         </p>
       </div>
     );
@@ -259,12 +259,16 @@ function PatientStoriesSection() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
 
-  useEffect(() => {
+  const fetchStories = () => {
     fetch("/api/submit-story", { cache: "no-store" })
       .then((r) => r.json())
       .then((data) => setStories(Array.isArray(data.stories) ? data.stories : []))
       .catch(() => setStories([]))
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchStories();
   }, []);
 
   return (
@@ -284,7 +288,11 @@ function PatientStoriesSection() {
         </button>
       </div>
 
-      {showForm && <div style={{ marginBottom: 24 }}><StoryForm onSubmitted={() => {}} /></div>}
+      {showForm && (
+        <div style={{ marginBottom: 24 }}>
+          <StoryForm onSubmitted={fetchStories} />
+        </div>
+      )}
 
       {loading ? (
         <p style={{ color: "#8A8880", fontSize: 14 }}>Loading stories…</p>
