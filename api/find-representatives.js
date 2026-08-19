@@ -12,6 +12,15 @@
 // results skew toward state legislators, who publish email more often.
 // That's an inherent limit of what's publicly available, not a bug.
 //
+// Each result also carries `stateAbbrev` (the two-letter state a state
+// legislator represents, e.g. "GA" — null for federal members of Congress,
+// since they aren't tied to a single state's legislature). The frontend
+// uses this to filter out legislators who have no jurisdiction over the
+// bill actually being viewed — e.g. a Virginia state senator has no say
+// over a Georgia bill, even if that's who the visitor's own address maps
+// to. Without this field, the letter tool was letting people send messages
+// to legislators with zero authority over the bill in question.
+//
 // Required environment variable:
 //   OPENSTATES_API_KEY
 const CENSUS_GEOCODER_URL = "https://geocoding.geo.census.gov/geocoder/locations/onelineaddress";
@@ -19,6 +28,15 @@ const OPENSTATES_PEOPLE_GEO_URL = "https://v3.openstates.org/people.geo";
 
 function isNonEmptyString(v) {
   return typeof v === "string" && v.trim().length > 0;
+}
+
+// OpenStates jurisdiction ids for state government look like
+// "ocd-jurisdiction/country:us/state:ga/government" — pull the two-letter
+// code out of that rather than trying to parse the human-readable name
+// (which varies in casing/spacing across records).
+function stateAbbrevFromJurisdictionId(jurisdictionId) {
+  const match = /state:([a-z]{2})\//i.exec(jurisdictionId || "");
+  return match ? match[1].toUpperCase() : null;
 }
 
 async function geocodeAddress(address) {
@@ -68,6 +86,7 @@ async function findLegislators(lat, lng) {
       image: person.image || null,
       chamber,
       isFederal,
+      stateAbbrev: isFederal ? null : stateAbbrevFromJurisdictionId(person.jurisdiction?.id),
       district: person.current_role?.district || null,
       title: person.current_role?.title || null,
       email,
