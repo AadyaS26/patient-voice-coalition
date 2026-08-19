@@ -5,13 +5,22 @@
 // ones we've run an email/testimony/meeting campaign around.
 //
 // ABOUT historicalEmailsBaseline:
-// Per-bill email counts only started being tracked in Redis today (via
-// api/bill-email-count.js), so Redis has no record of emails sent before
-// now. If you already know roughly how many were sent for a bill before
-// this tracking existed — from your own records, a chapter's log, or your
-// Impact page's overall totals — put that number here. The page adds it to
-// the live Redis count so the number shown isn't reset to zero. Leave it at
-// 0 for bills where you genuinely don't know, rather than guessing.
+// Per-bill email counts only started being tracked in Redis when this page
+// launched, so Redis has no record of emails sent before that. If you know
+// roughly how many were sent for a specific bill before this tracking
+// existed — from a chapter's log or your own records — put that number
+// here. The page adds it to the live Redis count. Leave it at 0 for bills
+// where you genuinely don't have a per-bill record, rather than guessing —
+// the site-wide "letters-sent" total (currently 715) covers letters about
+// every bill on the whole Legislation page, most of which aren't in this
+// curated list, so it can't be split evenly across these bills without
+// making up numbers.
+//
+// ABOUT impact:
+// Optional. A short, concrete sentence about what actually changed as a
+// result of the bill (not what AV specifically caused, unless you can prove
+// that) — shown as a highlighted callout for bills marked "outcome" or
+// "advanced". Leave blank for active campaigns with no result yet.
 
 export const STATUS_LABELS = {
   introduced: "Introduced",
@@ -50,10 +59,12 @@ export const billsSupported = [
     topic: "medication_access",
     summary:
       "Now New Jersey law: requires insurance coverage for biomarker testing, helping arthritis patients get precision diagnosis and the right treatment plan faster instead of trial-and-error prescribing.",
+    impact:
+      "Signed into law in New Jersey — insurers in the state must now cover biomarker testing for eligible patients, removing a cost barrier that previously forced many arthritis patients through months of trial-and-error prescribing before reaching an effective treatment.",
     officialUrl: "https://www.arthritis.org/news/press-releases-and-statements/new-jersey-arthritis-advocacy-wins",
     avInvolvedSince: "2025-06-01",
     meetingsHeld: 0,
-    historicalEmailsBaseline: 0, // fill in if you have a record of past sends for this bill
+    historicalEmailsBaseline: 0, // fill in from your own records if you have a per-bill count
     result: "outcome",
     statusLog: [
       { date: "2025-06-01", status: "introduced", note: "AV chapters began the constituent email campaign." },
@@ -69,6 +80,8 @@ export const billsSupported = [
     topic: "prior_authorization",
     summary:
       "Now New Jersey law: reforms step therapy rules so arthritis and other chronic disease patients face less insurer-mandated delay before accessing the medication their doctor originally prescribed.",
+    impact:
+      "Signed into law in New Jersey — insurers must now follow reformed step therapy rules, shortening the delay chronic disease patients face before getting the medication their doctor originally prescribed instead of insurer-mandated alternatives first.",
     officialUrl: "https://www.arthritis.org/news/press-releases-and-statements/new-jersey-arthritis-advocacy-wins",
     avInvolvedSince: "2025-06-01",
     meetingsHeld: 0,
@@ -87,6 +100,7 @@ export const billsSupported = [
     topic: "disability_accommodations",
     summary:
       "Would allow Medicare to cover cranial prosthetics (wigs) for people with medical hair loss, including alopecia areata — currently many private plans cover this but Medicare does not.",
+    impact: "", // no result yet — active campaign
     officialUrl: "https://pressley.house.gov/2026/02/23/pressley-mcgovern-blumenthal-introduce-bill-to-support-people-experiencing-medical-hair-loss/",
     avInvolvedSince: "2026-02-23",
     meetingsHeld: 0,
@@ -104,6 +118,7 @@ export const billsSupported = [
     topic: "celiac_screening",
     summary:
       "Would direct federal agencies to study gluten cross-contamination standards and strengthen labeling requirements to better protect people with celiac disease.",
+    impact: "",
     officialUrl: "https://www.congress.gov/",
     avInvolvedSince: "2026-05-29",
     meetingsHeld: 0,
