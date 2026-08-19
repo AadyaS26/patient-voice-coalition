@@ -9,6 +9,7 @@ import Events from "./pages/Events.jsx";
 import ResourceLibrary from "./pages/ResourceLibrary";
 import Brainstorm from "./pages/Brainstorm.jsx";
 import BillsSupported from "./pages/BillsSupported.jsx";
+import PatientStories from "./pages/PatientStories.jsx";
 
 export default function App() {
   // Counts one real visit per actual page load/refresh — this runs exactly
@@ -45,6 +46,9 @@ export default function App() {
         {/* Not in the top nav on purpose — reached via a link inside the
             Legislation page, so the nav bar doesn't get more crowded. */}
         <Route path="/bills-supported" element={<BillsSupported />} />
+        {/* Also not in the top nav — reached via the "View Patient Stories"
+            button in the Patient Stories section on the Impact page. */}
+        <Route path="/patient-stories" element={<PatientStories />} />
       </Routes>
     </BrowserRouter>
   );
