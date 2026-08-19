@@ -1115,6 +1115,19 @@ const INTERNATIONAL_BILLS = [
       "A five-year national strategy and action plan coordinated by the Ministry of Health's Rare Diseases Department, working with stakeholders on diagnosis, treatment access, and orphan drug availability for people living with rare and autoimmune conditions.",
     url: "https://shgm.saglik.gov.tr/TR-101118/2023---2027-nadir-hastaliklar-saglik-strateji-belgesi-ve-eylem-plani.html",
   },
+  {
+    number: "DM 279/2001 — LEA update 2025",
+    name: "Italy's rare disease exemption list expansion",
+    fullName: "Aggiornamento dei Livelli Essenziali di Assistenza (LEA) — national rare disease ticket-exemption list",
+    sponsor: "Ministero della Salute",
+    introduced: "Updated 2025, under the National Rare Disease Plan (PNMR) 2023–2026",
+    status: "In force",
+    condition: "General autoimmune",
+    country: "Italy",
+    summary:
+      "Italy's 2025 update to its national essential care levels (LEA) added more than 100 new conditions — including several rare autoimmune diseases — to the official list entitling patients to exemption from healthcare co-pays (ticket) for related specialist visits and tests, building on the rare-disease exemption framework first established by Decreto Ministeriale 279/2001.",
+    url: "https://www.malattierare.gov.it/esenzioni",
+  },
 
   // --- Caribbean (CARICOM) ---
   {
