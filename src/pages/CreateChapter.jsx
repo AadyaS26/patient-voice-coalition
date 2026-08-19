@@ -120,7 +120,7 @@ const CHAPTERS = [
     photo: "/chapter-photos/mimi.jpg", handle: null,
     bio: "The main reason why I want to open a chapter is because about 4 years ago I was diagnosed with lupus and I had a really hard time with it. No one understood what I was going through and I had no one in a similar position to talk to. It took a big effect on my mental health as well and I think with starting a chapter I can help raise awareness of the importance of understanding other people's health and mental issues.",
   },
-  { first: "Madison", lastInitial: "M", city: "Pittsburgh", region: "Pennsylvania", country: "US", photo: "/chapter-photos/madison.jpg", handle: null, bio: null },
+  { first: "Madison", lastInitial: "M", city: "Pittsburgh", region: "Pennsylvania", country: "US", photo: null, handle: null, bio: null },
   {
     first: "Tina", lastInitial: "D", city: "Saint Petersburg", region: "Florida", country: "US",
     photo: "/chapter-photos/tina.jpg", handle: null,
@@ -169,6 +169,12 @@ const CHAPTERS = [
   },
   { first: "Iza", lastInitial: "M", city: "Sialkot", region: null, country: "Pakistan", photo: null, handle: null, bio: null },
   {
+    // TODO: fill in Madison's last initial (shown as "Madison X." in the directory)
+    first: "Madison", lastInitial: "?", city: "Pittsburgh", region: "Pennsylvania", country: "US",
+    photo: null, handle: "@celiacsafepgh",
+    bio: "I was diagnosed with celiac disease in 2023, and since then I've become really passionate about education and advocacy. I started @celiacsafepgh to help people in Pittsburgh navigate celiac disease and feel less alone, and through that community I've seen how much need there is for better autoimmune education, resources, and awareness locally. I'd love to bring that same energy to a Pittsburgh chapter, connect people in the autoimmune community, and help amplify patient voices through education and advocacy.",
+  },
+  {
     first: "Niamh", lastInitial: "A", city: "Mooloolaba", region: "Queensland", country: "Australia",
     photo: "/chapter-photos/niamh.jpg", handle: null,
     bio: "I'm Niamh, a menstrual and hormonal coach, chronic illness advocate, and now a Chapter Leader dedicated to helping women feel more informed, empowered, and connected to their bodies. For years, I've had to learn how to medically advocate for myself after being diagnosed with adenomyosis, endometriosis and fibromyalgia, alongside living with chronic pain and the realities of chronic illness. My own journey has taught me just how difficult it can be to navigate your health when you don't have the information, support or confidence to understand what is happening within your own body. That experience is a huge part of why I'm building Worn Souls — a space centred around menstrual and hormonal education, helping women better understand their cycles, reconnect with their bodies and feel more confident advocating for themselves. I share much of my own story publicly because I believe there is power in women seeing that they aren't alone. But I don't want to only share my story. I want to turn what I've lived through into action, education and meaningful support for other women. Becoming a Chapter Leader is also an opportunity for me to continue learning, expand my own education and surround myself with people who are passionate about changing the way women understand and navigate their health. I'm here because I know what it feels like to fight to be heard — and I want more women to feel equipped to speak up for themselves, ask questions and understand their bodies along the way.",
@@ -178,7 +184,6 @@ const CHAPTERS = [
     photo: "/chapter-photos/kelly.jpg", handle: null,
     bio: "Kelly England is an Oncology Nurse and mum of three boys living in Ireland, with over 17 years of nursing experience and extensive experience supporting people living with cancer and chronic health challenges. Having spent much of her career caring for patients, Kelly is now also experiencing healthcare from the patient perspective following her own health journey and diagnosis with PCOS. This has given her a deeper understanding of the challenges patients can face when navigating symptoms, diagnosis, treatment and healthcare services. Through her platform, From Scrubs to Sidelines, Kelly shares honest conversations around health, wellbeing, family life and the realities of navigating healthcare. As the Ireland Chapter Leader for AutoimmuneVoices, Kelly is passionate about raising awareness, making healthcare information easier to understand, amplifying patient experiences and helping people in Ireland feel more informed and empowered to have a voice in decisions affecting their care. She hopes to create a welcoming Irish community where lived experience, healthcare knowledge and advocacy come together to make a meaningful difference.",
   },
-  { first: "Melanie", lastInitial: "S", city: "Odessa", region: "Missouri", country: "US", photo: null, handle: null, bio: null },
 ];
 
 function chapterLocation(c) {
@@ -210,8 +215,17 @@ function ChapterDirectory() {
       : CHAPTERS.filter((c) => selected.has(c.country === "US" ? c.region : c.country));
 
   // Completed profiles (with a bio) show first; "New chapter" pending
-  // cards sink to the bottom, without reordering within each group.
-  const visible = [...filtered].sort((a, b) => (a.bio ? 0 : 1) - (b.bio ? 0 : 1));
+  // cards sink to the bottom. Within the has-bio group, sorting by bio
+  // length means the 2-column grid naturally pairs short bios with short
+  // and long with long — each row ends up close in height instead of a
+  // short card next to a much taller one, which is what was making the
+  // page look uneven.
+  const visible = [...filtered].sort((a, b) => {
+    const aHasBio = a.bio ? 0 : 1;
+    const bHasBio = b.bio ? 0 : 1;
+    if (aHasBio !== bHasBio) return aHasBio - bHasBio;
+    return (a.bio?.length || 0) - (b.bio?.length || 0);
+  });
 
   return (
     <section className="chapter-directory">
