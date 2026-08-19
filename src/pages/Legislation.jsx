@@ -1193,6 +1193,31 @@ function billCountry(bill) {
   return bill.country || "United States";
 }
 
+// U.S. state/territory postal abbreviations — used to detect when a bill's
+// `number` starts with a state code (e.g. "GA HB94", "NY S06603") so we can
+// filter the letter tool's legislator results down to that exact state.
+// Bills without a leading state code (e.g. "H.R. 6199", "H.Res. 245") are
+// treated as federal.
+const US_STATE_ABBREVS = new Set([
+  "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA",
+  "KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
+  "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT",
+  "VA","WA","WV","WI","WY","DC","PR",
+]);
+
+// Returns the two-letter state code a state-level bill belongs to, or null
+// for federal bills. This is what makes it possible to only show legislators
+// who actually have jurisdiction over the bill being viewed — without it,
+// the letter tool would happily let a Virginia resident message their own
+// Virginia state senator about a Georgia bill that senator has no authority
+// over at all.
+function billStateAbbrev(bill) {
+  if (billCountry(bill) !== "United States") return null;
+  const match = /^([A-Z]{2})\s/.exec(bill.number || "");
+  if (!match) return null;
+  return US_STATE_ABBREVS.has(match[1]) ? match[1] : null;
+}
+
 export default function LegislationDatabase() {
   const [query, setQuery] = useState("");
   const [condition, setCondition] = useState("All conditions");
@@ -1209,6 +1234,7 @@ export default function LegislationDatabase() {
   const [aiSummaries, setAiSummaries] = useState({});
   const [aiLoadingId, setAiLoadingId] = useState(null);
   const [legislators, setLegislators] = useState([]);
+  const [legislatorMismatch, setLegislatorMismatch] = useState(false);
   const [lookupStatus, setLookupStatus] = useState("idle"); // idle | loading | found | error
   const [lookupError, setLookupError] = useState("");
   const [sendStatus, setSendStatus] = useState({}); // { [legislatorId]: 'idle'|'sending'|'sent'|'error' }
@@ -1353,6 +1379,7 @@ export default function LegislationDatabase() {
       `I am writing as a constituent to ask you to support ${bill.number}, the ${bill.fullName}. ${bill.summary}\n\nThis legislation matters to me and to patients in our community managing this condition. I would appreciate your support.`
     );
     setLegislators([]);
+    setLegislatorMismatch(false);
     setLookupStatus("idle");
     setLookupError("");
     setSendStatus({});
@@ -1386,7 +1413,21 @@ export default function LegislationDatabase() {
       if (!res.ok || !data.ok) {
         throw new Error(data.error || "Couldn't find your legislators. Please try again.");
       }
-      setLegislators(data.representatives || []);
+
+      // Only keep legislators who actually have jurisdiction over the bill
+      // being viewed. For a state bill, that means state legislators from
+      // that exact state — a legislator from any other state has no say
+      // over it, even if that's who this address happens to map to. For a
+      // federal bill, only federal members of Congress are relevant; a
+      // state legislator can't act on federal legislation either way.
+      const billState = selectedBill ? billStateAbbrev(selectedBill) : null;
+      const allResults = data.representatives || [];
+      const relevant = billState
+        ? allResults.filter((r) => r.stateAbbrev === billState)
+        : allResults.filter((r) => r.isFederal);
+
+      setLegislators(relevant);
+      setLegislatorMismatch(relevant.length === 0 && allResults.length > 0);
       setLookupStatus("found");
     } catch (err) {
       setLookupError(err.message || "Couldn't find your legislators. Please try again.");
@@ -1969,9 +2010,22 @@ export default function LegislationDatabase() {
                   style={{ width: "100%", padding: "10px", border: "1px solid #C9C4B4", borderRadius: 3, fontSize: 13.5, lineHeight: 1.5, marginBottom: 18, boxSizing: "border-box", fontFamily: "Inter, sans-serif" }}
                 />
                 {legislators.length === 0 ? (
-                  <p style={{ fontSize: 13.5, color: "#8A8880" }}>
-                    No state legislators found for that address. Double-check it's a full street address.
-                  </p>
+                  legislatorMismatch ? (
+                    <div style={{ background: "#FBEAEA", border: "1px solid #E8C6C6", borderRadius: 4, padding: "12px 14px" }}>
+                      <p style={{ fontSize: 13.5, color: "#8A3B3B", fontWeight: 600, marginBottom: 4 }}>
+                        That address's legislators don't have jurisdiction over this bill.
+                      </p>
+                      <p style={{ fontSize: 13, color: "#8A3B3B", lineHeight: 1.5 }}>
+                        {billStateAbbrev(selectedBill)
+                          ? `${selectedBill.number} is in the ${billStateAbbrev(selectedBill)} state legislature — you'd need an address in that state to message its legislators.`
+                          : "This is federal legislation — only your U.S. Senators or Representative can act on it, and none of them publish a direct email we could find for that address."}
+                      </p>
+                    </div>
+                  ) : (
+                    <p style={{ fontSize: 13.5, color: "#8A8880" }}>
+                      No state legislators found for that address. Double-check it's a full street address.
+                    </p>
+                  )
                 ) : (
                   <div style={{ display: "grid", gap: 10, marginBottom: 18 }}>
                     {legislators.map((leg) => {
