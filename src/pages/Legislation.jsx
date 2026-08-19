@@ -2020,13 +2020,13 @@ export default function LegislationDatabase() {
                 {legislatorMismatch && (
                   <div style={{ background: "#FBF3E7", border: "1px solid #E8D6B6", borderRadius: 4, padding: "12px 14px", marginBottom: 16 }}>
                     <p style={{ fontSize: 13.5, color: "#8A5B1B", fontWeight: 600, marginBottom: 4 }}>
-                      Your legislators can't act on this specific bill.
+                      Your legislators can still act on this specific bill.
                     </p>
                     <p style={{ fontSize: 13, color: "#8A5B1B", lineHeight: 1.5 }}>
                       {billStateAbbrev(selectedBill)
                         ? `${selectedBill.number} is in the ${billStateAbbrev(selectedBill)} state legislature, outside their jurisdiction.`
                         : "This is federal legislation outside your state legislators' jurisdiction."}{" "}
-                      You can still send a message asking them to introduce or sponsor similar legislation where you live — the draft below is already set up for that.
+                      You can send a message asking them to introduce or sponsor similar legislation where you live — the draft below is already set up for that.
                     </p>
                   </div>
                 )}
