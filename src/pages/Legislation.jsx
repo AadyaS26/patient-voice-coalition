@@ -1349,6 +1349,13 @@ export default function LegislationDatabase() {
     setIntlSendError("");
     // Counts every drafted letter, not just confirmed sends.
     fetch("/api/counter?key=letters-sent&action=increment").catch(() => {});
+    // Also counts this letter against the specific bill, for the
+    // Bills We've Supported page (src/pages/BillsSupported.jsx).
+    fetch("/api/bill-email-count", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ billId: bill.number }),
+    }).catch(() => {});
   };
 
   const handleFindLegislators = async () => {
@@ -1455,6 +1462,13 @@ export default function LegislationDatabase() {
       setAiSummaries((prev) => ({ ...prev, [bill.number]: data.text || "Summary unavailable right now." }));
       // Count it once the plain-language summary is actually generated.
       fetch("/api/counter?key=bills-explained&action=increment").catch(() => {});
+      // Also counts this summary view toward the site-wide "resources
+      // distributed" total (same counter the Resource Library uses).
+      fetch("/api/track-resource-view", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ condition: `billsummary:${bill.number}` }),
+      }).catch(() => {});
     } catch (err) {
       setAiSummaries((prev) => ({ ...prev, [bill.number]: "Couldn't generate a summary right now. Try again in a moment." }));
     } finally {
