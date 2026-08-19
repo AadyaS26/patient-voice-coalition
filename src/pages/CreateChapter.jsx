@@ -120,7 +120,7 @@ const CHAPTERS = [
     photo: "/chapter-photos/mimi.jpg", handle: null,
     bio: "The main reason why I want to open a chapter is because about 4 years ago I was diagnosed with lupus and I had a really hard time with it. No one understood what I was going through and I had no one in a similar position to talk to. It took a big effect on my mental health as well and I think with starting a chapter I can help raise awareness of the importance of understanding other people's health and mental issues.",
   },
-  { first: "Madison", lastInitial: "M", city: "Pittsburgh", region: "Pennsylvania", country: "US", photo: null, handle: null, bio: null },
+  { first: "Madison", lastInitial: "M", city: "Pittsburgh", region: "Pennsylvania", country: "US", photo: "/chapter-photos/madison.jpg", handle: null, bio: null },
   {
     first: "Tina", lastInitial: "D", city: "Saint Petersburg", region: "Florida", country: "US",
     photo: "/chapter-photos/tina.jpg", handle: null,
@@ -178,6 +178,7 @@ const CHAPTERS = [
     photo: "/chapter-photos/kelly.jpg", handle: null,
     bio: "Kelly England is an Oncology Nurse and mum of three boys living in Ireland, with over 17 years of nursing experience and extensive experience supporting people living with cancer and chronic health challenges. Having spent much of her career caring for patients, Kelly is now also experiencing healthcare from the patient perspective following her own health journey and diagnosis with PCOS. This has given her a deeper understanding of the challenges patients can face when navigating symptoms, diagnosis, treatment and healthcare services. Through her platform, From Scrubs to Sidelines, Kelly shares honest conversations around health, wellbeing, family life and the realities of navigating healthcare. As the Ireland Chapter Leader for AutoimmuneVoices, Kelly is passionate about raising awareness, making healthcare information easier to understand, amplifying patient experiences and helping people in Ireland feel more informed and empowered to have a voice in decisions affecting their care. She hopes to create a welcoming Irish community where lived experience, healthcare knowledge and advocacy come together to make a meaningful difference.",
   },
+  { first: "Melanie", lastInitial: "S", city: "Odessa", region: "Missouri", country: "US", photo: null, handle: null, bio: null },
 ];
 
 function chapterLocation(c) {
