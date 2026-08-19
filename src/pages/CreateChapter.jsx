@@ -186,6 +186,7 @@ const CHAPTERS = [
     photo: "/chapter-photos/kelly.jpg", handle: null,
     bio: "Kelly England is an Oncology Nurse and mum of three boys living in Ireland, with over 17 years of nursing experience and extensive experience supporting people living with cancer and chronic health challenges. Having spent much of her career caring for patients, Kelly is now also experiencing healthcare from the patient perspective following her own health journey and diagnosis with PCOS. This has given her a deeper understanding of the challenges patients can face when navigating symptoms, diagnosis, treatment and healthcare services. Through her platform, From Scrubs to Sidelines, Kelly shares honest conversations around health, wellbeing, family life and the realities of navigating healthcare. As the Ireland Chapter Leader for AutoimmuneVoices, Kelly is passionate about raising awareness, making healthcare information easier to understand, amplifying patient experiences and helping people in Ireland feel more informed and empowered to have a voice in decisions affecting their care. She hopes to create a welcoming Irish community where lived experience, healthcare knowledge and advocacy come together to make a meaningful difference.",
   },
+  { first: "Melanie", lastInitial: "S", city: "Odessa", region: "Missouri", country: "US", photo: null, handle: "@automatically.auto.immune", bio: null },
 ];
 
 function chapterLocation(c) {
