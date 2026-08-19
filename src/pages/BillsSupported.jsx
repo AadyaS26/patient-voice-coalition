@@ -102,21 +102,37 @@ function BillRow({ bill, emailCount }) {
             </span>
           </div>
 
-          {bill.impact && (
+          {(emailCount > 0 || bill.meetingsHeld > 0 || bill.outcome) && (
             <div
               style={{
                 marginTop: 16,
-                background: "#EEF6F0",
-                border: "1px solid #CFE6D8",
-                borderRadius: 8,
-                padding: "14px 16px",
+                background: "#FFFFFF",
+                border: "1px solid #E4E0D6",
+                borderLeft: "3px solid #A87C2A",
+                borderRadius: 4,
+                padding: "16px 18px",
                 maxWidth: 520,
               }}
             >
-              <p style={{ fontSize: 11.5, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", color: "#1B6B3F", marginBottom: 6 }}>
-                What changed
+              <p style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", color: "#A87C2A", marginBottom: 6 }}>
+                AV's role
               </p>
-              <p style={{ fontSize: 14, lineHeight: 1.6, color: "#2B4E38", margin: 0 }}>{bill.impact}</p>
+              <p style={{ fontSize: 13.5, lineHeight: 1.6, color: "#5A5952", margin: 0 }}>
+                AV advocates have been engaged with this bill since {bill.avInvolvedSince}
+                {emailCount > 0 ? `, sending ${emailCount.toLocaleString()} constituent ${emailCount === 1 ? "email" : "emails"} to legislators` : ""}
+                {bill.meetingsHeld > 0 ? ` and holding ${bill.meetingsHeld} ${bill.meetingsHeld === 1 ? "meeting" : "meetings"} with legislative staff` : ""}.
+              </p>
+
+              {bill.outcome && (
+                <>
+                  <p style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", color: "#1B2A4A", marginTop: 14, marginBottom: 6 }}>
+                    What changed
+                  </p>
+                  <p style={{ fontSize: 13.5, lineHeight: 1.6, color: "#2B2A28", margin: 0 }}>
+                    {bill.outcome}
+                  </p>
+                </>
+              )}
             </div>
           )}
 
