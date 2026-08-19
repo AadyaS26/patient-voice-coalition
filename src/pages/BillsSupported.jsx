@@ -2,15 +2,23 @@
 //
 // Not in the top nav — reached via a link inside the Legislation page.
 //
-// Design matches the rest of the site rather than a generic card grid:
-// the navy stat band from Impact.jsx, Fraunces headline treatment, and a
-// horizontal status stepper per bill instead of boxed white cards.
+// Two kinds of bills show up here:
+// 1. Curated bills from src/data/billsSupported.js — full write-up, status
+//    timeline, "AV's role" / "What changed" narrative.
+// 2. Auto-detected bills — anything that has ever received an actual send
+//    click (see trackBillEmailSent in Legislation.jsx) but hasn't been
+//    manually curated yet. These show with whatever real bill data we can
+//    find (from the exported BILLS/INTERNATIONAL_BILLS arrays or the same
+//    live bills.json/state_bills.json feeds Legislation.jsx uses), so
+//    someone sending a message about a bill off the curated list still
+//    shows up here instead of disappearing.
 
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import Nav from "../components/Nav";
 import { ExternalLink, Mail, Users, ArrowLeft } from "lucide-react";
 import { billsSupported, STATUS_LABELS, TOPICS } from "../data/billsSupported";
+import { BILLS as CORE_BILLS, INTERNATIONAL_BILLS } from "./Legislation";
 
 const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');`;
 
@@ -136,7 +144,6 @@ function BillRow({ bill, emailCount }) {
             </div>
           )}
 
-
           <a
             href={bill.officialUrl}
             target="_blank"
@@ -180,8 +187,48 @@ function BillRow({ bill, emailCount }) {
   );
 }
 
+// Simple row for a bill that received a send but hasn't been curated with
+// a full write-up yet — just what we actually know: name/summary if we
+// found a matching record, the email count, and a link.
+function AutoBillRow({ number, emailCount, matchedBill }) {
+  return (
+    <div style={{ borderBottom: "1px solid #E4E0D6", padding: "20px 0", display: "flex", justifyContent: "space-between", gap: 20, flexWrap: "wrap" }}>
+      <div style={{ flex: "1 1 380px" }}>
+        <p style={{ fontSize: 12, letterSpacing: "0.06em", textTransform: "uppercase", color: "#A87C2A", marginBottom: 4 }}>
+          {number}
+        </p>
+        <h4 style={{ fontFamily: "Fraunces, serif", fontSize: 17, fontWeight: 500, color: "#1B2A4A", margin: 0 }}>
+          {matchedBill?.name || "Bill details not yet added"}
+        </h4>
+        {matchedBill?.summary && (
+          <p style={{ fontSize: 13.5, lineHeight: 1.6, color: "#5A5952", marginTop: 6, maxWidth: 520 }}>
+            {matchedBill.summary}
+          </p>
+        )}
+        {matchedBill?.url && (
+          <a
+            href={matchedBill.url}
+            target="_blank"
+            rel="noreferrer"
+            style={{ display: "inline-flex", alignItems: "center", gap: 5, marginTop: 8, fontSize: 12.5, color: "#8A8880", textDecoration: "none" }}
+          >
+            Official record <ExternalLink size={11} />
+          </a>
+        )}
+      </div>
+      <div style={{ flex: "0 0 auto", textAlign: "right" }}>
+        <span style={{ fontSize: 13, color: "#8A8880", display: "flex", alignItems: "center", gap: 5 }}>
+          <Mail size={13} /> {emailCount.toLocaleString()} {emailCount === 1 ? "email" : "emails"} sent
+        </span>
+      </div>
+    </div>
+  );
+}
+
 export default function BillsSupported() {
   const [liveCounts, setLiveCounts] = useState({});
+  const [siteWideEmails, setSiteWideEmails] = useState(null);
+  const [extraBillLookup, setExtraBillLookup] = useState({});
   const [topicFilter, setTopicFilter] = useState("all");
   const [resultFilter, setResultFilter] = useState("all");
 
@@ -192,9 +239,71 @@ export default function BillsSupported() {
       .catch(() => {});
   }, []);
 
+  // Same site-wide total shown on the homepage, so this page and the
+  // homepage never disagree on "how many letters has AV sent overall."
+  useEffect(() => {
+    fetch("/api/counter?key=letters-sent", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((data) => setSiteWideEmails(typeof data.value === "number" ? data.value : null))
+      .catch(() => setSiteWideEmails(null));
+  }, []);
+
+  // Look up real details for any bill that got a send but isn't manually
+  // curated yet — same live feeds Legislation.jsx uses, so a state bill
+  // like "GA HB94" resolves to its real title/summary/url here too.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const lookup = {};
+      [...CORE_BILLS, ...INTERNATIONAL_BILLS].forEach((b) => {
+        lookup[b.number] = b;
+      });
+      try {
+        const [liveRes, stateRes] = await Promise.all([
+          fetch("https://raw.githubusercontent.com/AadyaS26/pvc-legislation-sync/main/bills.json").then((r) => r.json()),
+          fetch("https://raw.githubusercontent.com/AadyaS26/pvc-legislation-sync/main/state_bills.json").then((r) => r.json()),
+        ]);
+        (liveRes.bills || []).forEach((b) => {
+          if (!lookup[b.number]) {
+            lookup[b.number] = {
+              name: b.title,
+              summary: b.latestActionText || "",
+              url: `https://www.congress.gov/bill/119th-congress/${b.number?.toLowerCase().startsWith("s") ? "senate-bill" : "house-bill"}/${(b.number || "").replace(/\D/g, "")}`,
+            };
+          }
+        });
+        (stateRes.bills || []).forEach((b) => {
+          const num = `${b.state} ${b.number}`;
+          if (!lookup[num]) {
+            lookup[num] = { name: b.title, summary: b.lastAction ? `Latest action: ${b.lastAction}` : "", url: b.url };
+          }
+        });
+      } catch {
+        // Live feeds unavailable — auto bills just show with their number
+        // and no matched details, which AutoBillRow already handles.
+      }
+      if (!cancelled) setExtraBillLookup(lookup);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   // Total shown per bill = whatever's been sent since tracking started
   // (Redis) + whatever you already knew about from before (baseline).
   const emailCountFor = (bill) => (liveCounts[bill.id] || 0) + (bill.historicalEmailsBaseline || 0);
+
+  const curatedIds = useMemo(() => new Set(billsSupported.map((b) => b.id)), []);
+
+  // Any bill number with a real send that ISN'T in the curated list —
+  // this is what makes "click send" alone enough to show up here, even
+  // for a bill nobody's manually added yet.
+  const autoBills = useMemo(() => {
+    return Object.entries(liveCounts)
+      .filter(([number, count]) => count > 0 && !curatedIds.has(number))
+      .map(([number, count]) => ({ number, count, matchedBill: extraBillLookup[number] || null }))
+      .sort((a, b) => b.count - a.count);
+  }, [liveCounts, curatedIds, extraBillLookup]);
 
   const filtered = useMemo(
     () =>
@@ -205,14 +314,12 @@ export default function BillsSupported() {
   );
 
   const totals = useMemo(() => {
-    const emails = billsSupported.reduce((sum, b) => sum + emailCountFor(b), 0);
     return {
-      bills: billsSupported.length,
-      emails,
+      bills: billsSupported.length + autoBills.length,
       advanced: billsSupported.filter((b) => b.result === "advanced" || b.result === "outcome").length,
       outcomes: billsSupported.filter((b) => b.result === "outcome").length,
     };
-  }, [liveCounts]);
+  }, [autoBills.length]);
 
   const selectStyle = {
     fontFamily: "Inter, sans-serif",
@@ -243,12 +350,17 @@ export default function BillsSupported() {
         </p>
       </section>
 
-      {/* Stat band — same navy treatment as the Impact page */}
+      {/* Stat band — same navy treatment as the Impact page. The email
+          count matches the homepage's site-wide total exactly, since a
+          message can be about a bill that isn't curated on this page yet
+          (see the "Also sent about" section below) or sent through an
+          off-site webmail client we can't attribute to one specific bill
+          with full confidence. */}
       <section style={{ background: "#1B2A4A", padding: "48px 24px", marginTop: 40 }}>
         <div style={{ maxWidth: 800, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20, textAlign: "center" }}>
           {[
             [totals.bills, "Bills tracked"],
-            [totals.emails.toLocaleString(), "Emails on these bills"],
+            [siteWideEmails === null ? "…" : siteWideEmails.toLocaleString(), "Constituent emails"],
             [totals.advanced, "Bills advanced"],
             [totals.outcomes, "Policy outcomes"],
           ].map(([value, label]) => (
@@ -266,13 +378,12 @@ export default function BillsSupported() {
 
       <section style={{ maxWidth: 800, margin: "0 auto", padding: "12px 24px 0" }}>
         <p style={{ fontSize: 12.5, color: "#8A8880", textAlign: "center" }}>
-          Counts only emails sent about the specific bills below. See the full picture of every
-          letter sent across all tracked legislation on the{" "}
-          <Link to="/legislation" style={{ color: "#A87C2A" }}>Legislation page</Link>.
+          Constituent email total is site-wide, across every bill AV tracks — matches the number
+          on the homepage. Bills tracked and advanced counts reflect what's shown on this page.
         </p>
       </section>
 
-      <section style={{ maxWidth: 800, margin: "0 auto", padding: "24px 24px 80px" }}>
+      <section style={{ maxWidth: 800, margin: "0 auto", padding: "24px 24px 0" }}>
         <div style={{ display: "flex", gap: 24, marginBottom: 8 }}>
           <select value={topicFilter} onChange={(e) => setTopicFilter(e.target.value)} style={selectStyle}>
             <option value="all">All topics</option>
@@ -297,6 +408,23 @@ export default function BillsSupported() {
           {filtered.length === 0 && <p style={{ color: "#8A8880", padding: "24px 0" }}>No bills match those filters yet.</p>}
         </div>
       </section>
+
+      {autoBills.length > 0 && (
+        <section style={{ maxWidth: 800, margin: "0 auto", padding: "16px 24px 80px" }}>
+          <h2 style={{ fontFamily: "Fraunces, serif", fontSize: 20, fontWeight: 500, color: "#1B2A4A", marginBottom: 4 }}>
+            Also sent about
+          </h2>
+          <p style={{ fontSize: 13, color: "#8A8880", marginBottom: 8 }}>
+            These bills received a real send but haven't been written up in full yet — they show
+            up here automatically the moment someone sends a message about them.
+          </p>
+          <div>
+            {autoBills.map((b) => (
+              <AutoBillRow key={b.number} number={b.number} emailCount={b.count} matchedBill={b.matchedBill} />
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }
