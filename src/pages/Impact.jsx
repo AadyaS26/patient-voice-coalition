@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Nav from "../components/Nav";
 import ReachMap from "../components/ReachMap";
-import { HeartHandshake, Lightbulb, ArrowRight } from "lucide-react";
+import { HeartHandshake, Lightbulb, ArrowRight, MessageCircleHeart } from "lucide-react";
 
 const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');`;
 
@@ -18,6 +18,20 @@ const PARTNERS = [
   { name: "T1D ASU", url: "https://www.instagram.com/asudiabeteslink/", logo: "/partner-logos/t1d-asu.jpg" },
   { name: "Autoimmune Atlas", url: "https://solsticestrategies.net/autoimmuneatlas/", logo: "/partner-logos/autoimmune-atlas.jpg" },
   { name: "Bald Girls Do Lunch", url: "https://www.baldgirlsdolunch.org/", logo: "/partner-logos/bald-girls-do-lunch.jpg" },
+];
+
+const STORY_CATEGORIES = [
+  { id: "delayed_diagnosis", label: "Delayed Diagnosis" },
+  { id: "medication_access", label: "Medication Access" },
+  { id: "prior_authorization", label: "Prior Authorization" },
+  { id: "insurance_denial", label: "Insurance Denial" },
+  { id: "food_affordability", label: "Food Affordability" },
+  { id: "specialist_access", label: "Specialist Access" },
+  { id: "disability_accommodations", label: "Disability Accommodations" },
+  { id: "womens_health", label: "Women's Health" },
+  { id: "mental_health", label: "Mental Health Effects" },
+  { id: "rural_healthcare", label: "Rural Healthcare" },
+  { id: "other", label: "Other" },
 ];
 
 function CountUp({ value }) {
@@ -66,6 +80,228 @@ function CountUp({ value }) {
 
   return <span ref={ref}>{typeof display === "number" ? display.toLocaleString() : display}</span>;
 }
+
+// ---- Patient Stories section (lives here on Impact instead of its own page/nav item) ----
+
+const storyInputStyle = {
+  width: "100%",
+  fontFamily: "Inter, sans-serif",
+  fontSize: 14.5,
+  border: "1px solid #E4E0D6",
+  borderRadius: 8,
+  padding: "10px 12px",
+  background: "#FAF8F3",
+  color: "#2B2A28",
+  boxSizing: "border-box",
+};
+
+const storyLabelStyle = {
+  fontFamily: "Inter, sans-serif",
+  fontSize: 13,
+  fontWeight: 600,
+  color: "#2B2A28",
+  display: "block",
+  marginBottom: 6,
+};
+
+function StoryForm({ onSubmitted }) {
+  const [form, setForm] = useState({
+    name: "",
+    condition: "",
+    state: "",
+    country: "United States",
+    category: STORY_CATEGORIES[0].id,
+    story: "",
+    shareAnonymously: false,
+    sharePublicly: true,
+    useInAdvocacy: true,
+    website: "",
+  });
+  const [status, setStatus] = useState("idle");
+  const [error, setError] = useState("");
+
+  function update(field, value) {
+    setForm((f) => ({ ...f, [field]: value }));
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setStatus("sending");
+    setError("");
+    try {
+      const res = await fetch("/api/submit-story", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error || "Could not submit your story.");
+      setStatus("done");
+      onSubmitted?.();
+    } catch (err) {
+      setError(err.message);
+      setStatus("error");
+    }
+  }
+
+  if (status === "done") {
+    return (
+      <div style={{ background: "#EEF6F0", border: "1px solid #CFE6D8", borderRadius: 8, padding: 24, textAlign: "center" }}>
+        <p style={{ fontFamily: "Inter, sans-serif", fontWeight: 600, color: "#1B6B3F" }}>Thank you for sharing your story.</p>
+        <p style={{ fontFamily: "Inter, sans-serif", fontSize: 14, color: "#3E6B4E", marginTop: 4 }}>
+          Our team reviews every submission before it's added to this page.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} style={{ background: "#fff", border: "1px solid #E4E0D6", borderRadius: 8, padding: 28, display: "grid", gap: 18 }}>
+      <input
+        type="text"
+        value={form.website}
+        onChange={(e) => update("website", e.target.value)}
+        style={{ position: "absolute", left: "-9999px" }}
+        tabIndex={-1}
+        autoComplete="off"
+      />
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+        <div>
+          <label style={storyLabelStyle}>Your name (leave blank if anonymous)</label>
+          <input style={storyInputStyle} value={form.name} onChange={(e) => update("name", e.target.value)} />
+        </div>
+        <div>
+          <label style={storyLabelStyle}>Condition</label>
+          <input style={storyInputStyle} required placeholder="e.g. Celiac disease, Lupus, Type 1 Diabetes" value={form.condition} onChange={(e) => update("condition", e.target.value)} />
+        </div>
+        <div>
+          <label style={storyLabelStyle}>State / Province</label>
+          <input style={storyInputStyle} value={form.state} onChange={(e) => update("state", e.target.value)} />
+        </div>
+        <div>
+          <label style={storyLabelStyle}>Country</label>
+          <input style={storyInputStyle} value={form.country} onChange={(e) => update("country", e.target.value)} />
+        </div>
+      </div>
+      <div>
+        <label style={storyLabelStyle}>What category best fits your story?</label>
+        <select style={storyInputStyle} value={form.category} onChange={(e) => update("category", e.target.value)}>
+          {STORY_CATEGORIES.map((c) => (
+            <option key={c.id} value={c.id}>{c.label}</option>
+          ))}
+        </select>
+      </div>
+      <div>
+        <label style={storyLabelStyle}>Your story — what do you wish policymakers knew?</label>
+        <textarea
+          style={{ ...storyInputStyle, resize: "vertical" }}
+          rows={5}
+          required
+          value={form.story}
+          onChange={(e) => update("story", e.target.value)}
+          placeholder="Share your experience with diagnosis, treatment, insurance, or anything else that shaped how you think about healthcare policy."
+        />
+      </div>
+      <div style={{ display: "grid", gap: 8, fontFamily: "Inter, sans-serif", fontSize: 13.5, color: "#5A5952" }}>
+        <label style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <input type="checkbox" checked={form.shareAnonymously} onChange={(e) => update("shareAnonymously", e.target.checked)} />
+          Share my story anonymously (no name shown)
+        </label>
+        <label style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <input type="checkbox" checked={form.sharePublicly} onChange={(e) => update("sharePublicly", e.target.checked)} />
+          I give permission to share this story publicly on the website
+        </label>
+        <label style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <input type="checkbox" checked={form.useInAdvocacy} onChange={(e) => update("useInAdvocacy", e.target.checked)} />
+          I give permission to use this story in advocacy materials, testimony, or meetings with legislators
+        </label>
+      </div>
+      <button
+        type="submit"
+        disabled={status === "sending"}
+        style={{
+          fontFamily: "Inter, sans-serif",
+          fontWeight: 600,
+          fontSize: 14.5,
+          color: "#FAF8F3",
+          background: "#1B2A4A",
+          border: "none",
+          borderRadius: 6,
+          padding: "12px 0",
+          cursor: status === "sending" ? "default" : "pointer",
+          opacity: status === "sending" ? 0.6 : 1,
+        }}
+      >
+        {status === "sending" ? "Submitting…" : "Share My Story"}
+      </button>
+      {status === "error" && <p style={{ color: "#B23B3B", fontSize: 13, fontFamily: "Inter, sans-serif" }}>{error}</p>}
+    </form>
+  );
+}
+
+function StoryCard({ story }) {
+  const label = STORY_CATEGORIES.find((c) => c.id === story.category)?.label || story.category;
+  return (
+    <div style={{ background: "#fff", border: "1px solid #E4E0D6", borderRadius: 8, padding: 22, breakInside: "avoid", marginBottom: 16 }}>
+      <span style={{ fontSize: 11.5, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", color: "#A87C2A" }}>{label}</span>
+      <p style={{ fontFamily: "Fraunces, serif", fontSize: 16, lineHeight: 1.6, color: "#2B2A28", marginTop: 10 }}>"{story.story}"</p>
+      <p style={{ fontSize: 12.5, color: "#8A8880", marginTop: 12 }}>
+        — {story.shareAnonymously === "true" || story.shareAnonymously === true ? "Anonymous" : story.name || "Anonymous"}
+        {story.condition ? `, living with ${story.condition}` : ""}
+        {story.state ? ` · ${story.state}` : ""}
+      </p>
+    </div>
+  );
+}
+
+function PatientStoriesSection() {
+  const [stories, setStories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/submit-story", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((data) => setStories(Array.isArray(data.stories) ? data.stories : []))
+      .catch(() => setStories([]))
+      .finally(() => setLoading(false));
+  }, []);
+
+  return (
+    <section style={{ maxWidth: 800, margin: "0 auto", padding: "0 24px 56px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 12, marginBottom: 18 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <MessageCircleHeart size={17} color="#A87C2A" />
+          <h2 style={{ fontSize: 16, fontWeight: 600, color: "#1B2A4A", margin: 0 }}>
+            Patient stories {stories.length > 0 && <span style={{ color: "#8A8880", fontWeight: 400 }}>· {stories.length.toLocaleString()} collected</span>}
+          </h2>
+        </div>
+        <button
+          onClick={() => setShowForm((v) => !v)}
+          style={{ fontSize: 13, fontWeight: 600, color: "#1B2A4A", background: "none", border: "1px solid #1B2A4A", borderRadius: 6, padding: "8px 16px", cursor: "pointer" }}
+        >
+          {showForm ? "Close form" : "Share your story"}
+        </button>
+      </div>
+
+      {showForm && <div style={{ marginBottom: 24 }}><StoryForm onSubmitted={() => {}} /></div>}
+
+      {loading ? (
+        <p style={{ color: "#8A8880", fontSize: 14 }}>Loading stories…</p>
+      ) : stories.length === 0 ? (
+        <p style={{ color: "#8A8880", fontSize: 14 }}>No stories published yet — be the first to share yours.</p>
+      ) : (
+        <div style={{ columnCount: 2, columnGap: 16 }}>
+          {stories.slice(0, 6).map((s, i) => (
+            <StoryCard key={i} story={s} />
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
+// ---- Main Impact page ----
 
 export default function ImpactPage() {
   const [peopleImpacted, setPeopleImpacted] = useState(null);
@@ -194,6 +430,9 @@ export default function ImpactPage() {
         </div>
         <ReachMap />
       </section>
+
+      {/* Patient stories — moved here from its own page/nav item */}
+      <PatientStoriesSection />
 
       {/* Community partners */}
       <section style={{ maxWidth: 800, margin: "0 auto", padding: "0 24px 56px" }}>
