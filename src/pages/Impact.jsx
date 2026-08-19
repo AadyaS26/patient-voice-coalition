@@ -8,7 +8,7 @@ const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraun
 
 const CURATED_BILLS = 212;
 const CONDITIONS_COVERED = 146;
-const INSTAGRAM_REACH = 34732;
+const INSTAGRAM_REACH = 28423;
 const COUNTRIES_REACHED = 43;
 
 // Real community partner orgs — logos live in public/partner-logos/,
@@ -239,21 +239,6 @@ function StoryForm({ onSubmitted }) {
   );
 }
 
-function StoryCard({ story }) {
-  const label = STORY_CATEGORIES.find((c) => c.id === story.category)?.label || story.category;
-  return (
-    <div style={{ background: "#fff", border: "1px solid #E4E0D6", borderRadius: 8, padding: 22, breakInside: "avoid", marginBottom: 16 }}>
-      <span style={{ fontSize: 11.5, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", color: "#A87C2A" }}>{label}</span>
-      <p style={{ fontFamily: "Fraunces, serif", fontSize: 16, lineHeight: 1.6, color: "#2B2A28", marginTop: 10 }}>"{story.story}"</p>
-      <p style={{ fontSize: 12.5, color: "#8A8880", marginTop: 12 }}>
-        — {story.shareAnonymously === "true" || story.shareAnonymously === true ? "Anonymous" : story.name || "Anonymous"}
-        {story.condition ? `, living with ${story.condition}` : ""}
-        {story.state ? ` · ${story.state}` : ""}
-      </p>
-    </div>
-  );
-}
-
 function PatientStoriesSection() {
   const [stories, setStories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -309,18 +294,6 @@ function PatientStoriesSection() {
       {showForm && (
         <div style={{ marginBottom: 24 }}>
           <StoryForm onSubmitted={fetchStories} />
-        </div>
-      )}
-
-      {loading ? (
-        <p style={{ color: "#8A8880", fontSize: 14 }}>Loading stories…</p>
-      ) : stories.length === 0 ? (
-        <p style={{ color: "#8A8880", fontSize: 14 }}>No stories published yet — be the first to share yours.</p>
-      ) : (
-        <div style={{ columnCount: 2, columnGap: 16 }}>
-          {stories.slice(0, 6).map((s, i) => (
-            <StoryCard key={i} story={s} />
-          ))}
         </div>
       )}
     </section>
