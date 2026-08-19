@@ -4,9 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 const NAV_ITEMS = [
   { label: "Home", to: "/" },
   { label: "Legislation", to: "/legislation" },
-  { label: "Bills We've Supported", to: "/bills-supported" },
   { label: "Resource Library", to: "/resource-library" },
-  { label: "Patient Stories", to: "/patient-stories" },
   { label: "Start a Chapter", to: "/create-chapter" },
   { label: "Events", to: "/events" },
   { label: "Impact", to: "/impact" },
