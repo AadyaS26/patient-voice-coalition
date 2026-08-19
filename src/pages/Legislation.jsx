@@ -165,7 +165,10 @@ function repFinderFor(country) {
   return REP_FINDER[country] || IPU_PARLINE;
 }
 
-const BILLS = [
+// Exported so src/pages/BillsSupported.jsx can look up real bill details
+// (name, summary, url) for any bill that receives a send, even ones not
+// manually curated into src/data/billsSupported.js.
+export const BILLS = [
   {
     number: "NJ A4163 / S3098",
     name: "New Jersey biomarker testing coverage",
@@ -511,7 +514,7 @@ const BILLS = [
 // is, rather than pulled from a live feed (we don't yet have an
 // international equivalent of the Congress.gov sync). It'll grow as chapter
 // leads flag more country-specific legislation worth tracking.
-const INTERNATIONAL_BILLS = [
+export const INTERNATIONAL_BILLS = [
   // --- United Kingdom ---
   {
     number: "NHS England — Gluten-Free Prescribing",
@@ -1373,6 +1376,20 @@ export default function LegislationDatabase() {
       .slice(0, 3);
   }, [allBills]);
 
+  // Records that a letter was drafted about this specific bill, for the
+  // Bills We've Supported page (src/pages/BillsSupported.jsx). Fires the
+  // moment the letter modal opens — same trigger as the site-wide
+  // letters-sent counter — not at actual send, since a send click can't be
+  // confirmed for the off-site webmail links anyway.
+  const trackBillEmailSent = (bill) => {
+    if (!bill) return;
+    fetch("/api/bill-email-count", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ billId: bill.number }),
+    }).catch(() => {});
+  };
+
   const openLetter = (bill) => {
     setSelectedBill(bill);
     setMessage(
@@ -1388,15 +1405,10 @@ export default function LegislationDatabase() {
     setRepEmail("");
     setIntlSendStatus("idle");
     setIntlSendError("");
-    // Counts every drafted letter, not just confirmed sends.
+    // Counts every drafted letter, not just confirmed sends — same trigger
+    // point as the per-bill counter below, so both numbers move together.
     fetch("/api/counter?key=letters-sent&action=increment").catch(() => {});
-    // Also counts this letter against the specific bill, for the
-    // Bills We've Supported page (src/pages/BillsSupported.jsx).
-    fetch("/api/bill-email-count", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ billId: bill.number }),
-    }).catch(() => {});
+    trackBillEmailSent(bill);
   };
 
   const handleFindLegislators = async () => {
@@ -2020,13 +2032,13 @@ export default function LegislationDatabase() {
                 {legislatorMismatch && (
                   <div style={{ background: "#FBF3E7", border: "1px solid #E8D6B6", borderRadius: 4, padding: "12px 14px", marginBottom: 16 }}>
                     <p style={{ fontSize: 13.5, color: "#8A5B1B", fontWeight: 600, marginBottom: 4 }}>
-                      Your legislators can still act on this specific bill.
+                      Your legislators can't act on this specific bill.
                     </p>
                     <p style={{ fontSize: 13, color: "#8A5B1B", lineHeight: 1.5 }}>
                       {billStateAbbrev(selectedBill)
                         ? `${selectedBill.number} is in the ${billStateAbbrev(selectedBill)} state legislature, outside their jurisdiction.`
                         : "This is federal legislation outside your state legislators' jurisdiction."}{" "}
-                      You can send a message asking them to introduce or sponsor similar legislation where you live — the draft below is already set up for that.
+                      You can still send a message asking them to introduce or sponsor similar legislation where you live — the draft below is already set up for that.
                     </p>
                   </div>
                 )}
