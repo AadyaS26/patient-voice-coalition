@@ -68,7 +68,11 @@ const CHAPTERS = [
     photo: "/chapter-photos/alex.jpg", handle: null,
     bio: "I'm AB, the founder of @chronically_ill_af and part of the Sydney Chapter of AutoimmuneVoices. I joined because living with autoimmune disease can feel incredibly isolating, and I wanted to help create a community where people feel seen, heard and supported, while still being able to laugh at the absolute chaos of chronic illness. I'm passionate about advocacy, accessibility and making sure people with invisible illnesses know they're not alone.",
   },
-  { first: "Lexi", lastInitial: "P", city: "Waltham", region: "Massachusetts", country: "US", photo: null, handle: null, bio: null },
+  {
+    first: "Lexi", lastInitial: "P", city: "Waltham", region: "Massachusetts", country: "US",
+    photo: "/chapter-photos/lexi.jpg", handle: null,
+    bio: "Hi, I'm Lexi! I'm an environmental studies and biology double major at Brandeis University. In addition, I have a huge passion for women's health care and advocacy. I will continue to advocate for reproductive health awareness, research, and rights as well as digestive disorders which are near to my heart.",
+  },
   { first: "Jenna", lastInitial: "B", city: "Ellensburg", region: "Washington", country: "US", photo: null, handle: null, bio: null },
   {
     first: "Kayleigh", lastInitial: "J", city: "Trinidad", region: null, country: "Trinidad and Tobago",
@@ -120,7 +124,11 @@ const CHAPTERS = [
     photo: "/chapter-photos/mimi.jpg", handle: null,
     bio: "The main reason why I want to open a chapter is because about 4 years ago I was diagnosed with lupus and I had a really hard time with it. No one understood what I was going through and I had no one in a similar position to talk to. It took a big effect on my mental health as well and I think with starting a chapter I can help raise awareness of the importance of understanding other people's health and mental issues.",
   },
-  { first: "Madison", lastInitial: "M", city: "Pittsburgh", region: "Pennsylvania", country: "US", photo: null, handle: null, bio: null },
+  {
+    first: "Madison", lastInitial: "", city: "Pittsburgh", region: "Pennsylvania", country: "US",
+    photo: "/chapter-photos/madison.jpg", handle: "@celiacsafepgh",
+    bio: "I was diagnosed with celiac disease in 2023, and since then I've become really passionate about education and advocacy. I started @celiacsafepgh to help people in Pittsburgh navigate celiac disease and feel less alone, and through that community I've seen how much need there is for better autoimmune education, resources, and awareness locally. I'd love to bring that same energy to a Pittsburgh chapter, connect people in the autoimmune community, and help amplify patient voices through education and advocacy.",
+  },
   {
     first: "Tina", lastInitial: "D", city: "Saint Petersburg", region: "Florida", country: "US",
     photo: "/chapter-photos/tina.jpg", handle: null,
@@ -168,12 +176,6 @@ const CHAPTERS = [
     bio: "My name is Sofia Carpio, I'm 16, and currently a junior in high school. I'm striving to become a neurosurgeon and my dream school is University of California, Irvine. I wanted to become a chapter leader because although I don't personally struggle with an autoimmune disease myself, I want to not only educate and advocate for this community, but show them that their efforts, strength, and struggles do not go unnoticed. You all are seen, understood, and not alone.",
   },
   { first: "Iza", lastInitial: "M", city: "Sialkot", region: null, country: "Pakistan", photo: null, handle: null, bio: null },
-  {
-    // TODO: fill in Madison's last initial (shown as "Madison X." in the directory)
-    first: "Madison", lastInitial: "?", city: "Pittsburgh", region: "Pennsylvania", country: "US",
-    photo: null, handle: "@celiacsafepgh",
-    bio: "I was diagnosed with celiac disease in 2023, and since then I've become really passionate about education and advocacy. I started @celiacsafepgh to help people in Pittsburgh navigate celiac disease and feel less alone, and through that community I've seen how much need there is for better autoimmune education, resources, and awareness locally. I'd love to bring that same energy to a Pittsburgh chapter, connect people in the autoimmune community, and help amplify patient voices through education and advocacy.",
-  },
   {
     first: "Niamh", lastInitial: "A", city: "Mooloolaba", region: "Queensland", country: "Australia",
     photo: "/chapter-photos/niamh.jpg", handle: null,
