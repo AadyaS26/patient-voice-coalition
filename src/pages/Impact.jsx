@@ -8,7 +8,7 @@ const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraun
 
 const CURATED_BILLS = 212;
 const CONDITIONS_COVERED = 146;
-const INSTAGRAM_REACH = 34731;
+const INSTAGRAM_REACH = 34732;
 const COUNTRIES_REACHED = 43;
 
 // Real community partner orgs — logos live in public/partner-logos/,
@@ -280,12 +280,30 @@ function PatientStoriesSection() {
             Patient stories {stories.length > 0 && <span style={{ color: "#8A8880", fontWeight: 400 }}>· {stories.length.toLocaleString()} collected</span>}
           </h2>
         </div>
-        <button
-          onClick={() => setShowForm((v) => !v)}
-          style={{ fontSize: 13, fontWeight: 600, color: "#1B2A4A", background: "none", border: "1px solid #1B2A4A", borderRadius: 6, padding: "8px 16px", cursor: "pointer" }}
-        >
-          {showForm ? "Close form" : "Share your story"}
-        </button>
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+          <Link
+            to="/patient-stories"
+            style={{
+              fontSize: 13,
+              fontWeight: 600,
+              color: "#FAF8F3",
+              background: "#1B2A4A",
+              borderRadius: 6,
+              padding: "8px 16px",
+              textDecoration: "none",
+              display: "inline-flex",
+              alignItems: "center",
+            }}
+          >
+            View Patient Stories
+          </Link>
+          <button
+            onClick={() => setShowForm((v) => !v)}
+            style={{ fontSize: 13, fontWeight: 600, color: "#1B2A4A", background: "none", border: "1px solid #1B2A4A", borderRadius: 6, padding: "8px 16px", cursor: "pointer" }}
+          >
+            {showForm ? "Close form" : "Share your story"}
+          </button>
+        </div>
       </div>
 
       {showForm && (
