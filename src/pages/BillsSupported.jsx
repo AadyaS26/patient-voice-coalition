@@ -248,7 +248,7 @@ export default function BillsSupported() {
         <div style={{ maxWidth: 800, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20, textAlign: "center" }}>
           {[
             [totals.bills, "Bills tracked"],
-            [totals.emails.toLocaleString(), "Constituent emails"],
+            [totals.emails.toLocaleString(), "Emails on these bills"],
             [totals.advanced, "Bills advanced"],
             [totals.outcomes, "Policy outcomes"],
           ].map(([value, label]) => (
