@@ -191,6 +191,7 @@ const CHAPTERS = [
     photo: "/chapter-photos/melanie.jpg", handle: "@automatically.auto.immune",
     bio: "My four children and I have autoimmune diseases/chronic illnesses. I am advocating for our children and others who need a voice. Invisible illnesses make day-to-day living challenging. I truly believe education = empathy.",
   },
+  { first: "Dyllan", lastInitial: "G", city: "Philadelphia", region: "Pennsylvania", country: "US", photo: null, handle: "@greaterthanmydiagnosis", bio: null },
 ];
 
 function chapterLocation(c) {
