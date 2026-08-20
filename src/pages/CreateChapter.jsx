@@ -191,7 +191,11 @@ const CHAPTERS = [
     photo: "/chapter-photos/melanie.jpg", handle: "@automatically.auto.immune",
     bio: "My four children and I have autoimmune diseases/chronic illnesses. I am advocating for our children and others who need a voice. Invisible illnesses make day-to-day living challenging. I truly believe education = empathy.",
   },
-  { first: "Dyllan", lastInitial: "G", city: "Philadelphia", region: "Pennsylvania", country: "US", photo: null, handle: "@greaterthanmydiagnosis", bio: null },
+  {
+    first: "Dyllan", lastInitial: "G", city: "Philadelphia", region: "Pennsylvania", country: "US",
+    photo: "/chapter-photos/dyllan.jpg", handle: "@greaterthanmydiagnosis",
+    bio: "Hi! I'm Dyllan and I was diagnosed with Crohn's Disease at age 15. This chronic autoimmune condition primarily affects the GI tract but can impact other areas of the body as well. Besides stomach aches one of the most challenging symptoms I struggle with is chronic fatigue. I felt lonely and misunderstood when I was first diagnosed and that's why I am passionate about raising awareness and helping others.",
+  },
 ];
 
 function chapterLocation(c) {
