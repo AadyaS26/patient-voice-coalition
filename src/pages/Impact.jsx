@@ -8,7 +8,7 @@ const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraun
 
 const CURATED_BILLS = 212;
 const CONDITIONS_COVERED = 146;
-const INSTAGRAM_REACH = 35599;
+const INSTAGRAM_REACH = 36557;
 const COUNTRIES_REACHED = 43;
 
 // Real community partner orgs — logos live in public/partner-logos/,
@@ -18,6 +18,8 @@ const PARTNERS = [
   { name: "T1D ASU", url: "https://www.instagram.com/asudiabeteslink/", logo: "/partner-logos/t1d-asu.jpg" },
   { name: "Autoimmune Atlas", url: "https://solsticestrategies.net/autoimmuneatlas/", logo: "/partner-logos/autoimmune-atlas.jpg" },
   { name: "Bald Girls Do Lunch", url: "https://www.baldgirlsdolunch.org/", logo: "/partner-logos/bald-girls-do-lunch.jpg" },
+  { name: "Vasculitis Foundation", url: "https://vasculitisfoundation.org/", logo: "/partner-logos/vasculitis-foundation.jpg" },
+  { name: "Gluten Free Shop", url: "https://www.facebook.com/people/Gluten-free-shop/100094473745210/", logo: "/partner-logos/gluten-free-shop.jpg" },
 ];
 
 const STORY_CATEGORIES = [
