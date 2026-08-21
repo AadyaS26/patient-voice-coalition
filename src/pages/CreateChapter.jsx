@@ -196,6 +196,7 @@ const CHAPTERS = [
     photo: "/chapter-photos/dyllan.jpg", handle: "@greaterthanmydiagnosis",
     bio: "Hi! I'm Dyllan and I was diagnosed with Crohn's Disease at age 15. This chronic autoimmune condition primarily affects the GI tract but can impact other areas of the body as well. Besides stomach aches one of the most challenging symptoms I struggle with is chronic fatigue. I felt lonely and misunderstood when I was first diagnosed and that's why I am passionate about raising awareness and helping others.",
   },
+  { first: "Shari", lastInitial: "", city: "Phoenix", region: "Arizona", country: "US", photo: null, handle: "@pretty.disabled", bio: null },
 ];
 
 function chapterLocation(c) {
