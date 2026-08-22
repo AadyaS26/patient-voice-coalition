@@ -1,8 +1,7 @@
 // src/pages/AdvocacyTraining.jsx
 //
 // Course-catalog style grid, one card per training. Clicking a card goes
-// to its own page at /advocacy-training/:id (src/pages/AdvocacyTrainingDetail.jsx)
-// rather than expanding in place.
+// to its own page at /advocacy-training/:id.
 
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -39,9 +38,8 @@ export default function AdvocacyTraining() {
         <h1 style={{ fontFamily: "Fraunces, serif", fontWeight: 500, fontSize: "clamp(40px, 7vw, 64px)", lineHeight: 1.05, color: "#1B2A4A", letterSpacing: "-0.01em" }}>
           Advocacy Training
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 1.6, color: "#5A5952", maxWidth: 540, margin: "16px auto 0" }}>
-          Everything you need to go from "I care about this" to "I did something about this" — no
-          experience required, free, always available.
+        <p style={{ fontSize: 15.5, lineHeight: 1.6, color: "#5A5952", maxWidth: 480, margin: "16px auto 0" }}>
+          Short, practical guides for real advocacy. Pick one and start.
         </p>
 
         <div style={{ display: "flex", justifyContent: "center", gap: 48, marginTop: 40 }}>
@@ -113,15 +111,12 @@ export default function AdvocacyTraining() {
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "space-between",
+                  justifyContent: "flex-end",
                   alignItems: "center",
                   paddingTop: 16,
                   borderTop: "1px solid #F0EEE7",
                 }}
               >
-                <span style={{ fontSize: 12, letterSpacing: "0.04em", textTransform: "uppercase", color: "#8A8880" }}>
-                  {t.hours}
-                </span>
                 <span style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 12.5, fontWeight: 600, color: "#A87C2A" }}>
                   Read <ArrowRight size={13} />
                 </span>
