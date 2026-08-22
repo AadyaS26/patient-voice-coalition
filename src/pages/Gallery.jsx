@@ -162,8 +162,55 @@ function useInstagramEmbeds(dependency) {
 }
 
 function PostTile({ url }) {
+  const containerRef = React.useRef(null);
+  const [failed, setFailed] = React.useState(false);
+
+  React.useEffect(() => {
+    // Instagram's script always turns a successfully-processed blockquote
+    // into an <iframe>. If nothing shows up inside this tile by the time
+    // the retries in useInstagramEmbeds have had a chance to run, that
+    // post isn't going to embed here — most often because the account has
+    // embedding disabled in its own Instagram settings, not a timing
+    // issue — so fall back to a plain link instead of leaving a blank box.
+    const check = setTimeout(() => {
+      if (containerRef.current && !containerRef.current.querySelector("iframe")) {
+        setFailed(true);
+      }
+    }, 5500);
+    return () => clearTimeout(check);
+  }, [url]);
+
+  if (failed) {
+    return (
+      <a
+        href={url}
+        target="_blank"
+        rel="noreferrer"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 10,
+          height: 540,
+          background: "#FFFFFF",
+          border: "1px solid #E4E0D6",
+          borderRadius: 10,
+          textDecoration: "none",
+          padding: 24,
+          textAlign: "center",
+        }}
+      >
+        <Instagram size={26} color="#A87C2A" />
+        <span style={{ fontFamily: "Inter, sans-serif", fontSize: 14, fontWeight: 600, color: "#1B2A4A" }}>
+          View this post on Instagram
+        </span>
+      </a>
+    );
+  }
+
   return (
-    <div style={{ height: 540, overflow: "hidden", borderRadius: 10, border: "1px solid #E4E0D6" }}>
+    <div ref={containerRef} style={{ height: 540, overflow: "hidden", borderRadius: 10, border: "1px solid #E4E0D6" }}>
       <blockquote
         className="instagram-media"
         data-instgrm-permalink={url}
