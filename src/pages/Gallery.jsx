@@ -22,7 +22,21 @@ import { Link } from "react-router-dom";
 import Nav from "../components/Nav";
 import { ArrowLeft, Instagram } from "lucide-react";
 
-const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');`;
+const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');
+
+.av-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 320px);
+  gap: 20px;
+  justify-content: center;
+}
+@media (max-width: 1050px) {
+  .av-gallery-grid { grid-template-columns: repeat(2, 320px); }
+}
+@media (max-width: 700px) {
+  .av-gallery-grid { grid-template-columns: 1fr; justify-items: center; }
+}
+`;
 
 // Add new chapters or new posts here. Every entry in `postUrls` becomes
 // its own tile in that chapter's grid.
@@ -208,14 +222,7 @@ export default function Gallery() {
             <p style={{ fontSize: 13, color: "#8A8880", textAlign: "center", marginBottom: 20 }}>{c.handle}</p>
 
             {c.postUrls.length > 0 ? (
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-                  gap: 20,
-                  justifyItems: "center",
-                }}
-              >
+              <div className="av-gallery-grid">
                 {c.postUrls.map((url) => (
                   <PostTile key={url} url={url} />
                 ))}
