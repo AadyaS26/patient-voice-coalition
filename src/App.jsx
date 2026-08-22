@@ -5,6 +5,7 @@ import Home from "./pages/Home.jsx";
 import Legislation from "./pages/Legislation.jsx";
 import Impact from "./pages/Impact.jsx";
 import CreateChapter from './pages/CreateChapter';
+import CurrentChapters from './pages/CurrentChapters';
 import Events from "./pages/Events.jsx";
 import ResourceLibrary from "./pages/ResourceLibrary";
 import Brainstorm from "./pages/Brainstorm.jsx";
@@ -44,6 +45,7 @@ export default function App() {
         <Route path="/events" element={<Events />} />
         <Route path="/brainstorm" element={<Brainstorm />} />
         <Route path="/create-chapter" element={<CreateChapter />} />
+        <Route path="/current-chapters" element={<CurrentChapters />} />
         {/* Not in the top nav on purpose — reached via a link inside the
             Legislation page, so the nav bar doesn't get more crowded. */}
         <Route path="/bills-supported" element={<BillsSupported />} />
