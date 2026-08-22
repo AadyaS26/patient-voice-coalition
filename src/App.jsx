@@ -12,6 +12,7 @@ import Brainstorm from "./pages/Brainstorm.jsx";
 import BillsSupported from "./pages/BillsSupported.jsx";
 import PatientStories from "./pages/PatientStories.jsx";
 import Gallery from "./pages/Gallery.jsx";
+import AdvocacyTraining from "./pages/AdvocacyTraining.jsx";
 
 export default function App() {
   // Counts one real visit per actual page load/refresh — this runs exactly
@@ -55,6 +56,7 @@ export default function App() {
         {/* Reached via the Events dropdown in the nav, not a standalone
             top-level nav item. */}
         <Route path="/gallery" element={<Gallery />} />
+        <Route path="/advocacy-training" element={<AdvocacyTraining />} />
       </Routes>
     </BrowserRouter>
   );
