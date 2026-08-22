@@ -6,6 +6,12 @@ import "./CreateChapter.css";
 // Real bios/photos only for chapters that have actually sent them, with
 // consent to be shown publicly. Everyone else shows as an open "New
 // chapter" card until their info comes in.
+//
+// This is the ONLY place chapter data lives. src/pages/CurrentChapters.jsx
+// imports the ChapterDirectory component from this file rather than
+// keeping its own copy — two copies drifting out of sync is exactly what
+// caused Shari/Melanie/Dyllan's updates to not show up on the
+// /current-chapters page after they were added here.
 const CHAPTERS = [
   {
     first: "Katherine", lastInitial: "H", city: "Virginia Beach", region: "Virginia", country: "US",
@@ -210,12 +216,14 @@ function chapterLocation(c) {
 
 const PERSON_ICON_COLORS = ["#206060", "#123838", "#8A5C3B"];
 
-function ChapterDirectory() {
+// Exported so src/pages/CurrentChapters.jsx can render the exact same,
+// always-current directory instead of keeping its own separate copy.
+export function ChapterDirectory() {
   const [selected, setSelected] = useState(new Set());
 
-  // React Router doesn't auto-scroll to a #hash the way a plain <a> would,
-  // so the "Current Chapters" nav dropdown link (/create-chapter#chapter-directory)
-  // needs this to actually land on the directory instead of the top of the page.
+  // React Router doesn't auto-scroll to a #hash the way a plain <a> would.
+  // Kept in case anything still links here with #chapter-directory, even
+  // though the nav now points straight at /current-chapters.
   useEffect(() => {
     if (window.location.hash === "#chapter-directory") {
       document.getElementById("chapter-directory")?.scrollIntoView({ behavior: "smooth" });
@@ -642,7 +650,6 @@ export default function CreateChapter() {
           </form>
         </div>
       </section>
-      <ChapterDirectory />
     </>
   );
 }
