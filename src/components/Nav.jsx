@@ -102,33 +102,40 @@ export default function Nav() {
                       position: "absolute",
                       top: "100%",
                       left: 0,
-                      marginTop: 8,
-                      background: "#FFFFFF",
-                      border: "1px solid #E4E0D6",
-                      borderRadius: 8,
-                      boxShadow: "0 8px 24px rgba(27,42,74,0.12)",
-                      minWidth: 190,
-                      padding: "6px 0",
+                      marginTop: 0,
+                      paddingTop: 8,
+                      background: "transparent",
                       zIndex: 20,
                     }}
                   >
-                    {item.dropdown.map((sub) => (
-                      <Link
-                        key={sub.to}
-                        to={sub.to}
-                        onClick={() => setOpenMenu(null)}
-                        style={{
-                          display: "block",
-                          fontFamily: NAV_FONT,
-                          fontSize: 14,
-                          color: "#2B2A28",
-                          textDecoration: "none",
-                          padding: "9px 16px",
-                        }}
-                      >
-                        {sub.label}
-                      </Link>
-                    ))}
+                    <div
+                      style={{
+                        background: "#FFFFFF",
+                        border: "1px solid #E4E0D6",
+                        borderRadius: 8,
+                        boxShadow: "0 8px 24px rgba(27,42,74,0.12)",
+                        minWidth: 190,
+                        padding: "6px 0",
+                      }}
+                    >
+                      {item.dropdown.map((sub) => (
+                        <Link
+                          key={sub.to}
+                          to={sub.to}
+                          onClick={() => setOpenMenu(null)}
+                          style={{
+                            display: "block",
+                            fontFamily: NAV_FONT,
+                            fontSize: 14,
+                            color: "#2B2A28",
+                            textDecoration: "none",
+                            padding: "9px 16px",
+                          }}
+                        >
+                          {sub.label}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
