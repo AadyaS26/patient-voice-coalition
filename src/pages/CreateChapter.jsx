@@ -181,7 +181,11 @@ const CHAPTERS = [
     photo: "/chapter-photos/sofia.jpg", handle: null,
     bio: "My name is Sofia Carpio, I'm 16, and currently a junior in high school. I'm striving to become a neurosurgeon and my dream school is University of California, Irvine. I wanted to become a chapter leader because although I don't personally struggle with an autoimmune disease myself, I want to not only educate and advocate for this community, but show them that their efforts, strength, and struggles do not go unnoticed. You all are seen, understood, and not alone.",
   },
-  { first: "Iza", lastInitial: "M", city: "Sialkot", region: null, country: "Pakistan", photo: null, handle: null, bio: null },
+  {
+    first: "Iza", lastInitial: "M", city: "Sialkot", region: null, country: "Pakistan",
+    photo: "/chapter-photos/iza.jpg", handle: null,
+    bio: "As a 32-year-old medical researcher based in Pakistan specializing in autoimmune diseases, my dedication to this field is deeply personal. Having navigated the daily realities of IBD, ankylosing spondylitis, and alopecia areata since the tender age of four, I understand the profound challenges of living with chronic conditions firsthand. Today, my mission extends far beyond the laboratory: I am devoted to lifting the spirits of others on this same journey, offering motivation, empathy, and comfort through the healing power of food—ultimately striving to bring smiles back to the faces of those who need it most.",
+  },
   {
     first: "Niamh", lastInitial: "A", city: "Mooloolaba", region: "Queensland", country: "Australia",
     photo: "/chapter-photos/niamh.jpg", handle: null,
