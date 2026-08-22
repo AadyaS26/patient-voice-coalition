@@ -25,7 +25,25 @@ export const TRAININGS = [
       "You're usually writing to a staffer, not the legislator. Treat it the same either way.",
       "One bill, one story, one ask beats a long list every time.",
     ],
-    content: (
+    videoUrl: "https://www.youtube.com/embed/W27H8rG7oHc",
+    learnBullets: [
+      "What advocacy actually means in a policy context",
+      "The four building blocks of any advocacy message",
+      "Who actually reads your message (hint: usually not the legislator)",
+      "The most common mistake first-time advocates make",
+    ],
+    quiz: {
+      question: "What's missing from this ask: \"Please care about autoimmune disease\"?",
+      options: [
+        { id: "a", text: "A specific, actionable request" },
+        { id: "b", text: "A personal story" },
+        { id: "c", text: "A thank you" },
+        { id: "d", text: "A signature" },
+      ],
+      correctId: "a",
+      explanation: "It's a feeling, not an action. A useful ask names exactly what you want the person to do, like \"vote yes on HB 1234.\"",
+    },
+content: (
       <>
         <p>
           Advocacy sounds bigger than it is. At its core, it's one thing: telling someone with
@@ -102,7 +120,25 @@ export const TRAININGS = [
       "You only need three things from a bill: summary, status, and sponsor.",
       "Advocacy has the most power while a bill is still in committee.",
     ],
-    content: (
+    videoUrl: "https://www.youtube.com/embed/B45S0K_tQKA",
+    learnBullets: [
+      "Where to actually search for bills that affect you",
+      "How to set up alerts so bills come to you",
+      "The three things worth knowing about any bill",
+      "Why timing changes how much your advocacy matters",
+    ],
+    quiz: {
+      question: "Which piece of information tells you how much time you have left to act on a bill?",
+      options: [
+        { id: "a", text: "The bill's summary" },
+        { id: "b", text: "The bill's status" },
+        { id: "c", text: "The bill's sponsor" },
+        { id: "d", text: "The bill's number" },
+      ],
+      correctId: "b",
+      explanation: "Status (introduced, in committee, passed one chamber) tells you where a bill is in the process, and how much runway you have to act.",
+    },
+content: (
       <>
         <p>
           The hardest part of legislative advocacy usually isn't writing the message. It's finding
@@ -177,7 +213,25 @@ export const TRAININGS = [
       "Email is the highest volume-to-effort ratio if you can only do one thing.",
       "Put your ask in the first sentence. Five or six sentences total is plenty.",
     ],
-    content: (
+        videoUrl: null,
+    learnBullets: [
+      "How to match the right legislator to a given bill",
+      "Email vs. phone vs. mail, and when each one matters",
+      "A message structure that actually gets read",
+      "What to do if you don't hear back",
+    ],
+    quiz: {
+      question: "If you can only choose one way to contact a legislator, which is generally the highest volume-to-effort option?",
+      options: [
+        { id: "a", text: "A phone call" },
+        { id: "b", text: "Physical mail" },
+        { id: "c", text: "Email" },
+        { id: "d", text: "An in-person visit" },
+      ],
+      correctId: "c",
+      explanation: "Email is the fastest to send and the easiest for an office to log and count, which is why it's the default recommendation.",
+    },
+content: (
       <>
         <p>
           "Contact your representative" sounds simple until you realize you have several: a state
@@ -242,7 +296,25 @@ export const TRAININGS = [
       "Four parts: where you started, what went wrong, what it cost you, what you want to change.",
       "You never have to share more than you're comfortable with. Anonymous is always an option.",
     ],
-    content: (
+        videoUrl: null,
+    learnBullets: [
+      "What separates a policy-useful story from a personal one",
+      "The four-part shape that works almost every time",
+      "How much detail is actually enough",
+      "Why you're always in control of what you share",
+    ],
+    quiz: {
+      question: "Which of these is the most policy-useful detail?",
+      options: [
+        { id: "a", text: "\"It was really hard.\"" },
+        { id: "b", text: "\"I waited 11 months for a referral because there are only two specialists in my county.\"" },
+        { id: "c", text: "\"I've always struggled with this.\"" },
+        { id: "d", text: "\"Things got complicated.\"" },
+      ],
+      correctId: "b",
+      explanation: "It names a specific, fixable barrier (a wait time tied to a specialist shortage) instead of a general feeling, which gives policymakers something concrete to act on.",
+    },
+content: (
       <>
         <p>
           Your story is the one thing in advocacy nobody else can provide. But a story that's true
@@ -312,7 +384,25 @@ export const TRAININGS = [
       "Legislative comment is tied to a bill. Regulatory comment is tied to an agency rule.",
       "Under 200 words. State your position in sentence one, give one reason, stop.",
     ],
-    content: (
+    videoUrl: "https://www.youtube.com/embed/pVC2RdYE-Q4",
+    learnBullets: [
+      "The difference between legislative and regulatory comment",
+      "What to actually write, and how short is short enough",
+      "A template you can adapt in minutes",
+      "Where to find comment periods that are currently open",
+    ],
+    quiz: {
+      question: "A comment submitted to a legislative committee about a specific bill is an example of which kind of public comment?",
+      options: [
+        { id: "a", text: "Regulatory comment" },
+        { id: "b", text: "Legislative comment" },
+        { id: "c", text: "Neither" },
+        { id: "d", text: "Both equally" },
+      ],
+      correctId: "b",
+      explanation: "Legislative comment is tied to a specific bill in a legislature. Regulatory comment is tied to an agency's proposed rule instead.",
+    },
+content: (
       <>
         <p>
           Public comment is one of the most underused tools in advocacy because people assume it's
@@ -381,7 +471,25 @@ export const TRAININGS = [
       "2 minutes is about 250-300 words. Practice out loud with a timer at least once.",
       "First-time nerves are normal. Committees see them constantly.",
     ],
-    content: (
+        videoUrl: null,
+    learnBullets: [
+      "The difference between written and oral testimony",
+      "How to actually register to testify",
+      "How to structure a 2-3 minute statement",
+      "What really happens once you're in the room",
+    ],
+    quiz: {
+      question: "Roughly how many words is a typical 2-minute spoken statement?",
+      options: [
+        { id: "a", text: "50-75 words" },
+        { id: "b", text: "250-300 words" },
+        { id: "c", text: "600-700 words" },
+        { id: "d", text: "1,000+ words" },
+      ],
+      correctId: "b",
+      explanation: "At a normal speaking pace, 2 minutes is about 250-300 words, which is shorter than most first-time testifiers expect.",
+    },
+content: (
       <>
         <p>
           Testimony is public comment's more formal cousin: a statement entered into the official
@@ -465,7 +573,25 @@ export const TRAININGS = [
       "Bring one page, not a packet. A one-pager actually gets read.",
       "Follow up within a day or two, restating your ask in one sentence.",
     ],
-    content: (
+        videoUrl: null,
+    learnBullets: [
+      "How to actually request a meeting with an office",
+      "How to structure a tight 15-minute conversation",
+      "What to bring (and what not to)",
+      "How to follow up in a way that keeps the door open",
+    ],
+    quiz: {
+      question: "What should you bring to a legislative meeting instead of a multi-page packet?",
+      options: [
+        { id: "a", text: "A slideshow presentation" },
+        { id: "b", text: "A single one-page leave-behind" },
+        { id: "c", text: "A full copy of the bill text" },
+        { id: "d", text: "Nothing at all" },
+      ],
+      correctId: "b",
+      explanation: "A one-pager is far more likely to actually get read and kept. Staffers meet with dozens of groups, and a packet usually doesn't survive their desk.",
+    },
+content: (
       <>
         <p>
           A direct meeting, usually with a legislative aide rather than the legislator personally,
