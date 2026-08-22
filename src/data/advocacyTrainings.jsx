@@ -213,7 +213,7 @@ content: (
       "Email is the highest volume-to-effort ratio if you can only do one thing.",
       "Put your ask in the first sentence. Five or six sentences total is plenty.",
     ],
-        videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/MOpNYkngbos",
     learnBullets: [
       "How to match the right legislator to a given bill",
       "Email vs. phone vs. mail, and when each one matters",
@@ -296,7 +296,7 @@ content: (
       "Four parts: where you started, what went wrong, what it cost you, what you want to change.",
       "You never have to share more than you're comfortable with. Anonymous is always an option.",
     ],
-        videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/OgQJKbUs0Qc",
     learnBullets: [
       "What separates a policy-useful story from a personal one",
       "The four-part shape that works almost every time",
@@ -471,7 +471,7 @@ content: (
       "2 minutes is about 250-300 words. Practice out loud with a timer at least once.",
       "First-time nerves are normal. Committees see them constantly.",
     ],
-        videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/MnY-HwwsGvc",
     learnBullets: [
       "The difference between written and oral testimony",
       "How to actually register to testify",
@@ -573,7 +573,7 @@ content: (
       "Bring one page, not a packet. A one-pager actually gets read.",
       "Follow up within a day or two, restating your ask in one sentence.",
     ],
-        videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/1I9e70iyN8U",
     learnBullets: [
       "How to actually request a meeting with an office",
       "How to structure a tight 15-minute conversation",
