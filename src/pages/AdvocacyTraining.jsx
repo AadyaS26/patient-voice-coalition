@@ -1,27 +1,21 @@
-// src/pages/AdvocacyTraining.jsx
+// src/data/advocacyTrainings.jsx
 //
-// Top-level nav page. Shows a live "advocates trained" counter at the top,
-// then seven expandable training modules matching the topics from the
-// chapter survey form (Advocacy basics, Finding legislation, Contacting
-// representatives, Sharing your patient story, Public comment, Testimony,
-// Policymaker meetings).
-//
-// The counter increments the first time a person opens a given module in
-// their browser session (tracked via sessionStorage per module) — this
-// counts real engagement without letting someone inflate the number by
-// repeatedly collapsing and reopening the same module.
+// Single source of truth for the Advocacy Training catalog and each
+// training's own detail page. Add a new training by adding an entry here —
+// both /advocacy-training (the catalog grid) and /advocacy-training/:id
+// (the detail page) read from this same array.
 
-import React, { useState } from "react";
-import Nav from "../components/Nav";
-import { ChevronDown, GraduationCap } from "lucide-react";
+import React from "react";
 
-const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');`;
-
-const TRAININGS = [
+export const TRAININGS = [
   {
     id: "advocacy-basics",
+    index: "I",
+    level: "Beginner",
+    hours: "1.5 hours",
     title: "Advocacy Basics",
-    summary: "What advocacy actually is, and the four moves that make up almost all of it.",
+    excerpt:
+      "What advocacy actually is, and the four building blocks that make up almost every form of it — the ask, the story, the connection, and the thank you.",
     content: (
       <>
         <p>
@@ -72,8 +66,12 @@ const TRAININGS = [
   },
   {
     id: "finding-legislation",
+    index: "II",
+    level: "Beginner",
+    hours: "1.5 hours",
     title: "Finding Legislation",
-    summary: "How to find bills that actually affect you, before they're already decided.",
+    excerpt:
+      "How to find bills that actually affect you before the vote already happened — where to search, how to set up alerts, and how to read a bill without a law degree.",
     content: (
       <>
         <p>
@@ -125,8 +123,12 @@ const TRAININGS = [
   },
   {
     id: "contacting-representatives",
+    index: "III",
+    level: "Beginner",
+    hours: "1 hour",
     title: "Contacting Representatives",
-    summary: "Finding the right person to contact, and what actually gets read.",
+    excerpt:
+      "Finding the right legislator for a given bill, choosing email vs. phone vs. mail, and a message structure that actually gets read by a busy staffer.",
     content: (
       <>
         <p>
@@ -178,8 +180,12 @@ const TRAININGS = [
   },
   {
     id: "sharing-your-story",
+    index: "IV",
+    level: "Beginner",
+    hours: "1 hour",
     title: "Sharing Your Patient Story",
-    summary: "Turning your experience into something a policymaker can actually use.",
+    excerpt:
+      "Turning your experience into something a policymaker can actually use — what makes a story policy-useful, and how much detail is enough.",
     content: (
       <>
         <p>
@@ -228,8 +234,12 @@ const TRAININGS = [
   },
   {
     id: "public-comment",
+    index: "V",
+    level: "Intermediate",
+    hours: "1 hour",
     title: "Public Comment",
-    summary: "The lowest-barrier way to get an official record of your position.",
+    excerpt:
+      "The lowest-barrier way to get an official record of your position — legislative vs. regulatory comment, what to write, and where to find open comment periods.",
     content: (
       <>
         <p>
@@ -267,8 +277,7 @@ const TRAININGS = [
         <p>
           Screenshot the confirmation page after you submit. Many portals don't send a confirmation
           email, and having your own dated proof of submission matters if you ever need to verify
-          your advocacy history (which is genuinely useful for both your own records and for any
-          award or grant application that asks you to document your work).
+          your advocacy history.
         </p>
         <h4>Where to find open comment periods</h4>
         <p>
@@ -280,8 +289,12 @@ const TRAININGS = [
   },
   {
     id: "testimony",
+    index: "VI",
+    level: "Intermediate",
+    hours: "1.5 hours",
     title: "Testimony",
-    summary: "Speaking (or writing) formally on the record before a committee.",
+    excerpt:
+      "Speaking or writing formally on the official record before a committee — written vs. oral, how to register, and how to write a 2-3 minute statement.",
     content: (
       <>
         <p>
@@ -333,8 +346,12 @@ const TRAININGS = [
   },
   {
     id: "policymaker-meetings",
+    index: "VII",
+    level: "Intermediate",
+    hours: "1.5 hours",
     title: "Policymaker Meetings",
-    summary: "Requesting and running a meeting with a legislator's office.",
+    excerpt:
+      "How to request a meeting with a legislator's office, run a tight 15-minute conversation, and follow up in a way that keeps the relationship warm.",
     content: (
       <>
         <p>
@@ -395,117 +412,6 @@ const TRAININGS = [
   },
 ];
 
-function TrainingModule({ training, isOpen, onToggle }) {
-  return (
-    <div style={{ border: "1px solid #E4E0D6", borderRadius: 10, background: "#FFFFFF", marginBottom: 16, overflow: "hidden" }}>
-      <button
-        onClick={onToggle}
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "20px 22px",
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-          textAlign: "left",
-        }}
-      >
-        <div>
-          <h3 style={{ fontFamily: "Fraunces, serif", fontSize: 19, fontWeight: 500, color: "#1B2A4A", margin: 0 }}>
-            {training.title}
-          </h3>
-          <p style={{ fontSize: 13.5, color: "#8A8880", margin: "6px 0 0" }}>{training.summary}</p>
-        </div>
-        <ChevronDown
-          size={20}
-          color="#8A8880"
-          style={{ flexShrink: 0, marginLeft: 16, transform: isOpen ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}
-        />
-      </button>
-      {isOpen && (
-        <div
-          style={{
-            padding: "0 22px 26px",
-            fontSize: 14.5,
-            lineHeight: 1.7,
-            color: "#2B2A28",
-          }}
-        >
-          <style>{`
-            .av-training-body h4 { font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: #A87C2A; margin: 20px 0 8px; }
-            .av-training-body h4:first-child { margin-top: 0; }
-            .av-training-body p { margin: 0 0 12px; }
-          `}</style>
-          <div className="av-training-body">{training.content}</div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-export default function AdvocacyTraining() {
-  const [openId, setOpenId] = useState(null);
-  const [count, setCount] = useState(null);
-
-  React.useEffect(() => {
-    fetch("/api/counter?key=advocates-trained", { cache: "no-store" })
-      .then((r) => r.json())
-      .then((data) => setCount(typeof data.value === "number" ? data.value : 0))
-      .catch(() => setCount(0));
-  }, []);
-
-  function handleToggle(id) {
-    const willOpen = openId !== id;
-    setOpenId(willOpen ? id : null);
-
-    if (willOpen) {
-      const sessionKey = `av-training-opened-${id}`;
-      if (!sessionStorage.getItem(sessionKey)) {
-        sessionStorage.setItem(sessionKey, "1");
-        fetch("/api/counter?key=advocates-trained&action=increment")
-          .then((r) => r.json())
-          .then((data) => setCount(typeof data.value === "number" ? data.value : null))
-          .catch(() => {});
-      }
-    }
-  }
-
-  return (
-    <div style={{ fontFamily: "Inter, sans-serif", color: "#2B2A28", background: "#FAF8F3", minHeight: "100%" }}>
-      <style>{FONT_IMPORT}</style>
-      <Nav />
-
-      <section style={{ maxWidth: 700, margin: "0 auto", padding: "48px 24px 0", textAlign: "center" }}>
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
-          <GraduationCap size={22} color="#A87C2A" />
-        </div>
-        <h1 style={{ fontFamily: "Fraunces, serif", fontWeight: 500, fontSize: "clamp(38px, 7vw, 56px)", lineHeight: 1.05, color: "#1B2A4A", letterSpacing: "-0.01em" }}>
-          Advocacy Training
-        </h1>
-        <p style={{ fontSize: 15, lineHeight: 1.6, color: "#5A5952", maxWidth: 540, margin: "16px auto 0" }}>
-          Everything you need to go from "I care about this" to "I did something about this" — no
-          experience required.
-        </p>
-      </section>
-
-      <section style={{ background: "#1B2A4A", padding: "36px 24px", marginTop: 40 }}>
-        <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
-          <div style={{ fontFamily: "Fraunces, serif", fontSize: "clamp(36px, 6vw, 52px)", color: "#FAF8F3", fontWeight: 500, lineHeight: 1 }}>
-            {count === null ? "…" : count.toLocaleString()}
-          </div>
-          <div style={{ fontSize: 12.5, letterSpacing: "0.06em", textTransform: "uppercase", color: "#C4C8D6", marginTop: 8 }}>
-            Advocates Trained
-          </div>
-        </div>
-      </section>
-
-      <section style={{ maxWidth: 760, margin: "0 auto", padding: "40px 24px 80px" }}>
-        {TRAININGS.map((t) => (
-          <TrainingModule key={t.id} training={t} isOpen={openId === t.id} onToggle={() => handleToggle(t.id)} />
-        ))}
-      </section>
-    </div>
-  );
+export function getTraining(id) {
+  return TRAININGS.find((t) => t.id === id) || null;
 }
