@@ -1,12 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
+// "Chapter" and "Events" are hover/click dropdowns with two destinations
+// each, instead of a single link — keeps the top bar from growing while
+// still surfacing both the form and the directory / gallery.
 const NAV_ITEMS = [
   { label: "Home", to: "/" },
   { label: "Legislation", to: "/legislation" },
   { label: "Resource Library", to: "/resource-library" },
-  { label: "Start a Chapter", to: "/create-chapter" },
-  { label: "Events", to: "/events" },
+  {
+    label: "Chapter",
+    dropdown: [
+      { label: "Start a Chapter", to: "/create-chapter" },
+      { label: "Current Chapters", to: "/create-chapter#chapter-directory" },
+    ],
+  },
+  {
+    label: "Events",
+    dropdown: [
+      { label: "Events", to: "/events" },
+      { label: "Gallery", to: "/gallery" },
+    ],
+  },
   { label: "Impact", to: "/impact" },
   { label: "Brainstorm", to: "/brainstorm" },
 ];
@@ -16,6 +31,7 @@ const BRAND_FONT = "'Fraunces', Georgia, serif";
 
 export default function Nav() {
   const location = useLocation();
+  const [openMenu, setOpenMenu] = useState(null);
 
   const linkStyle = (isActive) => ({
     fontFamily: NAV_FONT,
@@ -25,10 +41,19 @@ export default function Nav() {
     textDecoration: "none",
     borderBottom: isActive ? "2px solid #A87C2A" : "2px solid transparent",
     paddingBottom: 4,
+    background: "none",
+    border: "none",
+    cursor: "pointer",
   });
 
+  // A dropdown parent looks "active" if the current path matches any of
+  // its own children — e.g. being on /events or /gallery both bold "Events".
+  function isDropdownActive(item) {
+    return item.dropdown.some((sub) => location.pathname === sub.to.split("#")[0]);
+  }
+
   return (
-    <header style={{ borderBottom: "1px solid #E4E0D6", padding: "16px 24px", background: "#FAF8F3" }}>
+    <header style={{ borderBottom: "1px solid #E4E0D6", padding: "16px 24px", background: "#FAF8F3", position: "relative" }}>
       <div
         style={{
           maxWidth: 1120,
@@ -47,11 +72,68 @@ export default function Nav() {
           AutoimmuneVoices
         </Link>
         <nav style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
-          {NAV_ITEMS.map((item) => (
-            <Link key={item.to} to={item.to} style={linkStyle(location.pathname === item.to)}>
-              {item.label}
-            </Link>
-          ))}
+          {NAV_ITEMS.map((item) => {
+            if (!item.dropdown) {
+              return (
+                <Link key={item.to} to={item.to} style={linkStyle(location.pathname === item.to)}>
+                  {item.label}
+                </Link>
+              );
+            }
+
+            const isOpen = openMenu === item.label;
+            return (
+              <div
+                key={item.label}
+                style={{ position: "relative" }}
+                onMouseEnter={() => setOpenMenu(item.label)}
+                onMouseLeave={() => setOpenMenu((cur) => (cur === item.label ? null : cur))}
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenMenu((cur) => (cur === item.label ? null : item.label))}
+                  style={linkStyle(isDropdownActive(item))}
+                >
+                  {item.label}
+                </button>
+                {isOpen && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "100%",
+                      left: 0,
+                      marginTop: 8,
+                      background: "#FFFFFF",
+                      border: "1px solid #E4E0D6",
+                      borderRadius: 8,
+                      boxShadow: "0 8px 24px rgba(27,42,74,0.12)",
+                      minWidth: 190,
+                      padding: "6px 0",
+                      zIndex: 20,
+                    }}
+                  >
+                    {item.dropdown.map((sub) => (
+                      <Link
+                        key={sub.to}
+                        to={sub.to}
+                        onClick={() => setOpenMenu(null)}
+                        style={{
+                          display: "block",
+                          fontFamily: NAV_FONT,
+                          fontSize: 14,
+                          color: "#2B2A28",
+                          textDecoration: "none",
+                          padding: "9px 16px",
+                        }}
+                      >
+                        {sub.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </nav>
       </div>
     </header>
