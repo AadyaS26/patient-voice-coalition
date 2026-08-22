@@ -1,9 +1,14 @@
 // src/data/advocacyTrainings.jsx
 //
 // Single source of truth for the Advocacy Training catalog and each
-// training's own detail page. Add a new training by adding an entry here —
-// both /advocacy-training (the catalog grid) and /advocacy-training/:id
-// (the detail page) read from this same array.
+// training's own detail page. Add a new training by adding an entry here.
+//
+// `minutes` is an honest read-time estimate (roughly word count / 200 wpm),
+// not a padded course-length number.
+//
+// `takeaways` are 2-3 short bullets shown in a highlighted box at the top
+// of the detail page, so someone can get the gist before reading the whole
+// thing.
 
 import React from "react";
 
@@ -12,54 +17,75 @@ export const TRAININGS = [
     id: "advocacy-basics",
     index: "I",
     level: "Beginner",
-    hours: "1.5 hours",
+    minutes: 4,
     title: "Advocacy Basics",
-    excerpt:
-      "What advocacy actually is, and the four building blocks that make up almost every form of it — the ask, the story, the connection, and the thank you.",
+    excerpt: "The four building blocks behind almost every form of advocacy: the ask, the story, the connection, and the thank you.",
+    takeaways: [
+      "Every message needs one specific ask, not a general appeal.",
+      "You're usually writing to a staffer, not the legislator. Treat it the same either way.",
+      "One bill, one story, one ask beats a long list every time.",
+    ],
     content: (
       <>
         <p>
-          Advocacy sounds bigger than it is. At its core, it's just one thing: telling someone
-          with power over a decision what you want them to do, and why. Everything else —
-          testimony, public comment, meetings, letters — is a format for doing that one thing.
+          Advocacy sounds bigger than it is. At its core, it's one thing: telling someone with
+          power over a decision what you want them to do, and why. Testimony, public comment,
+          meetings, letters — all of it is just a format for doing that one thing.
         </p>
+
         <h4>The four building blocks</h4>
-        <p>
-          <strong>1. The ask.</strong> Every piece of advocacy needs a specific, concrete ask —
-          "vote yes on HB 1234," "support this amendment," "schedule a hearing on this bill." A
-          vague ask ("please care about autoimmune disease") gives the person nothing to act on.
-          Before you write or say anything, finish this sentence: "I am asking you to ______."
-        </p>
-        <p>
-          <strong>2. The story.</strong> Legislators hear from lobbyists and policy staff all day.
-          What they don't hear enough of is a real person explaining how a specific policy touches
-          their actual life. Your diagnosis, your insurance denial, your years without an answer —
-          that's the part nobody else in the room can offer. It doesn't need to be dramatic. It
-          needs to be specific and true.
-        </p>
-        <p>
-          <strong>3. The connection.</strong> Explain, in one sentence, how your story connects to
-          your ask. "Because I waited three years for a diagnosis, I'm asking you to support
-          funding for earlier screening" — that bridge is what turns a sad story into an argument.
-        </p>
-        <p>
-          <strong>4. The thank you.</strong> Always close by thanking them for their time and
-          attention, even if you don't know how they'll vote. It costs nothing and it's the norm
-          that keeps doors open for the next ask.
-        </p>
+        <div className="av-steps-grid">
+          <div className="av-step-card">
+            <span className="av-step-num">1</span>
+            <h5>The ask</h5>
+            <p>
+              Specific and concrete: "vote yes on HB 1234," "support this amendment." A vague ask
+              like "please care about autoimmune disease" gives someone nothing to act on. Finish
+              this sentence before you write anything: "I am asking you to ______."
+            </p>
+          </div>
+          <div className="av-step-card">
+            <span className="av-step-num">2</span>
+            <h5>The story</h5>
+            <p>
+              Legislators hear from lobbyists all day. What they don't hear enough is a real person
+              explaining how a policy touches their actual life. Your diagnosis, your insurance
+              denial, your years without an answer. It doesn't need to be dramatic. It needs to be
+              true.
+            </p>
+          </div>
+          <div className="av-step-card">
+            <span className="av-step-num">3</span>
+            <h5>The connection</h5>
+            <p>
+              One sentence linking your story to your ask. "Because I waited three years for a
+              diagnosis, I'm asking you to support funding for earlier screening." That bridge is
+              what turns a sad story into an argument.
+            </p>
+          </div>
+          <div className="av-step-card">
+            <span className="av-step-num">4</span>
+            <h5>The thank you</h5>
+            <p>
+              Close by thanking them for their time, even without knowing how they'll vote. It
+              costs nothing and keeps the door open for next time.
+            </p>
+          </div>
+        </div>
+
         <h4>Who you're actually talking to</h4>
         <p>
-          Most of the time, you won't reach the legislator directly — you'll reach a legislative
-          aide or staffer. That's not a lesser audience. Staffers are the ones who read constituent
-          mail, compile it into briefings, and often draft the talking points the legislator uses.
-          Treat every staffer interaction like it's going straight to the top, because functionally,
-          it is.
+          Most of the time you won't reach the legislator directly. You'll reach a legislative aide
+          or staffer. That's not a lesser audience. Staffers read constituent mail, compile it into
+          briefings, and often draft the talking points the legislator uses. Treat every staffer
+          interaction like it's going straight to the top, because in practice, it is.
         </p>
+
         <h4>The single biggest mistake beginners make</h4>
         <p>
-          Trying to cover everything. A message that lists five different problems with the
-          healthcare system will get skimmed and forgotten. A message about one bill, one ask, one
-          story, gets read and remembered. Depth beats breadth every time in advocacy writing.
+          Trying to cover everything. A message listing five different problems gets skimmed and
+          forgotten. A message about one bill, with one ask and one story, gets read and
+          remembered. Depth beats breadth every time.
         </p>
       </>
     ),
@@ -68,53 +94,71 @@ export const TRAININGS = [
     id: "finding-legislation",
     index: "II",
     level: "Beginner",
-    hours: "1.5 hours",
+    minutes: 5,
     title: "Finding Legislation",
-    excerpt:
-      "How to find bills that actually affect you before the vote already happened — where to search, how to set up alerts, and how to read a bill without a law degree.",
+    excerpt: "Where to search, how to set up alerts, and how to read a bill without a law degree.",
+    takeaways: [
+      "Set up keyword alerts on your state legislature's site. Bills should come to you.",
+      "You only need three things from a bill: summary, status, and sponsor.",
+      "Advocacy has the most power while a bill is still in committee.",
+    ],
     content: (
       <>
         <p>
-          The hardest part of legislative advocacy usually isn't writing the message — it's finding
+          The hardest part of legislative advocacy usually isn't writing the message. It's finding
           out a relevant bill exists before the vote already happened. Here's how to actually find
           bills early enough to matter.
         </p>
+
         <h4>Start with what you already have</h4>
         <p>
           Check the <a href="/legislation" style={{ color: "#A87C2A" }}>Legislation page</a> on this
-          site first — bills are already organized by condition and jurisdiction, with plain-language
+          site first. Bills are already organized by condition and jurisdiction, with plain-language
           summaries so you don't have to parse legal text yourself.
         </p>
+
         <h4>Search your state legislature's website directly</h4>
         <p>
-          Every U.S. state legislature has a public bill-tracking site (usually
-          "[state]leg.gov" or "legis.[state].gov"). Search by keyword — try your condition name,
+          Every U.S. state legislature has a public bill-tracking site, usually named something like
+          "[state]leg.gov" or "legis.[state].gov." Search by keyword: try your condition name,
           "chronic illness," "insurance coverage," "prior authorization," or "disability
-          accommodations." Most sites let you set up email alerts for new bills matching a keyword —
-          this is the single highest-leverage five minutes you can spend, because it means bills
-          come to you instead of you having to remember to check.
+          accommodations." Most sites let you set up email alerts for new bills matching a keyword.
+          This is the highest-leverage five minutes you can spend, because it means bills come to
+          you instead of you having to remember to check.
         </p>
+
         <h4>Use LegiScan for a wider net</h4>
         <p>
           LegiScan.com aggregates bill data from all 50 states and Congress in one place, with free
-          keyword-alert subscriptions. It's slower to update than a state's own site sometimes, but
-          it's the easiest way to watch multiple states at once if your chapter's advocates are
+          keyword-alert subscriptions. It updates a bit slower than a state's own site sometimes,
+          but it's the easiest way to watch multiple states at once if your chapter's advocates are
           spread across state lines.
         </p>
+
         <h4>Reading a bill without a law degree</h4>
         <p>
-          You don't need to read the full bill text to advocate on it. Look for three things: the
-          <strong> bill summary</strong> (usually a paragraph at the top explaining what it does),
-          the <strong>current status</strong> (introduced, in committee, passed one chamber, etc. —
-          this tells you how much time you have), and the <strong>sponsor</strong> (the legislator
-          who introduced it — often your best first contact, since they already agree with the
-          bill's goal).
+          You don't need to read the full bill text to advocate on it. Look for three things:
         </p>
+        <div className="av-steps-grid av-steps-grid-3">
+          <div className="av-step-card">
+            <h5>Summary</h5>
+            <p>Usually a short paragraph at the top explaining what the bill does.</p>
+          </div>
+          <div className="av-step-card">
+            <h5>Status</h5>
+            <p>Introduced, in committee, passed one chamber. This tells you how much time you have.</p>
+          </div>
+          <div className="av-step-card">
+            <h5>Sponsor</h5>
+            <p>The legislator who introduced it. Often your best first contact, since they already agree with its goal.</p>
+          </div>
+        </div>
+
         <h4>Timing matters more than anything else here</h4>
         <p>
-          A bill in committee, before any vote, is when advocacy has the most power — committee
-          members are still forming their position, and testimony/public comment can genuinely
-          shift language. Once a bill passes committee and heads to a floor vote, individual
+          A bill in committee, before any vote, is when advocacy has the most power. Committee
+          members are still forming their position, and testimony or public comment can genuinely
+          shift the language. Once a bill passes committee and heads to a floor vote, individual
           advocacy matters less; the coalition-building has usually already happened. Find bills
           early, not after they're already trending toward a vote.
         </p>
@@ -125,54 +169,62 @@ export const TRAININGS = [
     id: "contacting-representatives",
     index: "III",
     level: "Beginner",
-    hours: "1 hour",
+    minutes: 4,
     title: "Contacting Representatives",
-    excerpt:
-      "Finding the right legislator for a given bill, choosing email vs. phone vs. mail, and a message structure that actually gets read by a busy staffer.",
+    excerpt: "Matching the right legislator to a bill, choosing a format, and writing something a staffer will actually read.",
+    takeaways: [
+      "State bills need state legislators. Federal bills need your U.S. Representative or Senators.",
+      "Email is the highest volume-to-effort ratio if you can only do one thing.",
+      "Put your ask in the first sentence. Five or six sentences total is plenty.",
+    ],
     content: (
       <>
         <p>
-          "Contact your representative" sounds simple until you realize you have several — a state
-          representative, a state senator, a U.S. Representative, and two U.S. Senators — and the
-          right one depends entirely on which bill you're contacting them about.
+          "Contact your representative" sounds simple until you realize you have several: a state
+          representative, a state senator, a U.S. Representative, and two U.S. Senators. The right
+          one depends entirely on which bill you're contacting them about.
         </p>
+
         <h4>Match the legislator to the bill's level</h4>
         <p>
           State bills need state legislators. Federal bills need your U.S. Representative or
-          Senators. This sounds obvious, but it's the single most common mistake — someone emails
-          their U.S. Senator about a state bill the Senator has zero authority over. Our
-          <a href="/legislation" style={{ color: "#A87C2A" }}> Legislation page</a> letter tool
-          automatically matches you to the right legislator based on your address and the bill you're
-          viewing, so this is handled for you if you use it.
+          Senators. This sounds obvious, but it's the most common mistake: someone emails their U.S.
+          Senator about a state bill the Senator has zero authority over. Our{" "}
+          <a href="/legislation" style={{ color: "#A87C2A" }}>Legislation page</a> letter tool
+          automatically matches you to the right legislator based on your address and the bill
+          you're viewing, so this part is handled for you if you use it.
         </p>
+
         <h4>Email vs. phone vs. mail</h4>
         <p>
-          Email is the easiest to send and the easiest for an office to log and count, which matters
-          more than people think — many offices tally constituent contacts by position (support/
-          oppose) and report those numbers internally. Phone calls are logged too, and some staffers
-          say a live call carries slightly more weight since it takes more effort — but only if you
-          can actually get through. Physical mail is the slowest but the hardest to ignore; a
-          handwritten letter is rare enough now that it stands out. If you can only do one, do email
-          — it's the highest volume-to-effort ratio.
+          Email is the easiest to send and the easiest for an office to log and count. Many offices
+          tally constituent contacts by position (support or oppose) and report those numbers
+          internally. Phone calls get logged too, and some staffers say a live call carries a bit
+          more weight since it takes more effort, but only if you can actually get through. Physical
+          mail is slowest but hardest to ignore; a handwritten letter is rare enough now that it
+          stands out. If you can only do one, do email. It's the highest volume-to-effort ratio.
         </p>
+
         <h4>What actually gets read</h4>
         <p>
           Short. A staffer reading fifty constituent emails a day will read the first two sentences
-          of yours closely and skim the rest. Put your ask in the first sentence, not the last. Five
-          or six sentences total is plenty — one line of story, one line connecting it to the bill,
-          one clear ask, one thank you.
+          closely and skim the rest. Put your ask in the first sentence, not the last. Five or six
+          sentences total is plenty: one line of story, one line connecting it to the bill, one
+          clear ask, one thank you.
         </p>
+
         <h4>A structure that works every time</h4>
-        <p>
+        <p style={{ background: "#F7F3EA", padding: "16px 18px", borderRadius: 6, borderLeft: "3px solid #A87C2A" }}>
           "My name is [name], I live in [city/district]. [One sentence: your condition or connection
-          to this issue]. I'm writing to ask you to [specific ask] on [bill number/name]. [One
-          sentence: why this matters to you specifically]. Thank you for your time and
+          to this issue.] I'm writing to ask you to [specific ask] on [bill number/name]. [One
+          sentence: why this matters to you specifically.] Thank you for your time and
           consideration."
         </p>
+
         <h4>Following up</h4>
         <p>
-          If you don't hear back in two to three weeks, a polite follow-up is normal and expected —
-          offices are busy, and a second message doesn't come across as pushy if it's brief and
+          If you don't hear back in two to three weeks, a polite follow-up is normal and expected.
+          Offices are busy, and a second message doesn't come across as pushy if it's brief and
           references the first one.
         </p>
       </>
@@ -182,52 +234,68 @@ export const TRAININGS = [
     id: "sharing-your-story",
     index: "IV",
     level: "Beginner",
-    hours: "1 hour",
+    minutes: 4,
     title: "Sharing Your Patient Story",
-    excerpt:
-      "Turning your experience into something a policymaker can actually use — what makes a story policy-useful, and how much detail is enough.",
+    excerpt: "What separates a story that's true from a story that's actually useful for policy.",
+    takeaways: [
+      "Specificity moves people. Name the exact barrier, not just how hard it was.",
+      "Four parts: where you started, what went wrong, what it cost you, what you want to change.",
+      "You never have to share more than you're comfortable with. Anonymous is always an option.",
+    ],
     content: (
       <>
         <p>
-          Your story is the one thing in advocacy that literally nobody else can provide. But a
-          story that's true isn't automatically a story that's useful for policy — there's a
-          difference between telling your story to a friend and telling it to someone deciding
-          whether to fund a program.
+          Your story is the one thing in advocacy nobody else can provide. But a story that's true
+          isn't automatically a story that's useful for policy. There's a difference between telling
+          your story to a friend and telling it to someone deciding whether to fund a program.
         </p>
+
         <h4>What makes a story policy-useful</h4>
         <p>
-          Specificity. "It was really hard" doesn't move anyone; "I waited 11 months for a
+          Specificity. "It was really hard" doesn't move anyone. "I waited 11 months for a
           rheumatology referral because there are only two rheumatologists in my county" does,
-          because it points at a fixable problem. Before you write your story, ask: what specific,
-          nameable barrier did I run into? Was it a wait time, a cost, a lack of specialists, an
-          insurance denial, a diagnostic delay? Name it directly.
+          because it points at a fixable problem. Before you write, ask yourself what specific,
+          nameable barrier you ran into. A wait time, a cost, a lack of specialists, an insurance
+          denial, a diagnostic delay. Name it directly.
         </p>
+
         <h4>The shape that works</h4>
-        <p>
-          <strong>Where you started:</strong> a sentence on your diagnosis or condition, briefly.
-          <br />
-          <strong>What went wrong:</strong> the specific barrier — this is the part that should be
-          concrete and detailed, because it's the part that maps to a policy fix.
-          <br />
-          <strong>What it cost you:</strong> not just emotionally — time, money, missed work,
-          missed school, a delayed diagnosis. Policymakers respond to costs they can picture.
-          <br />
-          <strong>What you want to see change:</strong> connect your experience directly to the
-          ask. "That's why I'm asking you to support [bill]" — this line is what turns a personal
-          story into testimony.
-        </p>
+        <div className="av-steps-grid">
+          <div className="av-step-card">
+            <span className="av-step-num">1</span>
+            <h5>Where you started</h5>
+            <p>A sentence on your diagnosis or condition, briefly.</p>
+          </div>
+          <div className="av-step-card">
+            <span className="av-step-num">2</span>
+            <h5>What went wrong</h5>
+            <p>The specific barrier. This is the part that should be concrete, since it's what maps to a policy fix.</p>
+          </div>
+          <div className="av-step-card">
+            <span className="av-step-num">3</span>
+            <h5>What it cost you</h5>
+            <p>Not just emotionally. Time, money, missed work, missed school. Policymakers respond to costs they can picture.</p>
+          </div>
+          <div className="av-step-card">
+            <span className="av-step-num">4</span>
+            <h5>What you want to change</h5>
+            <p>Connect your experience directly to the ask. This line turns a personal story into testimony.</p>
+          </div>
+        </div>
+
         <h4>How much detail is too much</h4>
         <p>
           For most advocacy contexts (a letter, a public comment, a 2-3 minute testimony slot),
-          three to five sentences is the right length. Save the full, longer version of your story
-          for our Patient Stories page or a meeting where you have more time — most policy formats
-          reward a tight, specific story over a comprehensive one.
+          three to five sentences is the right length. Save the fuller version of your story for our
+          Patient Stories page or a meeting where you have more time. Most policy formats reward a
+          tight, specific story over a comprehensive one.
         </p>
+
         <h4>You control what you share</h4>
         <p>
           You never have to share more than you're comfortable with, and you can share anonymously
-          in most formats, including on this site's Patient Stories page. A shorter story you're
-          fully comfortable sharing is always better than a longer one you regret sharing.
+          in most formats, including this site's Patient Stories page. A shorter story you're fully
+          comfortable sharing beats a longer one you regret sharing.
         </p>
       </>
     ),
@@ -236,52 +304,66 @@ export const TRAININGS = [
     id: "public-comment",
     index: "V",
     level: "Intermediate",
-    hours: "1 hour",
+    minutes: 4,
     title: "Public Comment",
-    excerpt:
-      "The lowest-barrier way to get an official record of your position — legislative vs. regulatory comment, what to write, and where to find open comment periods.",
+    excerpt: "The lowest-barrier way to get an official record of your position on a bill or rule.",
+    takeaways: [
+      "It's usually just a written form online. No scheduling, no public speaking.",
+      "Legislative comment is tied to a bill. Regulatory comment is tied to an agency rule.",
+      "Under 200 words. State your position in sentence one, give one reason, stop.",
+    ],
     content: (
       <>
         <p>
           Public comment is one of the most underused tools in advocacy because people assume it's
-          harder than it is. In most cases, it's just a written statement you submit online — no
+          harder than it is. In most cases, it's a written statement you submit online. No
           scheduling, no public speaking, no travel.
         </p>
+
         <h4>Two kinds of public comment</h4>
-        <p>
-          <strong>Legislative comment:</strong> submitted to a specific committee ahead of (or
-          instead of) a hearing, often through a state legislature's website or a dedicated "position
-          letter" system. This is tied to a specific bill.
-        </p>
-        <p>
-          <strong>Regulatory/agency comment:</strong> submitted on a proposed rule or regulation by
-          a government agency (not a bill in the legislature) — often through a state agency's
-          website, or federally through regulations.gov. These usually have a fixed comment period
-          with a hard deadline listed in the rule notice.
-        </p>
+        <div className="av-steps-grid av-steps-grid-2">
+          <div className="av-step-card">
+            <h5>Legislative</h5>
+            <p>
+              Submitted to a specific committee ahead of (or instead of) a hearing, often through a
+              state legislature's website or a "position letter" system. Tied to a specific bill.
+            </p>
+          </div>
+          <div className="av-step-card">
+            <h5>Regulatory</h5>
+            <p>
+              Submitted on a proposed rule from a government agency, not a bill in the legislature.
+              Often through a state agency's site, or federally through regulations.gov. Usually has
+              a fixed comment period with a hard deadline.
+            </p>
+          </div>
+        </div>
+
         <h4>What to actually write</h4>
         <p>
-          Keep it under 150-200 words unless the form specifically asks for more. State your
-          position clearly in the first sentence ("I support/oppose [bill/rule]"), give one specific
-          reason grounded in your experience, and stop. Long comments don't carry more weight than
-          short, clear ones — committees are often reading dozens or hundreds of these, and clarity
-          wins over length.
+          Keep it under 150-200 words unless the form asks for more. State your position clearly in
+          the first sentence ("I support/oppose [bill/rule]"), give one specific reason grounded in
+          your experience, and stop. Long comments don't carry more weight than short, clear ones.
+          Committees are often reading dozens or hundreds of these, and clarity wins over length.
         </p>
+
         <h4>A template to start from</h4>
-        <p style={{ background: "#F7F3EA", padding: "14px 16px", borderRadius: 6, borderLeft: "3px solid #A87C2A" }}>
+        <p style={{ background: "#F7F3EA", padding: "16px 18px", borderRadius: 6, borderLeft: "3px solid #A87C2A" }}>
           "My name is [name] from [city, state]. I live with [condition]. [1-2 sentences: how this
-          bill/rule specifically affects you]. I urge the committee to [support/oppose/amend] [bill
-          number or rule name]. Thank you for considering my comment."
+          bill or rule specifically affects you.] I urge the committee to [support/oppose/amend]
+          [bill number or rule name]. Thank you for considering my comment."
         </p>
+
         <h4>Save your proof</h4>
         <p>
           Screenshot the confirmation page after you submit. Many portals don't send a confirmation
-          email, and having your own dated proof of submission matters if you ever need to verify
-          your advocacy history.
+          email, and your own dated proof of submission matters if you ever need to verify your
+          advocacy history.
         </p>
+
         <h4>Where to find open comment periods</h4>
         <p>
-          Check our <a href="/events" style={{ color: "#A87C2A" }}>Events page</a> — we post public
+          Check our <a href="/events" style={{ color: "#A87C2A" }}>Events page</a>. We post public
           hearings and open comment periods there as we find them, with direct links to submit.
         </p>
       </>
@@ -291,53 +373,80 @@ export const TRAININGS = [
     id: "testimony",
     index: "VI",
     level: "Intermediate",
-    hours: "1.5 hours",
+    minutes: 5,
     title: "Testimony",
-    excerpt:
-      "Speaking or writing formally on the official record before a committee — written vs. oral, how to register, and how to write a 2-3 minute statement.",
+    excerpt: "Speaking or writing formally on the official record before a committee.",
+    takeaways: [
+      "Written testimony counts even if you never show up or speak.",
+      "2 minutes is about 250-300 words. Practice out loud with a timer at least once.",
+      "First-time nerves are normal. Committees see them constantly.",
+    ],
     content: (
       <>
         <p>
-          Testimony is public comment's more formal cousin — a statement entered into the official
+          Testimony is public comment's more formal cousin: a statement entered into the official
           record of a specific hearing, either spoken live or submitted in writing in lieu of
-          speaking. It carries more weight than a regular email because it's part of a permanent,
-          citable government record.
+          speaking. It carries more weight than a regular email because it becomes part of a
+          permanent, citable government record.
         </p>
+
         <h4>Written vs. oral testimony</h4>
         <p>
-          Most committees accept written testimony even from people who don't attend or speak —
-          this is the lower-barrier option and still counts as official testimony on the record.
-          Oral testimony means signing up (often the same day or a few days ahead) for a 2-3 minute
+          Most committees accept written testimony even from people who don't attend or speak. This
+          is the lower-barrier option and still counts as official testimony on the record. Oral
+          testimony means signing up, often the same day or a few days ahead, for a 2-3 minute
           speaking slot, either in person or, increasingly, by video call.
         </p>
+
         <h4>How to register to testify</h4>
         <p>
-          Every legislature does this slightly differently, but the pattern is usually: find the
+          Every legislature does this a little differently, but the pattern is usually: find the
           hearing on the committee's calendar, look for a "sign up to testify" or "witness
           registration" link (often open the morning of, or a day or two before), and submit your
-          name, position (support/oppose/neutral), and sometimes a written copy of your remarks in
+          name, your position (support, oppose, or neutral), and sometimes written remarks in
           advance.
         </p>
+
         <h4>Writing a 2-3 minute statement</h4>
+        <div className="av-steps-grid av-steps-grid-timeline">
+          <div className="av-step-card">
+            <span className="av-step-time">0:00</span>
+            <p>Name and one line of context.</p>
+          </div>
+          <div className="av-step-card">
+            <span className="av-step-time">0:10</span>
+            <p>Your position and the bill number.</p>
+          </div>
+          <div className="av-step-card">
+            <span className="av-step-time">0:20</span>
+            <p>Your story, with one specific, concrete detail.</p>
+          </div>
+          <div className="av-step-card">
+            <span className="av-step-time">1:50</span>
+            <p>Your ask, restated clearly.</p>
+          </div>
+          <div className="av-step-card">
+            <span className="av-step-time">2:00</span>
+            <p>Thank you.</p>
+          </div>
+        </div>
         <p>
-          At a normal speaking pace, 2 minutes is roughly 250-300 words — shorter than most people
-          expect. Structure: your name and one line of context (10 seconds), your position and the
-          bill number (10 seconds), your story with one specific, concrete detail (60-90 seconds),
-          your ask restated clearly (10 seconds), thank you (5 seconds). Practice it out loud with a
-          timer at least once — reading time and speaking time are different, and most first-time
-          testifiers run long.
+          Practice it out loud with a timer at least once. Reading time and speaking time are
+          different, and most first-time testifiers run long.
         </p>
+
         <h4>What actually happens in the room (or on the call)</h4>
         <p>
           You'll usually be one of several people testifying in a row. Committee members may or may
-          not ask follow-up questions — if they do, it's fine to say "I don't know, but I'm happy to
-          follow up in writing" rather than guessing. Nobody expects you to have every statistic
-          memorized; your lived experience is the testimony, not a policy briefing.
+          not ask follow-up questions. If they do, it's fine to say "I don't know, but I'm happy to
+          follow up in writing" instead of guessing. Nobody expects you to have every statistic
+          memorized. Your lived experience is the testimony, not a policy briefing.
         </p>
+
         <h4>First-time nerves are normal</h4>
         <p>
-          Nearly everyone's first testimony is nerve-wracking, and committees know that — they see
-          first-time testifiers constantly and are not judging your delivery, they're listening for
+          Nearly everyone's first testimony is nerve-wracking, and committees know that. They see
+          first-time testifiers constantly and aren't judging your delivery, they're listening for
           your point. If public speaking genuinely isn't for you, written testimony carries real
           weight too and is a completely legitimate way to participate.
         </p>
@@ -348,64 +457,80 @@ export const TRAININGS = [
     id: "policymaker-meetings",
     index: "VII",
     level: "Intermediate",
-    hours: "1.5 hours",
+    minutes: 5,
     title: "Policymaker Meetings",
-    excerpt:
-      "How to request a meeting with a legislator's office, run a tight 15-minute conversation, and follow up in a way that keeps the relationship warm.",
+    excerpt: "Requesting a meeting with a legislator's office, running it well, and following up.",
+    takeaways: [
+      "Use the office's own meeting-request form, not a general email.",
+      "Bring one page, not a packet. A one-pager actually gets read.",
+      "Follow up within a day or two, restating your ask in one sentence.",
+    ],
     content: (
       <>
         <p>
-          A direct meeting — usually with a legislative aide rather than the legislator personally
-          — is one of the highest-impact things an advocate can do, because it's a real
-          conversation instead of one message among hundreds.
+          A direct meeting, usually with a legislative aide rather than the legislator personally,
+          is one of the highest-impact things an advocate can do, because it's a real conversation
+          instead of one message among hundreds.
         </p>
+
         <h4>Requesting a meeting</h4>
         <p>
           Most legislator websites have a "contact" or "schedule a meeting" form specifically for
-          constituent meeting requests — use that rather than a general email, since it usually
+          constituent meeting requests. Use that rather than a general email, since it usually
           routes directly to whoever schedules the legislator's calendar. State that you're a
-          constituent, name the specific bill or issue, and suggest you're flexible on timing
-          (in-person, phone, or video all work — don't limit yourself to one format unless you have
-          to).
+          constituent, name the specific bill or issue, and say you're flexible on timing. In
+          person, by phone, or by video all work.
         </p>
+
         <h4>A simple request template</h4>
-        <p style={{ background: "#F7F3EA", padding: "14px 16px", borderRadius: 6, borderLeft: "3px solid #A87C2A" }}>
+        <p style={{ background: "#F7F3EA", padding: "16px 18px", borderRadius: 6, borderLeft: "3px solid #A87C2A" }}>
           "My name is [name], and I'm a constituent in [district/city]. I'd like to request a
           15-minute meeting to discuss [bill number/issue] and how it affects [condition/community]
           patients in our area. I'm flexible on timing and happy to meet in person, by phone, or by
-          video — whatever works best for your office."
+          video, whatever works best for your office."
         </p>
+
         <h4>Structuring a 15-minute meeting</h4>
-        <p>
-          <strong>0-2 min:</strong> introductions and a one-line summary of why you're there.
-          <br />
-          <strong>2-8 min:</strong> your story, concretely tied to the specific ask — this is the
-          heart of the meeting, don't rush it, but don't ramble either.
-          <br />
-          <strong>8-12 min:</strong> your specific ask, stated clearly, and space for their
-          questions.
-          <br />
-          <strong>12-15 min:</strong> agree on a next step — "will you let us know your position
-          before the committee vote?" — and thank them.
-        </p>
+        <div className="av-steps-grid av-steps-grid-timeline">
+          <div className="av-step-card">
+            <span className="av-step-time">0-2 min</span>
+            <p>Introductions and a one-line summary of why you're there.</p>
+          </div>
+          <div className="av-step-card">
+            <span className="av-step-time">2-8 min</span>
+            <p>Your story, tied concretely to the ask. The heart of the meeting.</p>
+          </div>
+          <div className="av-step-card">
+            <span className="av-step-time">8-12 min</span>
+            <p>Your specific ask, stated clearly, with room for their questions.</p>
+          </div>
+          <div className="av-step-card">
+            <span className="av-step-time">12-15 min</span>
+            <p>Agree on a next step, and thank them.</p>
+          </div>
+        </div>
+
         <h4>Bring one page, not a packet</h4>
         <p>
           A single one-page leave-behind with your name, contact info, the bill number, and 2-3
-          bullet points is far more likely to actually get read (and kept) than a multi-page packet.
-          Staffers meet with dozens of groups; a one-pager survives their desk, a packet doesn't.
+          bullet points is far more likely to actually get read, and kept, than a multi-page packet.
+          Staffers meet with dozens of groups. A one-pager survives their desk. A packet usually
+          doesn't.
         </p>
+
         <h4>Always follow up</h4>
         <p>
           Send a short thank-you email within a day or two, restating your ask in one sentence. This
-          is also the moment to answer any question they asked that you didn't have an answer to in
-          the room — it gives you a legitimate reason to follow up and keeps the relationship warm
-          for the next ask.
+          is also your chance to answer any question they asked that you didn't have an answer to in
+          the room, which gives you a legitimate reason to follow up and keeps the relationship warm
+          for next time.
         </p>
+
         <h4>Track who you meet</h4>
         <p>
-          Keep a simple record — office, date, who attended, what was discussed, any next step. This
-          becomes valuable both for your own chapter's institutional memory and as documentation if
-          you ever need to show your advocacy history.
+          Keep a simple record: office, date, who attended, what was discussed, any next step. This
+          becomes valuable for your chapter's institutional memory, and as documentation if you ever
+          need to show your advocacy history.
         </p>
       </>
     ),
