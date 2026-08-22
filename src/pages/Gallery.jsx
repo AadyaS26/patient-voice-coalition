@@ -124,20 +124,40 @@ function useInstagramEmbeds(dependency) {
     function process() {
       if (window.instgrm) {
         window.instgrm.Embeds.process();
+      }
+    }
+
+    function loadScriptThenProcess() {
+      const existing = document.querySelector('script[src="https://www.instagram.com/embed.js"]');
+      if (window.instgrm) {
+        process();
         return;
       }
-      const existing = document.querySelector('script[src="https://www.instagram.com/embed.js"]');
       if (existing) {
-        existing.addEventListener("load", () => window.instgrm?.Embeds.process());
+        existing.addEventListener("load", process);
         return;
       }
       const script = document.createElement("script");
       script.src = "https://www.instagram.com/embed.js";
       script.async = true;
-      script.onload = () => window.instgrm?.Embeds.process();
+      script.onload = process;
       document.body.appendChild(script);
     }
-    process();
+
+    loadScriptThenProcess();
+
+    // With this many embeds on one page (21+), Instagram's own widget
+    // sometimes silently fails to process a few of them on the first
+    // pass — no error, the blockquote just never turns into the actual
+    // post. Re-running process() a couple more times catches anything
+    // that got skipped, since process() is safe to call repeatedly (it
+    // just re-scans the page and leaves already-rendered posts alone).
+    const retry1 = setTimeout(process, 1500);
+    const retry2 = setTimeout(process, 4000);
+    return () => {
+      clearTimeout(retry1);
+      clearTimeout(retry2);
+    };
   }, [dependency]);
 }
 
