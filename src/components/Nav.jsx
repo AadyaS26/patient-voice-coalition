@@ -12,7 +12,7 @@ const NAV_ITEMS = [
     label: "Chapter",
     dropdown: [
       { label: "Start a Chapter", to: "/create-chapter" },
-      { label: "Current Chapters", to: "/create-chapter#chapter-directory" },
+      { label: "Current Chapters", to: "/current-chapters" },
     ],
   },
   {
