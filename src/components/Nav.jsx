@@ -33,27 +33,22 @@ export default function Nav() {
   const location = useLocation();
   const [openMenu, setOpenMenu] = useState(null);
 
+  // Plain object, no button/anchor-specific quirks baked in — used for
+  // both the <Link> items and the dropdown trigger <span>s so they render
+  // pixel-identically. Buttons carry their own baseline/line-height
+  // behavior in some browsers that even a full CSS reset doesn't fully
+  // erase, which is what caused "Chapter"/"Events" to sit slightly off
+  // from the plain links — a <span> has none of that built-in styling to
+  // fight against.
   const linkStyle = (isActive) => ({
     fontFamily: NAV_FONT,
     fontSize: 14,
-    lineHeight: "normal",
     color: isActive ? "#1B2A4A" : "#5A5952",
     fontWeight: isActive ? 600 : 400,
     textDecoration: "none",
     borderBottom: isActive ? "2px solid #A87C2A" : "2px solid transparent",
     paddingBottom: 4,
-    padding: "0 0 4px 0",
-    margin: 0,
-    background: "none",
-    border: "none",
-    borderBottomWidth: 2,
-    borderBottomStyle: "solid",
-    borderBottomColor: isActive ? "#A87C2A" : "transparent",
     cursor: "pointer",
-    verticalAlign: "baseline",
-    WebkitAppearance: "none",
-    appearance: "none",
-    display: "inline-block",
   });
 
   // A dropdown parent looks "active" if the current path matches any of
@@ -81,7 +76,7 @@ export default function Nav() {
         >
           AutoimmuneVoices
         </Link>
-        <nav style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
+        <nav style={{ display: "flex", alignItems: "baseline", gap: 20, flexWrap: "wrap" }}>
           {NAV_ITEMS.map((item) => {
             if (!item.dropdown) {
               return (
@@ -95,17 +90,24 @@ export default function Nav() {
             return (
               <div
                 key={item.label}
-                style={{ position: "relative" }}
+                style={{ position: "relative", display: "inline-block" }}
                 onMouseEnter={() => setOpenMenu(item.label)}
                 onMouseLeave={() => setOpenMenu((cur) => (cur === item.label ? null : cur))}
               >
-                <button
-                  type="button"
+                <span
+                  role="button"
+                  tabIndex={0}
                   onClick={() => setOpenMenu((cur) => (cur === item.label ? null : item.label))}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setOpenMenu((cur) => (cur === item.label ? null : item.label));
+                    }
+                  }}
                   style={linkStyle(isDropdownActive(item))}
                 >
                   {item.label}
-                </button>
+                </span>
                 {isOpen && (
                   <div
                     style={{
