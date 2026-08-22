@@ -36,14 +36,24 @@ export default function Nav() {
   const linkStyle = (isActive) => ({
     fontFamily: NAV_FONT,
     fontSize: 14,
+    lineHeight: "normal",
     color: isActive ? "#1B2A4A" : "#5A5952",
     fontWeight: isActive ? 600 : 400,
     textDecoration: "none",
     borderBottom: isActive ? "2px solid #A87C2A" : "2px solid transparent",
     paddingBottom: 4,
+    padding: "0 0 4px 0",
+    margin: 0,
     background: "none",
     border: "none",
+    borderBottomWidth: 2,
+    borderBottomStyle: "solid",
+    borderBottomColor: isActive ? "#A87C2A" : "transparent",
     cursor: "pointer",
+    verticalAlign: "baseline",
+    WebkitAppearance: "none",
+    appearance: "none",
+    display: "inline-block",
   });
 
   // A dropdown parent looks "active" if the current path matches any of
