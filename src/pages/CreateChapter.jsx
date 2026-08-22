@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Nav from "../components/Nav";
 import "./CreateChapter.css";
 
@@ -209,6 +209,15 @@ const PERSON_ICON_COLORS = ["#206060", "#123838", "#8A5C3B"];
 function ChapterDirectory() {
   const [selected, setSelected] = useState(new Set());
 
+  // React Router doesn't auto-scroll to a #hash the way a plain <a> would,
+  // so the "Current Chapters" nav dropdown link (/create-chapter#chapter-directory)
+  // needs this to actually land on the directory instead of the top of the page.
+  useEffect(() => {
+    if (window.location.hash === "#chapter-directory") {
+      document.getElementById("chapter-directory")?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
   const usRegions = [...new Set(CHAPTERS.filter((c) => c.country === "US").map((c) => c.region))].sort();
   const intlCountries = [...new Set(CHAPTERS.filter((c) => c.country !== "US").map((c) => c.country))].sort();
   const filterOptions = [...usRegions, ...intlCountries];
@@ -241,10 +250,10 @@ function ChapterDirectory() {
   });
 
   return (
-    <section className="chapter-directory">
+    <section className="chapter-directory" id="chapter-directory">
       <div className="chapter-directory-head">
         <span className="chapter-eyebrow">Already registered</span>
-        <h2>{CHAPTERS.length} chapters, and counting</h2>
+        <h2>{CHAPTERS.length} chapters, 318 members, and counting</h2>
         <p>
           See who's already building a chapter near you — or reach out if you'd rather join one than
           start your own.
