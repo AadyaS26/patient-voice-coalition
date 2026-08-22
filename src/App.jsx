@@ -10,6 +10,7 @@ import ResourceLibrary from "./pages/ResourceLibrary";
 import Brainstorm from "./pages/Brainstorm.jsx";
 import BillsSupported from "./pages/BillsSupported.jsx";
 import PatientStories from "./pages/PatientStories.jsx";
+import Gallery from "./pages/Gallery.jsx";
 
 export default function App() {
   // Counts one real visit per actual page load/refresh — this runs exactly
@@ -49,6 +50,9 @@ export default function App() {
         {/* Also not in the top nav — reached via the "View Patient Stories"
             button in the Patient Stories section on the Impact page. */}
         <Route path="/patient-stories" element={<PatientStories />} />
+        {/* Reached via the Events dropdown in the nav, not a standalone
+            top-level nav item. */}
+        <Route path="/gallery" element={<Gallery />} />
       </Routes>
     </BrowserRouter>
   );
