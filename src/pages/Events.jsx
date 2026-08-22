@@ -10,6 +10,16 @@ const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraun
 
 const EVENTS = [
   {
+    date: "Tue, Aug 25, 2026 · 10am PT",
+    title: "WA Health Care Authority Public Hearing: Home Accessibility & Caregiver Respite Rules",
+    location: "Virtual (Microsoft Teams webinar)",
+    body: "The Washington Health Care Authority is holding a public hearing on proposed rules for its Health-Related Social Needs program — new Medicaid coverage for nutrition supports, caregiver respite services, and home accessibility/remediation devices for people with chronic conditions. Written comments are also accepted through 11:59pm the same day at arc@hca.wa.gov.",
+    url: "https://events.gcc.teams.microsoft.com/event/27ed979a-4c6f-43e9-939b-c2369338eb7a@11d0e217-264e-400a-8ba0-57dcc127d72d",
+    urlLabel: "Register to Attend",
+    secondaryUrl: "https://lawfilesext.leg.wa.gov/law/wsr/2026/15/26-15-065.htm",
+    secondaryLabel: "Read the Proposed Rule (WSR 26-15-065)",
+  },
+  {
     date: "Jul 14, 2026",
     title: "Celiac 101 Book Release",
     location: "Online",
