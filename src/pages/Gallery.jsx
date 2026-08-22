@@ -67,12 +67,6 @@ const CHAPTER_INSTAGRAM = [
     ],
   },
   {
-    chapter: "Miami, Florida",
-    handle: "@autoimmunevoices_miamifl",
-    profileUrl: "https://www.instagram.com/autoimmunevoices_miamifl/",
-    postUrls: ["https://www.instagram.com/p/DcG3sAhxnDS/"],
-  },
-  {
     chapter: "South Texas",
     handle: "@autoimmunevoicessouthtexas",
     profileUrl: "https://www.instagram.com/autoimmunevoicessouthtexas/",
