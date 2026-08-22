@@ -143,12 +143,14 @@ function useInstagramEmbeds(dependency) {
 
 function PostTile({ url }) {
   return (
-    <blockquote
-      className="instagram-media"
-      data-instgrm-permalink={url}
-      data-instgrm-version="14"
-      style={{ background: "#FFF", border: 0, borderRadius: 10, margin: 0, width: "100%", minWidth: "unset" }}
-    />
+    <div style={{ height: 540, overflow: "hidden", borderRadius: 10, border: "1px solid #E4E0D6" }}>
+      <blockquote
+        className="instagram-media"
+        data-instgrm-permalink={url}
+        data-instgrm-version="14"
+        style={{ background: "#FFF", border: 0, borderRadius: 10, margin: 0, width: "100%", minWidth: "unset" }}
+      />
+    </div>
   );
 }
 
