@@ -10,7 +10,7 @@
 // for Flash-Lite as of when this was written). If it's ever exceeded, this
 // returns a friendly "try again in a bit" message instead of erroring out.
 
-const GEMINI_MODEL = "gemini-2.5-flash-lite";
+const GEMINI_MODEL = "gemini-3.5-flash-lite";
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
 const SYSTEM_PROMPT = `You are the help assistant on autoimmune-voices.org, a nonprofit site for a patient-led autoimmune disease advocacy network called AutoimmuneVoices (AV).
