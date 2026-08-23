@@ -457,24 +457,26 @@ export default function ImpactPage() {
               href={p.url}
               target="_blank"
               rel="noreferrer"
-              title={p.name}
               style={{
                 display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                flexDirection: "column",
                 background: "#fff",
                 border: "1px solid #E4E0D6",
                 borderRadius: 8,
-                padding: 16,
+                padding: 14,
                 textDecoration: "none",
-                aspectRatio: "1.4 / 1",
               }}
             >
-              <img
-                src={p.logo}
-                alt={p.name}
-                style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }}
-              />
+              <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", aspectRatio: "1.6 / 1" }}>
+                <img
+                  src={p.logo}
+                  alt={p.name}
+                  style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }}
+                />
+              </div>
+              <span style={{ fontSize: 11.5, fontWeight: 600, color: "#1B2A4A", textAlign: "center", marginTop: 10, lineHeight: 1.3 }}>
+                {p.name}
+              </span>
             </a>
           ))}
         </div>
