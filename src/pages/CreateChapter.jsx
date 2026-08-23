@@ -274,7 +274,7 @@ export function ChapterDirectory() {
     <section className="chapter-directory" id="chapter-directory">
       <div className="chapter-directory-head">
         <span className="chapter-eyebrow">Already registered</span>
-        <h2>{CHAPTERS.length} chapters, 318 members, and counting</h2>
+        <h2>{CHAPTERS.length} chapters, 323 members, and counting</h2>
         <p>
           See who's already building a chapter near you — or reach out if you'd rather join one than
           start your own.
