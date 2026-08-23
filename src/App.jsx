@@ -14,6 +14,7 @@ import PatientStories from "./pages/PatientStories.jsx";
 import Gallery from "./pages/Gallery.jsx";
 import AdvocacyTraining from "./pages/AdvocacyTraining.jsx";
 import AdvocacyTrainingDetail from "./pages/AdvocacyTrainingDetail.jsx";
+import ChatWidget from "./components/ChatWidget.jsx";
 
 export default function App() {
   // Counts one real visit per actual page load/refresh — this runs exactly
@@ -60,6 +61,9 @@ export default function App() {
         <Route path="/advocacy-training" element={<AdvocacyTraining />} />
         <Route path="/advocacy-training/:id" element={<AdvocacyTrainingDetail />} />
       </Routes>
+      {/* Outside <Routes> on purpose — renders on every page instead of
+          resetting when someone navigates between routes. */}
+      <ChatWidget />
     </BrowserRouter>
   );
 }
