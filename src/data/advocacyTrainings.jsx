@@ -672,7 +672,7 @@ content: (
       "It bypasses the legislature entirely, but it takes far more signatures and organizing than a single letter or testimony.",
       "If a full ballot campaign isn't realistic right now, agency rules, federal bills, and chapter-building still count as real progress.",
     ],
-    videoUrl: null,
+    videoUrl: "https://www.youtube.com/embed/efO54ewIALo",
     learnBullets: [
       "What a ballot initiative actually is, and how it differs from a bill",
       "Direct vs. indirect initiatives",
