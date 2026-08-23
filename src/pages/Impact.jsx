@@ -22,6 +22,7 @@ const PARTNERS = [
   { name: "Gluten Free Shop", url: "https://www.facebook.com/people/Gluten-free-shop/100094473745210/", logo: "/partner-logos/gluten-free-shop.jpg" },
   { name: "Celi-Safe", url: "https://www.celi-safe.com/", logo: "/partner-logos/celi-safe.jpg" },
   { name: "Lupus Warriors of Idaho", url: "https://www.instagram.com/lupuswarriorsidaho/", logo: "/partner-logos/lupus-warriors-idaho.jpg" },
+  { name: "Lupus Remedies Global Support Foundation", url: "https://www.instagram.com/luregsupport/", logo: "/partner-logos/lupus-remedies.jpg" },
 ];
 
 const STORY_CATEGORIES = [
