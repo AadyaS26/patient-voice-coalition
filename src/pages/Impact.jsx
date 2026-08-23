@@ -438,36 +438,36 @@ export default function ImpactPage() {
       <PatientStoriesSection />
 
       {/* Community partners */}
-      <section style={{ maxWidth: 800, margin: "0 auto", padding: "0 24px 56px" }}>
+      <section style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px 56px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 18 }}>
           <HeartHandshake size={17} color="#A87C2A" />
           <h2 style={{ fontSize: 16, fontWeight: 600, color: "#1B2A4A", margin: 0 }}>Community partners</h2>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(130px, 1fr))", gap: 12 }}>
           {PARTNERS.map((p) => (
             <a
               key={p.name}
               href={p.url}
               target="_blank"
               rel="noreferrer"
+              title={p.name}
               style={{
                 display: "flex",
-                flexDirection: "column",
                 alignItems: "center",
-                gap: 12,
+                justifyContent: "center",
                 background: "#fff",
                 border: "1px solid #E4E0D6",
                 borderRadius: 8,
-                padding: "20px",
+                padding: 12,
                 textDecoration: "none",
+                aspectRatio: "1.3 / 1",
               }}
             >
               <img
                 src={p.logo}
                 alt={p.name}
-                style={{ width: "100%", height: 140, borderRadius: 6, objectFit: "contain", background: "#F2EEE3" }}
+                style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }}
               />
-              <span style={{ fontSize: 14, fontWeight: 600, color: "#1B2A4A", textAlign: "center" }}>{p.name}</span>
             </a>
           ))}
         </div>
