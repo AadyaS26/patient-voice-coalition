@@ -438,12 +438,18 @@ export default function ImpactPage() {
       <PatientStoriesSection />
 
       {/* Community partners */}
-      <section style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px 56px" }}>
+      <section style={{ maxWidth: 800, margin: "0 auto", padding: "0 24px 56px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 18 }}>
           <HeartHandshake size={17} color="#A87C2A" />
           <h2 style={{ fontSize: 16, fontWeight: 600, color: "#1B2A4A", margin: 0 }}>Community partners</h2>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(130px, 1fr))", gap: 12 }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
+            gap: 16,
+          }}
+        >
           {PARTNERS.map((p) => (
             <a
               key={p.name}
@@ -458,9 +464,9 @@ export default function ImpactPage() {
                 background: "#fff",
                 border: "1px solid #E4E0D6",
                 borderRadius: 8,
-                padding: 12,
+                padding: 16,
                 textDecoration: "none",
-                aspectRatio: "1.3 / 1",
+                aspectRatio: "1.4 / 1",
               }}
             >
               <img
