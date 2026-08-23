@@ -211,6 +211,11 @@ const CHAPTERS = [
     photo: "/chapter-photos/shari.jpg", handle: "@pretty.disabled",
     bio: "I'm Shari G. Living with multiple chronic illnesses, including Lupus drives my passion for advocacy. For years, I have worked within the Arizona community to help my neighbors by bridging the gap on how local legislation impacts their daily lives and the people they love. I am dedicated to raising awareness and creating meaningful connections that make life better for all of us.",
   },
+  {
+    first: "Rebekah", lastInitial: "P", city: "Liverpool", region: null, country: "United Kingdom",
+    photo: "/chapter-photos/rebekah.jpg", handle: "@myendojourneyb",
+    bio: "Hi, I'm Rebekah, the face behind @myendojourneyb. I'm a chronic illness and endometriosis advocate from the UK, sharing the reality of living with invisible illnesses, chronic pain and the challenges that come with them. As a mum and patient, I'm passionate about raising awareness, helping others feel less alone and using my voice to support this amazing community. I'm so honoured to be a Chapter Lead for Autoimmune Voices.",
+  },
 ];
 
 function chapterLocation(c) {
