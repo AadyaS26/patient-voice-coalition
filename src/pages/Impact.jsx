@@ -8,7 +8,7 @@ const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraun
 
 const CURATED_BILLS = 212;
 const CONDITIONS_COVERED = 146;
-const INSTAGRAM_REACH = 37036;
+const INSTAGRAM_REACH = 38219;
 const COUNTRIES_REACHED = 43;
 
 // Real community partner orgs — logos live in public/partner-logos/,
@@ -21,6 +21,7 @@ const PARTNERS = [
   { name: "Vasculitis Foundation", url: "https://vasculitisfoundation.org/", logo: "/partner-logos/vasculitis-foundation.jpg" },
   { name: "Gluten Free Shop", url: "https://www.facebook.com/people/Gluten-free-shop/100094473745210/", logo: "/partner-logos/gluten-free-shop.jpg" },
   { name: "Celi-Safe", url: "https://www.celi-safe.com/", logo: "/partner-logos/celi-safe.jpg" },
+  { name: "Lupus Warriors of Idaho", url: "https://www.instagram.com/lupuswarriorsidaho/", logo: "/partner-logos/lupus-warriors-idaho.jpg" },
 ];
 
 const STORY_CATEGORIES = [
