@@ -661,6 +661,103 @@ content: (
       </>
     ),
   },
+  {
+    id: "ballot-initiatives-petitions",
+    index: "VIII",
+    level: "Intermediate",
+    title: "Ballot Initiatives & Petitions",
+    excerpt: "A path around a quiet legislature: how citizen ballot initiatives actually work, and what to do when your state isn't a fit for one.",
+    takeaways: [
+      "About 24 states let citizens place a measure directly on the ballot. Check whether yours is one.",
+      "It bypasses the legislature entirely, but it takes far more signatures and organizing than a single letter or testimony.",
+      "If a full ballot campaign isn't realistic right now, agency rules, federal bills, and chapter-building still count as real progress.",
+    ],
+    videoUrl: null,
+    learnBullets: [
+      "What a ballot initiative actually is, and how it differs from a bill",
+      "Direct vs. indirect initiatives",
+      "The real scale of signatures and timelines involved",
+      "What to do instead when your state legislature is quiet",
+    ],
+    quiz: {
+      question: "About how many U.S. states currently let citizens place a measure directly on the ballot through the initiative process?",
+      options: [
+        { id: "a", text: "About 5" },
+        { id: "b", text: "About 24" },
+        { id: "c", text: "About 40" },
+        { id: "d", text: "All 50" },
+      ],
+      correctId: "b",
+      explanation: "Roughly half the states have some form of citizen initiative process. The other half only allow ballot measures that legislators themselves refer to voters.",
+    },
+    content: (
+      <>
+        <p>
+          A few chapter leads have asked a version of the same question: their state legislature
+          isn't moving much right now, so what else is there to do? A ballot initiative is one real
+          answer, though it's a bigger undertaking than anything else in this course, and it's worth
+          understanding clearly before treating it as your chapter's next project.
+        </p>
+
+        <h4>What a ballot initiative actually is</h4>
+        <p>
+          A ballot initiative lets citizens propose a new law or constitutional amendment and put it
+          directly in front of voters, without needing the legislature to pass it first. It's a form
+          of direct democracy: instead of asking a legislator to vote yes, you're asking your
+          neighbors to sign a petition and, eventually, to vote yes themselves. Roughly half of U.S.
+          states allow this at the state level; the other half only put measures on the ballot when
+          legislators themselves choose to refer them.
+        </p>
+
+        <h4>Direct vs. indirect initiatives</h4>
+        <div className="av-steps-grid av-steps-grid-2">
+          <div className="av-step-card">
+            <h5>Direct</h5>
+            <p>Once enough valid signatures are collected, the measure goes straight to voters on the next ballot. The legislature has no further role.</p>
+          </div>
+          <div className="av-step-card">
+            <h5>Indirect</h5>
+            <p>After signatures are collected, the measure first goes to the legislature. Lawmakers can pass it as-is, propose an alternative, or let it proceed to the ballot.</p>
+          </div>
+        </div>
+
+        <h4>The real scale of what's involved</h4>
+        <p>
+          This is the part that's easy to underestimate. Getting a measure on the ballot usually
+          requires signatures from registered voters equal to somewhere between 3% and 15% of the
+          votes cast in a recent statewide election, sometimes with a requirement that signatures
+          come from a spread of counties or districts rather than just one city. In Florida, for
+          example, a constitutional amendment currently needs signatures from roughly 891,000
+          registered voters, drawn from at least 14 of the state's 27 congressional districts. That
+          scale of signature-gathering is typically run like a real campaign, often with paid
+          circulators and significant fundraising behind it, not a volunteer effort alone.
+        </p>
+
+        <h4>Is this the right next step for your chapter</h4>
+        <p>
+          For most chapters, starting a ballot initiative from scratch isn't a realistic first
+          project. It's worth knowing the option exists, and it's worth watching for an existing
+          campaign on an issue your chapter cares about that you could join and support with
+          signature-gathering or turnout, rather than trying to originate one alone. Supporting an
+          existing initiative is a real, countable form of advocacy even if your chapter didn't
+          start it.
+        </p>
+
+        <h4>What to do when your legislature is quiet</h4>
+        <p>
+          A quiet legislative session doesn't mean there's nothing to do. Government agencies keep
+          issuing proposed rules and taking public comment on them even when the legislature isn't
+          in session, which is exactly what the{" "}
+          <a href="/advocacy-training/public-comment" style={{ color: "#A87C2A" }}>Public Comment</a>{" "}
+          training in this course covers. Federal bills also move on their own calendar,
+          independent of what your state legislature is doing, so contacting your U.S.
+          Representative or Senators is always available regardless of state-level activity. And
+          collecting patient stories, running trainings, and growing your chapter's advocate list
+          are all real, countable progress that don't depend on a bill being in motion at all.
+        </p>
+      </>
+    ),
+  },
 ];
 
 export function getTraining(id) {
