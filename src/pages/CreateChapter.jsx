@@ -216,6 +216,11 @@ const CHAPTERS = [
     photo: "/chapter-photos/rebekah.jpg", handle: "@myendojourneyb",
     bio: "Hi, I'm Rebekah, the face behind @myendojourneyb. I'm a chronic illness and endometriosis advocate from the UK, sharing the reality of living with invisible illnesses, chronic pain and the challenges that come with them. As a mum and patient, I'm passionate about raising awareness, helping others feel less alone and using my voice to support this amazing community. I'm so honoured to be a Chapter Lead for Autoimmune Voices.",
   },
+  {
+    first: "Angelina", lastInitial: "A", city: "Boston", region: "Massachusetts", country: "US",
+    photo: "/chapter-photos/angelina.jpg", handle: "@thechronicallyiconic1",
+    bio: "Hi! My name is Angelina and I'm from the Boston area. Ever since childhood, I had some strange happenings with my body. After COVID, in my late 20s, things exploded. Now I live with multiple chronic illnesses, syndromes, and autoimmune diseases. The ones that impact me the most are Lupus, Sjogrens, Dysautonomia, and MCAS and all of the comorbidities that come with them. Autoimmune advocacy is important to me because having one or more of these diseases is a full-time job. It's important to build a community where you can ask questions, get advice, find products that can help, help prep for appointments, gather tools to advocate, educate yourself and others, and even discover doctors that may be able to help you. My story is far from over as I'm still searching for the perfect treatment and more answers, but I like to use what I've already learned to help others.",
+  },
 ];
 
 function chapterLocation(c) {
@@ -274,7 +279,7 @@ export function ChapterDirectory() {
     <section className="chapter-directory" id="chapter-directory">
       <div className="chapter-directory-head">
         <span className="chapter-eyebrow">Already registered</span>
-        <h2>{CHAPTERS.length} chapters, 323 members, and counting</h2>
+        <h2>{CHAPTERS.length} chapters, 318 members, and counting</h2>
         <p>
           See who's already building a chapter near you — or reach out if you'd rather join one than
           start your own.
