@@ -222,6 +222,7 @@ const CHAPTERS = [
     bio: "Hi! My name is Angelina and I'm from the Boston area. Ever since childhood, I had some strange happenings with my body. After COVID, in my late 20s, things exploded. Now I live with multiple chronic illnesses, syndromes, and autoimmune diseases. The ones that impact me the most are Lupus, Sjogrens, Dysautonomia, and MCAS and all of the comorbidities that come with them. Autoimmune advocacy is important to me because having one or more of these diseases is a full-time job. It's important to build a community where you can ask questions, get advice, find products that can help, help prep for appointments, gather tools to advocate, educate yourself and others, and even discover doctors that may be able to help you. My story is far from over as I'm still searching for the perfect treatment and more answers, but I like to use what I've already learned to help others.",
   },
   { first: "Savannah", lastInitial: "L", city: "Los Angeles", region: "California", country: "US", photo: null, handle: "@blossomingvannah", bio: null },
+  { first: "SarahBeth", lastInitial: "T", city: "Los Angeles", region: "California", country: "US", photo: null, handle: "@sarahbethsbt", bio: null },
 ];
 
 function chapterLocation(c) {
