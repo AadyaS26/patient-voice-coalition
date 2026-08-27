@@ -8,8 +8,8 @@ const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraun
 
 const CURATED_BILLS = 212;
 const CONDITIONS_COVERED = 146;
-const INSTAGRAM_REACH = 39129;
-const COUNTRIES_REACHED = 43;
+const INSTAGRAM_REACH = 41058;
+const COUNTRIES_REACHED = 45;
 
 // Real community partner orgs — logos live in public/partner-logos/,
 // uploaded directly on GitHub the same way chapter photos are.
@@ -23,6 +23,7 @@ const PARTNERS = [
   { name: "Celi-Safe", url: "https://www.celi-safe.com/", logo: "/partner-logos/celi-safe.jpg" },
   { name: "Lupus Warriors of Idaho", url: "https://www.instagram.com/lupuswarriorsidaho/", logo: "/partner-logos/lupus-warriors-idaho.jpg" },
   { name: "Lupus Remedies Global Support Foundation", url: "https://www.instagram.com/luregsupport/", logo: "/partner-logos/lupus-remedies.jpg" },
+  { name: "Graves' Disease & Thyroid Foundation", url: "https://gdatf.org/", logo: "/partner-logos/graves.jpg" },
 ];
 
 const STORY_CATEGORIES = [
