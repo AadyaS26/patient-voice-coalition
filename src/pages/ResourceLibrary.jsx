@@ -102,12 +102,12 @@ const conditions = {
       email: { to: "your endocrinologist's office", subject: "New or worsening eye symptoms", body: "Hi [Doctor's name],\n\nI've noticed new eye symptoms — [describe] — since my Graves' diagnosis. Should I be seen by an eye specialist?\n\nThank you,\n[Your name]" },
       links: ["American Thyroid Association — thyroid.org"] },
 
-    sjogrens: { name: "Sjögren's Syndrome", sub: "Immune attack on moisture-producing glands, causing dryness.",
-      overview: "Sjögren's syndrome causes the immune system to attack glands that produce tears and saliva, leading to chronic dry eyes and dry mouth, though it can also affect other organs. It can occur alone (primary) or alongside another autoimmune condition like lupus or RA (secondary). It's diagnosed through a combination of symptoms, bloodwork, and sometimes a lip biopsy.",
-      symptoms: ["Persistent dry eyes and dry mouth", "Difficulty swallowing", "Joint pain", "Dental problems from reduced saliva"],
+    sjogrens: { name: "Sjögren's Disease", sub: "A systemic autoimmune disease, not just dry eyes and dry mouth.",
+      overview: "Sjögren's disease causes the immune system to attack glands that produce tears and saliva, leading to chronic dry eyes and dry mouth — but it's a systemic disease, and complications can extend well beyond dryness to the kidneys, lungs, nervous system, and other organs. In 2023, the international Sjögren's community (patients, clinicians, and the Sjögren's Foundation) formally changed the name from 'Sjögren's syndrome' to 'Sjögren's disease' specifically to reflect this serious, systemic nature; the terms 'primary' and 'secondary' Sjögren's have also been retired in favor of describing it on its own regardless of whether another autoimmune condition is also present. It's diagnosed through a combination of symptoms, bloodwork, and sometimes a lip biopsy.",
+      symptoms: ["Persistent dry eyes and dry mouth", "Difficulty swallowing", "Joint pain", "Dental problems from reduced saliva", "Possible involvement of the kidneys, lungs, or nervous system"],
       diagnosis: ["Blood tests for SSA/SSB antibodies", "Schirmer test for tear production, and sometimes a lip biopsy"],
-      checklist: ["Ask about antibody testing (SSA/SSB)", "See a dentist regularly — dry mouth increases cavity risk", "Ask about artificial tears or saliva substitutes", "Watch for new symptoms suggesting organ involvement"],
-      questions: ["Is my Sjögren's primary or secondary to another condition?", "What can help with dryness day to day?", "Are any other organs at risk?"],
+      checklist: ["Ask about antibody testing (SSA/SSB)", "See a dentist regularly — dry mouth increases cavity risk", "Ask about artificial tears or saliva substitutes", "Watch for new symptoms suggesting organ involvement, including kidney or lung symptoms"],
+      questions: ["Beyond dryness, am I being monitored for kidney, lung, or nerve involvement?", "What can help with dryness day to day?", "Are any other organs at risk?"],
       email: { to: "your rheumatologist's office", subject: "Worsening dryness symptoms", body: "Hi [Doctor's name],\n\nMy dry eye and mouth symptoms have gotten worse and are affecting daily activities. Could we discuss additional treatment options?\n\nThank you,\n[Your name]" },
       links: ["Sjögren's Foundation — sjogrens.org"] },
 
