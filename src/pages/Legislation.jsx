@@ -796,7 +796,7 @@ export const INTERNATIONAL_BILLS = [
     condition: "General autoimmune",
     country: "Japan",
     summary:
-      "Japan's 'Nanbyo' system designates rare and intractable diseases — including lupus, ulcerative colitis, Sjögren's syndrome, autoimmune hepatitis, and dozens of other autoimmune conditions — as eligible for government medical expense subsidies. Coverage has grown from 56 diseases to over 300 since the law's predecessor programs began.",
+      "Japan's 'Nanbyo' system designates rare and intractable diseases — including lupus, ulcerative colitis, Sjögren's disease, autoimmune hepatitis, and dozens of other autoimmune conditions — as eligible for government medical expense subsidies. Coverage has grown from 56 diseases to over 300 since the law's predecessor programs began.",
     url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5243159/",
   },
   {
