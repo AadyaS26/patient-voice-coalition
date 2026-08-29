@@ -221,7 +221,11 @@ const CHAPTERS = [
     photo: "/chapter-photos/angelina.jpg", handle: "@thechronicallyiconic1",
     bio: "Hi! My name is Angelina and I'm from the Boston area. Ever since childhood, I had some strange happenings with my body. After COVID, in my late 20s, things exploded. Now I live with multiple chronic illnesses, syndromes, and autoimmune diseases. The ones that impact me the most are Lupus, Sjogrens, Dysautonomia, and MCAS and all of the comorbidities that come with them. Autoimmune advocacy is important to me because having one or more of these diseases is a full-time job. It's important to build a community where you can ask questions, get advice, find products that can help, help prep for appointments, gather tools to advocate, educate yourself and others, and even discover doctors that may be able to help you. My story is far from over as I'm still searching for the perfect treatment and more answers, but I like to use what I've already learned to help others.",
   },
-  { first: "Savannah", lastInitial: "L", city: "Los Angeles", region: "California", country: "US", photo: null, handle: "@blossomingvannah", bio: null },
+  {
+    first: "Savannah", lastInitial: "L", city: "Los Angeles", region: "California", country: "US",
+    photo: "/chapter-photos/savannah.jpg", handle: "@blossomingvannah",
+    bio: "My name is Vannah & my main diagnosis is coccidiomycosis a.k.a valley fever. It's a rare fungal illness & I just so happen to be the 1% of said illness. Through the last 11 years of my diagnosis I've experienced medical gaslighting, misdiagnosis & a bunch of trauma I didn't have had to go through. Because this I've had to learn how to advocate for myself, which is why I'm so passionate about this project.",
+  },
   { first: "SarahBeth", lastInitial: "T", city: "Los Angeles", region: "California", country: "US", photo: null, handle: "@sarahbethsbt", bio: null },
 ];
 
@@ -281,7 +285,7 @@ export function ChapterDirectory() {
     <section className="chapter-directory" id="chapter-directory">
       <div className="chapter-directory-head">
         <span className="chapter-eyebrow">Already registered</span>
-        <h2>{CHAPTERS.length} chapters, 498 members, and counting</h2>
+        <h2>{CHAPTERS.length} chapters, 513 members, and counting</h2>
         <p>
           See who's already building a chapter near you — or reach out if you'd rather join one than
           start your own.
