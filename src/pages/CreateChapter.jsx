@@ -227,6 +227,11 @@ const CHAPTERS = [
     bio: "My name is Vannah & my main diagnosis is coccidiomycosis a.k.a valley fever. It's a rare fungal illness & I just so happen to be the 1% of said illness. Through the last 11 years of my diagnosis I've experienced medical gaslighting, misdiagnosis & a bunch of trauma I didn't have had to go through. Because this I've had to learn how to advocate for myself, which is why I'm so passionate about this project.",
   },
   { first: "SarahBeth", lastInitial: "T", city: "Los Angeles", region: "California", country: "US", photo: null, handle: "@sarahbethsbt", bio: null },
+  {
+    first: "Stephanie", lastInitial: "", city: "Oxnard", region: "California", country: "US",
+    photo: "/chapter-photos/stephanie.jpg", handle: "@autoimmune.fighter",
+    bio: "Hi, my name is Stephanie. I've been living with multiple autoimmune diseases for about 10 years and I have been struggling and dealing with chronic pain while being a wife and mother. Dealing with pain every day can be so difficult because it can stop you from doing things that you used to do. Especially now that I have a family of my own — they understand my days are different due to my chronic pain, but regardless, we are a family fighting together to find help, hope, and a cure!",
+  },
 ];
 
 function chapterLocation(c) {
@@ -285,7 +290,7 @@ export function ChapterDirectory() {
     <section className="chapter-directory" id="chapter-directory">
       <div className="chapter-directory-head">
         <span className="chapter-eyebrow">Already registered</span>
-        <h2>{CHAPTERS.length} chapters, 513 members, and counting</h2>
+        <h2>{CHAPTERS.length} chapters, 523 members, and counting</h2>
         <p>
           See who's already building a chapter near you — or reach out if you'd rather join one than
           start your own.
