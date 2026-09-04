@@ -8,7 +8,7 @@ const FONT_IMPORT = `@import url('https://fonts.googleapis.com/css2?family=Fraun
 
 const CURATED_BILLS = 212;
 const CONDITIONS_COVERED = 146;
-const INSTAGRAM_REACH = 41058;
+const INSTAGRAM_REACH = 43058;
 const COUNTRIES_REACHED = 45;
 
 // Real community partner orgs — logos live in public/partner-logos/,
@@ -24,6 +24,8 @@ const PARTNERS = [
   { name: "Lupus Warriors of Idaho", url: "https://www.instagram.com/lupuswarriorsidaho/", logo: "/partner-logos/lupus-warriors-idaho.jpg" },
   { name: "Lupus Remedies Global Support Foundation", url: "https://www.instagram.com/luregsupport/", logo: "/partner-logos/lupus-remedies.jpg" },
   { name: "Graves' Disease & Thyroid Foundation", url: "https://gdatf.org/", logo: "/partner-logos/graves.jpg" },
+  { name: "Community4Celiac", url: "https://www.community4celiac.com/", logo: "/partner-logos/c4c.jpg" },
+  { name: "Lupus Foundation of America", url: "https://shopgr.id/lupusorg?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAcGRvZgJleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA85MzY2MTk3NDMzOTI0NTkAAaemDEtgYtHn64dLl2m_vvQBGYe5_j7D7W8ME6JF1ltltxHZHplOCrl83BMvfA_aem_76DpWZaWpT-9K6xpzTMusQ", logo: "/partner-logos/lupusf.jpg" },
 ];
 
 const STORY_CATEGORIES = [
