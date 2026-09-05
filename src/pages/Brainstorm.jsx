@@ -167,8 +167,7 @@ export default function BrainstormPage() {
           Brainstorm the bill that doesn't exist yet
         </h1>
         <p style={{ fontSize: 15, lineHeight: 1.6, color: "#5A5952", marginTop: 16 }}>
-          {GAP_CONDITIONS.length} conditions we track have no active federal or state legislation right now. That's not nothing — it's a starting
-          point. Pitch the policy idea you wish existed, and see what other patients think.
+          Pitch the policy idea you wish existed, and see what other patients think.
         </p>
 
         {!loading && ideas.length > 0 && (
