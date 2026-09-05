@@ -298,9 +298,6 @@ export function ChapterDirectory() {
       </div>
 
       <div className="chapter-directory-filter-label">Filter by location</div>
-      <p className="chapter-directory-filter-hint">
-        Click as many as you want — showing chapters that match any selected location.
-      </p>
       <div className="chapter-directory-pills">
         <button
           className={`chapter-directory-pill all-pill ${selected.size === 0 ? "active" : ""}`}
@@ -507,12 +504,6 @@ export default function CreateChapter() {
               Every state needs
               <br />a voice. Start yours.
             </h1>
-            <p className="chapter-body">
-              AutoimmuneVoices chapters are local advocacy hubs — a handful of
-              people in one place who track the bills that affect their
-              community and speak up when it matters. Starting one takes five
-              minutes. Growing it takes whoever you bring with you.
-            </p>
             <ul className="chapter-facts">
               <li>
                 <span className="chapter-facts-num">01</span>
