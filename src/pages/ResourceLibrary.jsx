@@ -444,11 +444,6 @@ export default function ResourceLibrary() {
           <div className="reslib-hero">
             <span className="reslib-eyebrow">Resource Library</span>
             <h1 className="reslib-hero-title">Everything you need to know, by condition.</h1>
-            <p className="reslib-hero-body">
-              Plain-language information built with patients, caregivers, and clinicians — symptoms,
-              how it's diagnosed, checklists, sample emails, questions to bring to appointments, and
-              trusted places to go next. Choose a condition below to read everything in one place.
-            </p>
             <span className="reslib-count">{conditionKeys.length} conditions covered so far</span>
 
             <div className="reslib-big-counter">
