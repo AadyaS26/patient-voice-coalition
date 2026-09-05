@@ -1612,9 +1612,6 @@ export default function LegislationDatabase() {
         >
           Legislation affecting autoimmune and chronic disease patients
         </h1>
-        <p style={{ fontSize: 15.5, lineHeight: 1.6, color: "#5A5952", maxWidth: 600, marginTop: 16 }}>
-          US bills are verified against Congress.gov; international entries are verified against each country's official record. Every bill links back to its official source.
-        </p>
       </section>
 
       {/* Filters */}
@@ -1679,7 +1676,6 @@ export default function LegislationDatabase() {
           {filtered.length} {filtered.length === 1 ? "bill" : "bills"} shown
           {liveStatus === "loading" && " · loading more from Congress.gov (can take up to a minute)…"}
           {liveStatus === "error" && " · live feed unavailable right now, showing verified bills only"}
-          {country === "All countries" && " · international tracking is new and still growing — flag anything we're missing for your country"}
         </p>
       </section>
 
