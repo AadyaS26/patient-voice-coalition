@@ -12,6 +12,14 @@
 // results skew toward state legislators, who publish email more often.
 // That's an inherent limit of what's publicly available, not a bug.
 //
+// A contact_details entry's "note" mentioning "email" doesn't guarantee its
+// "value" actually is one — several members list something like "Email
+// inquiries" pointing at a contact-form URL instead of a real address.
+// Every candidate email is validated against a real email pattern before
+// it's trusted, so a form URL can't slip through and get returned to the
+// frontend looking like a valid address, only to fail once someone
+// actually tries to send to it.
+//
 // Each result also carries `stateAbbrev` (the two-letter state a state
 // legislator represents, e.g. "GA" — null for federal members of Congress,
 // since they aren't tied to a single state's legislature). The frontend
@@ -28,6 +36,15 @@ const OPENSTATES_PEOPLE_GEO_URL = "https://v3.openstates.org/people.geo";
 
 function isNonEmptyString(v) {
   return typeof v === "string" && v.trim().length > 0;
+}
+
+// A note mentioning "email" doesn't mean the value is actually an email —
+// Congress members very often list something like "Email inquiries" with a
+// contact-form URL as the value, not a real address. Only trust a value
+// that's actually shaped like an email.
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+function isValidEmail(v) {
+  return isNonEmptyString(v) && EMAIL_RE.test(v.trim());
 }
 
 // OpenStates jurisdiction ids for state government look like
@@ -61,9 +78,10 @@ async function findLegislators(lat, lng) {
 
   const all = (data?.results || []).map((person) => {
     const emailDetail = (person.contact_details || []).find(
-      (d) => d.type === "email" || d.note?.toLowerCase().includes("email")
+      (d) => isValidEmail(d.value) && (d.type === "email" || d.note?.toLowerCase().includes("email"))
     );
-    const email = person.email || emailDetail?.value || null;
+    const rawEmail = isValidEmail(person.email) ? person.email : emailDetail?.value || null;
+    const email = isValidEmail(rawEmail) ? rawEmail.trim() : null;
 
     // jurisdiction.classification is "country" for federal members of
     // Congress and "state" for state legislators — this is the correct
@@ -94,8 +112,9 @@ async function findLegislators(lat, lng) {
     };
   });
 
-  // Only keep legislators we can actually message.
-  return all.filter((person) => isNonEmptyString(person.email));
+  // Only keep legislators we can actually message — a genuinely valid email,
+  // not just any non-empty string.
+  return all.filter((person) => isValidEmail(person.email));
 }
 
 export default async function handler(req, res) {
