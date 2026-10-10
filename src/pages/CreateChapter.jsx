@@ -232,6 +232,11 @@ const CHAPTERS = [
     photo: "/chapter-photos/stephanie.jpg", handle: "@autoimmune.fighter",
     bio: "Hi, my name is Stephanie. I've been living with multiple autoimmune diseases for about 10 years and I have been struggling and dealing with chronic pain while being a wife and mother. Dealing with pain every day can be so difficult because it can stop you from doing things that you used to do. Especially now that I have a family of my own — they understand my days are different due to my chronic pain, but regardless, we are a family fighting together to find help, hope, and a cure!",
   },
+  {
+    first: "Sarah", lastInitial: "D", city: "Weiser", region: "Idaho", country: "US",
+    photo: "/chapter-photos/sarahh.jpg", handle: "@thattrifectalife",
+    bio: "Hi, I'm Sarah! Based in the Boise area, I live with what I call my \"autoimmune trifecta\" — Hashimoto's (diagnosed in 2012), celiac disease (2020), and Type 1 diabetes (2025). As a mom of three, staying healthy and proactive is deeply personal to me. Having lost both of my parents before I turned 30, prioritizing my well-being is everything so I can be here, thriving, for my kids for as long as possible. Managing life with one autoimmune condition is challenging enough, but navigating three distinct diagnoses has taught me the vital importance of community, self-advocacy, and proper support. I am honored to serve as a Chapter Lead to offer connection, encouragement, and practical guidance to our local members so that no one in our community has to face this journey alone.",
+  },
 ];
 
 function chapterLocation(c) {
