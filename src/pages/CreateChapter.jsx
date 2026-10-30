@@ -237,6 +237,11 @@ const CHAPTERS = [
     photo: "/chapter-photos/sarahh.jpg", handle: "@thattrifectalife",
     bio: "Hi, I'm Sarah! Based in the Boise area, I live with what I call my \"autoimmune trifecta\" — Hashimoto's (diagnosed in 2012), celiac disease (2020), and Type 1 diabetes (2025). As a mom of three, staying healthy and proactive is deeply personal to me. Having lost both of my parents before I turned 30, prioritizing my well-being is everything so I can be here, thriving, for my kids for as long as possible. Managing life with one autoimmune condition is challenging enough, but navigating three distinct diagnoses has taught me the vital importance of community, self-advocacy, and proper support. I am honored to serve as a Chapter Lead to offer connection, encouragement, and practical guidance to our local members so that no one in our community has to face this journey alone.",
   },
+  { first: "Emmanuel", lastInitial: "Y", city: "Mamaroneck", region: "New York", country: "US", photo: null, handle: "@mkimmune", bio: null },
+  { first: "Olivia", lastInitial: "A", city: "Grayslake", region: "Illinois", country: "US", photo: null, handle: "@chronicallystrong_gl", bio: null },
+  { first: "Alexandria", lastInitial: "A", city: "Grayslake", region: "Illinois", country: "US", photo: null, handle: "@chronicallystrong_gl", bio: null },
+  { first: "Paige", lastInitial: "G", city: "Grayslake", region: "Illinois", country: "US", photo: null, handle: "@chronicallystrong_gl", bio: null },
+  { first: "Brooklyn", lastInitial: "G", city: "Grayslake", region: "Illinois", country: "US", photo: null, handle: "@chronicallystrong_gl", bio: null },
 ];
 
 function chapterLocation(c) {
@@ -295,7 +300,7 @@ export function ChapterDirectory() {
     <section className="chapter-directory" id="chapter-directory">
       <div className="chapter-directory-head">
         <span className="chapter-eyebrow">Already registered</span>
-        <h2>{CHAPTERS.length} chapters, 529 members, and counting</h2>
+        <h2>{CHAPTERS.length} chapters, 534 members, and counting</h2>
         <p>
           See who's already building a chapter near you — or reach out if you'd rather join one than
           start your own.
