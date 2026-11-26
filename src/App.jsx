@@ -14,6 +14,8 @@ import PatientStories from "./pages/PatientStories.jsx";
 import Gallery from "./pages/Gallery.jsx";
 import AdvocacyTraining from "./pages/AdvocacyTraining.jsx";
 import AdvocacyTrainingDetail from "./pages/AdvocacyTrainingDetail.jsx";
+import PatientsCantWait from "./pages/PatientsCantWait.jsx";
+import CarePackage from "./pages/CarePackage.jsx";
 import ChatWidget from "./components/ChatWidget.jsx";
 
 export default function App() {
@@ -60,6 +62,9 @@ export default function App() {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/advocacy-training" element={<AdvocacyTraining />} />
         <Route path="/advocacy-training/:id" element={<AdvocacyTrainingDetail />} />
+        {/* Patients Can't Wait: Global Patient Action Week (Dec 11–20). In the Events dropdown. */}
+        <Route path="/patients-cant-wait" element={<PatientsCantWait />} />
+        <Route path="/patients-cant-wait/care-package" element={<CarePackage />} />
       </Routes>
       {/* Outside <Routes> on purpose — renders on every page instead of
           resetting when someone navigates between routes. */}

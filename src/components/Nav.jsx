@@ -19,6 +19,7 @@ const NAV_ITEMS = [
   {
     label: "Events",
     dropdown: [
+      { label: "Patients Can't Wait", to: "/patients-cant-wait" },
       { label: "Events", to: "/events" },
       { label: "Gallery", to: "/gallery" },
     ],
