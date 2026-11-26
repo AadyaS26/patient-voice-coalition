@@ -55,12 +55,12 @@ const input = {
 function useStats(refreshKey) {
   const [stats, setStats] = useState(null);
   useEffect(() => {
-    fetch("/api/pcw", { cache: "no-store" })
+    fetch("/api/counter?pcw=1", { cache: "no-store" })
       .then((r) => r.json())
       .then(setStats)
       .catch(() => {});
     const poll = setInterval(() => {
-      fetch("/api/pcw", { cache: "no-store" })
+      fetch("/api/counter?pcw=1", { cache: "no-store" })
         .then((r) => r.json())
         .then(setStats)
         .catch(() => {});
@@ -268,7 +268,7 @@ function Rating() {
   const rate = (n) => {
     if (rated) return;
     setRated(n);
-    fetch("/api/pcw", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "rate", rating: n }) }).catch(() => {});
+    fetch("/api/counter?pcw=1", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "rate", rating: n }) }).catch(() => {});
   };
   return (
     <div className="no-print" style={{ textAlign: "center", padding: "36px 0 8px" }}>
@@ -451,7 +451,7 @@ export default function CarePackage() {
       }
       sessionStorage.setItem(flag, "1");
     } catch {}
-    fetch("/api/pcw", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "package", condition: condition.id }) })
+    fetch("/api/counter?pcw=1", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ action: "package", condition: condition.id }) })
       .then((r) => r.json())
       .then((d) => {
         if (typeof d.total === "number") {

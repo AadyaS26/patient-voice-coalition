@@ -64,7 +64,7 @@ function useVisitCount() {
 function useStats(refreshKey) {
   const [stats, setStats] = useState(null);
   useEffect(() => {
-    fetch("/api/pcw", { cache: "no-store" })
+    fetch("/api/counter?pcw=1", { cache: "no-store" })
       .then((r) => r.json())
       .then(setStats)
       .catch(() => {});
@@ -413,7 +413,7 @@ function Experience({ chapter, onComplete, startSignal }) {
     go("results");
     const pre = score(preSet, preAnswers);
     const post = score(postSet, answers);
-    fetch("/api/pcw", {
+    fetch("/api/counter?pcw=1", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action: "complete", pre, post, order, ch: chapter }),
